@@ -7,6 +7,8 @@ import RecipeViewPage from "./pages/RecipeViewPage/RecipeViewPage";
 import AddRecipePage from "./pages/AddRecipePage/AddRecipePage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import AuthPage from "./pages/AuthPage/AuthPage";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import RestrictedRoute from "./components/RestrictedRoute/RestrictedRoute";
 
 function App() {
   return (
@@ -15,12 +17,21 @@ function App() {
         <Route path="/" element={<Loyout />}>
           <Route path="/" element={<MainPage />} />
           <Route path="/recipes/:id" element={<RecipeViewPage />} />
-          <Route path="/add-recipe" element={<AddRecipePage />} />
-          <Route path="/profile" element={<ProfilePage />}>
+          <Route
+            path="/add-recipe"
+            element={<PrivateRoute component={<AddRecipePage />} />}
+          />
+          <Route
+            path="/profile"
+            element={<PrivateRoute component={<ProfilePage />} />}
+          >
             <Route path="own" element={<>own</>} />
             <Route path="favorites" element={<>favorites</>} />
           </Route>
-          <Route path="/auth" element={<AuthPage />}>
+          <Route
+            path="/auth"
+            element={<RestrictedRoute component={<AuthPage />} />}
+          >
             <Route path="register" element={<>register</>} />
             <Route path="login" element={<>login</>} />
           </Route>
