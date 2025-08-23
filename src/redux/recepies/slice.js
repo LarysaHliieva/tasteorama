@@ -14,10 +14,12 @@ const slice = createSlice({
   name: "recepies",
   initialState: {
     all: [],
+    favorite: [],
+    own: [],
     loading: false,
     error: null,
   },
-  extraReducers: {},
+  extraReducers: () => {},
 });
 
 export default slice.reducer;
