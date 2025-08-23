@@ -3,7 +3,7 @@ import React from "react";
 export default function MainPage() {
   return (
     <div>
-      Hero
+      Hero222
       <br />
       Filters
       <br />
