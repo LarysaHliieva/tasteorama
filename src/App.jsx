@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Loyout from "./components/Loyout/Loyout";
 import MainPage from "./pages/MainPage/MainPage";
-import RecipeViewPage from "./pages/RecipeViewPage/RecipeViewPage";
+import RecipeDetailsPage from "./pages/RecipeDetailsPage/RecipeDetailsPage.jsx";
 import AddRecipePage from "./pages/AddRecipePage/AddRecipePage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import AuthPage from "./pages/AuthPage/AuthPage";
@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Loyout />}>
           <Route path="/" element={<MainPage />} />
-          <Route path="/recipes/:id" element={<RecipeViewPage />} />
+          <Route path="/recipes/:id" element={<RecipeDetailsPage />} />
           <Route
             path="/add-recipe"
             element={<PrivateRoute component={<AddRecipePage />} />}
