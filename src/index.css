@@ -30,18 +30,19 @@ body {
   width: 100%;
   margin: 0 auto;
   padding: 0 16px;
+  background-color: #3d2218;
 
   @media only screen and (min-width: 393px) {
-    width: 393px;
+    max-width: 393px;
   }
 
   @media only screen and (min-width: 768px) {
-    width: 768px;
+    max-width: 768px;
     padding: 0 32px;
   }
 
   @media only screen and (min-width: 1225px) {
-    width: 1273px;
+    max-width: 1273px;
     padding: 0 24px;
   }
 }
