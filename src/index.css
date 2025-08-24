@@ -30,7 +30,6 @@ body {
   width: 100%;
   margin: 0 auto;
   padding: 0 16px;
-  background-color: #3d2218;
 
   @media only screen and (min-width: 393px) {
     max-width: 393px;
