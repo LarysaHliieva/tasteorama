@@ -12,7 +12,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import recepiesReducer from "./recepies/slice";
+import recipesReducer from "./recipes/slice";
 import filtersReducer from "./filters/slice";
 import authReducer from "./auth/slice";
 
@@ -26,7 +26,7 @@ const persistedAuthReducer = persistReducer(persistAuthConfig, authReducer);
 
 export const store = configureStore({
   reducer: {
-    recepies: recepiesReducer,
+    recepies: recipesReducer,
     filters: filtersReducer,
     auth: persistedAuthReducer,
   },

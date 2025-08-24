@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { getRecipeById } from "../../redux/recepies/operations.js";
+import { getRecipeById } from "../../redux/recipes/operations.js";
 
 import filledSaveIcon from "../../assets/FilledSaveIcon.svg";
 import outlineSaveIcon from "../../assets/OutlineSaveIcon.svg";
@@ -26,10 +26,11 @@ const RecipeDetails = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   // const recipe = useSelector(selectCurrentRecipe);
 
+  // delete after connection api
   const recipe = recipes[0];
 
   useEffect(() => {
-    // dispatch(getRecipeById(id));
+    dispatch(getRecipeById(id));
   }, [dispatch, id]);
 
   if (!recipe) {
