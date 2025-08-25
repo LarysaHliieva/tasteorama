@@ -3,18 +3,18 @@ import * as Yup from "yup";
 import { useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { changeSearch } from "../../redux/search/slice";
-import { selectSearchQuery } from "../../redux/search/selectors";
+import { changeSearch } from "../../redux/filters/slice";
+import { selectSearchQuery } from "../../redux/filters/selectors";
 
 export default function SearchBox() {  
+  const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
 
   const search = useSelector(selectSearchQuery);
   const dispatch = useDispatch();
 
-  const handleChange = (e) => {
-    dispatch(changeSearch(e.target.value));
-
+  const handleChange = (e) => {    
+    setInputValue(e.target.value);
     setError("");
   };
 
@@ -28,9 +28,10 @@ export default function SearchBox() {
     e.preventDefault();
 
     try {
-      await validationSchema.validate(search);
+      await validationSchema.validate(inputValue);
       setError("");
 
+      dispatch(changeSearch(inputValue))
       console.log("Find recipe here:", search);
 
 
@@ -44,7 +45,7 @@ export default function SearchBox() {
       <div>
         <input
           type="text"
-          value={search}
+          value={inputValue}
           onChange={handleChange}
           placeholder="Search recipes"
           className={`${css.input} ${error ? css.inputError : ""}`}

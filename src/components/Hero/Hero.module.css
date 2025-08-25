@@ -17,6 +17,7 @@
 }
 
 .title {
+  font-family: "Montserrat", sans-serif;
   font-size: 40px;
   font-weight: 600;
   color: #fff;
@@ -38,14 +39,15 @@
       url(/hero/hero-tab.webp);
   }
   .title {
+    
     font-size: 48px;
     max-width: 493px;
   }
 }
 
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1225px) {
   .hero {
-    max-width: 1440px;
+    max-width: 100%;
     padding: 128px 108px;
 
     background-image: linear-gradient(

@@ -18,6 +18,16 @@
   font-weight: 400;
   color: #9f9f9f;
 }
+input:not(:placeholder-shown) {
+  /* border: 1px solid red; */
+  color: #000;
+  border: 1px solid #d9d9d9;
+}
+
+input:focus {
+  border: 1.5px solid #9b6c43;
+  outline: none;
+}
 
 .button {
   height: 46px;
@@ -30,13 +40,27 @@
   border: none;
 }
 
+.button:focus {
+  outline: none;
+  background-color: #6d554b;
+}
+
+.button:hover {
+  background-color: #6d554b;
+}
+
+.button:active {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px #fff;
+  background: #9b6c43;
+}
+
 .error {
   color: #c80000;
   font-size: 12px;
   font-weight: 400;
 }
 
-.inputError {
+input.inputError {
   border: 1px solid #c80000;
   color: #c80000;
 }

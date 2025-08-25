@@ -14,7 +14,6 @@ import storage from "redux-persist/lib/storage";
 
 import recipesReducer from "./recipes/slice";
 import filtersReducer from "./filters/slice";
-import searchReducer from "./search/slice";
 import authReducer from "./auth/slice";
 
 
@@ -29,8 +28,7 @@ const persistedAuthReducer = persistReducer(persistAuthConfig, authReducer);
 export const store = configureStore({
   reducer: {
     recepies: recipesReducer,
-    filters: filtersReducer,
-    search: searchReducer,
+    filters: filtersReducer,    
     auth: persistedAuthReducer,
   },
   middleware: (getDefaultMiddleware) =>
