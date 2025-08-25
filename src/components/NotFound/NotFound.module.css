@@ -44,6 +44,12 @@
 
 .button:hover {
   background-color: #6d554b;
+  text-decoration: none;
+}
+
+.button:active {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px #fff;
+  background: #9b6c43;
 }
 
 /* Tablet */
