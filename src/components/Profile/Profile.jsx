@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 import css from "./Profile.module.css";
 import clsx from "clsx";
@@ -19,6 +19,7 @@ export default function Profile() {
         </nav>
         <div className={css.counter}>96 recipes</div>
       </div>
+      <Outlet />
     </div>
   );
 }
