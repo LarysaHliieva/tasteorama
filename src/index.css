@@ -41,8 +41,7 @@ body {
   }
 
   @media only screen and (min-width: 1225px) {
-    max-width: 1273px;
-    padding: 0 24px;
+    max-width: 1225px;
   }
 }
 
@@ -79,4 +78,17 @@ textarea,
 select {
   font-family: inherit;
   font-size: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote {
+  margin: 0;
+  padding: 0;
 }

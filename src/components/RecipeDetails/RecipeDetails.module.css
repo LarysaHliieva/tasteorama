@@ -1,6 +1,5 @@
 .section {
   margin: 48px auto;
-  padding: 0 16px;
 }
 
 .heroWrapper {
@@ -8,6 +7,21 @@
   flex-direction: column;
   gap: 32px;
   margin-bottom: 32px;
+}
+
+.heroImgContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #2b2d30;
+  border-radius: 8px;
+}
+
+.heroImg {
+  width: 100%;
+  height: 276px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .heroTitle {
@@ -83,6 +97,14 @@
   background: #9b6c43;
 }
 
+.iconFilled {
+  fill: white;
+}
+
+.icon {
+  fill: none;
+}
+
 .title {
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
@@ -127,6 +149,10 @@
     flex-direction: column-reverse;
   }
 
+  .heroImg {
+    height: 624px;
+  }
+
   .heroTitle {
     font-size: 48px;
   }
@@ -154,13 +180,22 @@
   }
 }
 
-@media only screen and (min-width: 1440px) {
+@media only screen and (min-width: 1225px) {
+  .heroImg {
+    width: 624px;
+    border-radius: 0;
+  }
+
   .wrapper {
     flex-direction: row-reverse;
   }
 
   .infoWrapper {
     flex-direction: column;
+  }
+
+  .infoCard {
+    width: 393px;
   }
 
   .btn {
