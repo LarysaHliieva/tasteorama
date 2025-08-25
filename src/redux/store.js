@@ -16,6 +16,7 @@ import recipesReducer from "./recipes/slice";
 import filtersReducer from "./filters/slice";
 import authReducer from "./auth/slice";
 
+
 const persistAuthConfig = {
   key: "user-token",
   storage,
@@ -27,7 +28,7 @@ const persistedAuthReducer = persistReducer(persistAuthConfig, authReducer);
 export const store = configureStore({
   reducer: {
     recepies: recipesReducer,
-    filters: filtersReducer,
+    filters: filtersReducer,    
     auth: persistedAuthReducer,
   },
   middleware: (getDefaultMiddleware) =>

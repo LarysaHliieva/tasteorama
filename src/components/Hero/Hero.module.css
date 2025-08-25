@@ -1,0 +1,60 @@
+.hero {
+  max-width: 393px;
+  padding: 128px 32px 98px;
+  margin: 0 auto;
+  height: 513px;
+
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.3)
+    ),
+    url(/hero/hero-mob.webp);
+
+  background-size: cover;
+  background-position: top;
+  /* box-sizing: border-box; */
+}
+
+.title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  color: #fff;
+  max-width: 329px;
+  margin-bottom: 24px;
+}
+
+@media screen and (min-width: 768px) {
+  .hero {
+    max-width: 768px;
+    padding: 128px 32px;
+    height: 443px;
+
+    background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.9),
+        rgba(0, 0, 0, 0.3)
+      ),
+      url(/hero/hero-tab.webp);
+  }
+  .title {
+    
+    font-size: 48px;
+    max-width: 493px;
+  }
+}
+
+@media screen and (min-width: 1225px) {
+  .hero {
+    max-width: 100%;
+    padding: 128px 108px;
+
+    background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.9),
+        rgba(0, 0, 0, 0.3)
+      ),
+      url(/hero/hero-desk.webp);
+  }
+}
