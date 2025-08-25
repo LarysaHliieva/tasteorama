@@ -41,16 +41,14 @@ export default function RecipeCard({
         <h3 className={css.title} title={title}>
           {title}
         </h3>
-        {time ? <span className={css.badge}>{time}</span> : null}
+        {time ? <span className={css.time}>{time}</span> : null}
       </div>
-
+      {description && <p className={css.desc}>{description}</p>}
       {typeof calories === "number" && (
         <div className={css.meta}>
           <span className={css.cals}>{calories} cals</span>
         </div>
       )}
-
-      {description && <p className={css.desc}>{description}</p>}
 
       <div className={css.actions} onClick={(e) => e.stopPropagation()}>
         {showCTA && (
