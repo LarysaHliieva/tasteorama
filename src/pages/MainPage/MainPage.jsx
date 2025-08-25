@@ -1,12 +1,13 @@
 import React from "react";
 import Hero from "../../components/Hero/Hero";
+import { FilterSelect } from "../../components/filterComponent/filterComponent";
 
 export default function MainPage() {
   return (
     <div>
       <Hero/>
       <br />
-      Filters
+    <FilterSelect/>
       <br />
       RecipeList
       <br />
