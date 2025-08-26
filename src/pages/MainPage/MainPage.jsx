@@ -1,7 +1,6 @@
 import React from "react";
 import Hero from "../../components/Hero/Hero";
-
-import LoadMoreBtn from "../../components/LoadMoreBtn/LoadMoreBtn";
+import LoadMoreBtn from "../../components/LoadMoreBtn/LoadMoreBtn.jsx";
 
 export default function MainPage() {
   return (
