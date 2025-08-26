@@ -1,0 +1,80 @@
+/* src/components/Footer/Footer.module.css */
+.footer {
+  background-color: #3D2218;
+  padding: 32px 16px;
+  color: #FAFAFA;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.logo {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #FAFAFA;
+  text-decoration: none;
+}
+
+.copyright {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #FAFAFA;
+  opacity: 0.8;
+  margin: 0;
+  text-align: center;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.link {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  color: #FAFAFA;
+  text-decoration: none;
+  padding: 8px 0;
+  transition: color 250ms ease-in-out;
+}
+
+/* Сірий колір при ховері/фокусі як в хедері */
+.link:hover,
+.link:focus {
+  color: #D1D5DB; /* Сірий колір */
+}
+
+/* Для планшетів та десктопів */
+@media screen and (min-width: 768px) {
+  .footer {
+    padding: 32px;
+  }
+  
+  .container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0;
+  }
+  
+  .nav {
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 32px;
+    width: auto;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .footer {
+    padding: 32px 100px;
+  }
+}
