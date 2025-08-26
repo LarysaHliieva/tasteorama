@@ -11,7 +11,7 @@ import {
 } from "../../redux/recipes/operations.js";
 
 import { selectIsLoggedIn } from "../../redux/auth/selectors.js";
-import { selectUser } from "../../redux/auth/selectors.js"; //-------імпортувати з юзерів
+// import { selectUser } from "../../redux/auth/selectors.js"; //-------імпортувати з юзерів
 
 import css from "./RecipeDetails.module.css";
 
@@ -29,8 +29,9 @@ const RecipeDetails = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   // const recipe = useSelector(selectCurrentRecipe);
 
-  const user = useSelector(selectUser); //---------треба буде витягнути з юзера
-  const isFavorite = user?.favorites?.some((favId) => favId === id); //-----------тут перевіримо, чи рецепт в улюблених в користувача
+  // const user = useSelector(selectUser); //---------треба буде витягнути з юзера
+  // const isFavorite = user?.favorites?.some((favId) => favId === id); //-----------тут перевіримо, чи рецепт в улюблених в користувача
+  const isFavorite = true; // ---------заглушка
 
   // delete after connection api
   const recipe = recipes[0];
