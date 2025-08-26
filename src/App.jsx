@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import "./App.css";
 import Loyout from "./components/Loyout/Loyout";
@@ -27,6 +27,7 @@ function App() {
             path="/profile"
             element={<PrivateRoute component={<ProfilePage />} />}
           >
+            <Route index element={<Navigate to="own" replace />} />
             <Route path="own" element={<Own />} />
             <Route path="favorites" element={<Favorites />} />
           </Route>
