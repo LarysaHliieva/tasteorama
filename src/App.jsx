@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import "./App.css";
 import Loyout from "./components/Loyout/Loyout";
@@ -9,6 +9,8 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import AuthPage from "./pages/AuthPage/AuthPage";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import RestrictedRoute from "./components/RestrictedRoute/RestrictedRoute";
+import Own from "./components/Own/Own.jsx";
+import Favorites from "./components/Favorites/Favorites.jsx";
 
 function App() {
   return (
@@ -25,8 +27,9 @@ function App() {
             path="/profile"
             element={<PrivateRoute component={<ProfilePage />} />}
           >
-            <Route path="own" element={<>own</>} />
-            <Route path="favorites" element={<>favorites</>} />
+            <Route index element={<Navigate to="own" replace />} />
+            <Route path="own" element={<Own />} />
+            <Route path="favorites" element={<Favorites />} />
           </Route>
           <Route
             path="/auth"

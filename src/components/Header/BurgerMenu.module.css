@@ -1,0 +1,110 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 250ms ease-in-out;
+  z-index: 998;
+}
+
+.overlayOpen {
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  height: 100%;
+  background-color: #3D2218;
+  padding: 80px 20px 20px;
+  transition: right 250ms ease-in-out;
+  z-index: 999;
+}
+
+.menuOpen {
+  right: 0;
+}
+
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #FAFAFA;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.link {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  color: #FAFAFA;
+  text-decoration: none;
+  padding: 12px 0;
+  transition: color 250ms ease-in-out;
+}
+
+.link:hover {
+  color: #D1D5DB;
+}
+
+.registerLink {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  color: #FAFAFA;
+  text-decoration: none;
+  padding: 12px 24px;
+  background-color: #9B6C43;
+  border-radius: 16px;
+  text-align: center;
+  transition: background-color 250ms ease-in-out;
+}
+
+.registerLink:hover {
+  background-color: #7A5435;
+}
+
+/* Додаємо в кінець файлу */
+.userInfoMobile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.avatarMobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #FAFAFA;
+  color: #3D2218;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.userNameMobile {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  color: #FAFAFA;
+  font-weight: 500;
+}
