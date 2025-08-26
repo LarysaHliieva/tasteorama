@@ -1,4 +1,93 @@
-.section {
-  margin: 48px auto;
+.container {
   padding: 0 16px;
+}
+
+.form {
+  margin: 48 auto;
+  font-family: var(--font-family);
+}
+
+.title {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 40px;
+  color: var(--black);
+}
+
+.label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.fileInput {
+  border-radius: 16px;
+  width: 361px;
+  height: 383px;
+  background-color: grey;
+}
+
+.subtitle {
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.input {
+  border-radius: 8px;
+  padding: 12px;
+  width: 361px;
+  height: 46px;
+  max-height: 48px;
+}
+
+css.textarea {
+  border-radius: 8px;
+  padding: 12px;
+  width: 361px;
+  height: 144px;
+  background: var(--white);
+}
+
+.wraperCalories {
+  display: flex;
+  gap: 20px;
+}
+
+.cooking {
+  border-radius: 8px;
+  padding: 12px;
+  width: 172px;
+  height: 46px;
+  max-height: 48px;
+}
+
+.select {
+  border-radius: 8px;
+  padding: 12px;
+  width: 172px;
+  height: 48px;
+  max-height: 48px;
+}
+
+.igradientTitle {
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.addButton {
+  border-radius: 8px;
+
+  width: 361px;
+  height: 44px;
+  background-color: #9b6c43;
+  margin-bottom: 8px;
+}
+
+.submitButton {
+  border-radius: 8px;
+
+  width: 361px;
+  height: 44px;
+  background-color: #9b6c43;
 }

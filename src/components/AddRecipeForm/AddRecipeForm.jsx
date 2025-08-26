@@ -1,7 +1,7 @@
 import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { createRecipe } from "../../services/api.js";
-import styles from "./AddRecipeForm.module.css";
+import css from "./AddRecipeForm.module.css";
 
 export default function AddRecipeForm() {
   return (
@@ -35,75 +35,76 @@ export default function AddRecipeForm() {
       }}
     >
       {({ values, setFieldValue }) => (
-        <Form className="flex flex-col gap-3">
-          <div>
-            <label>Title</label>
-            <Field name="title" className="border p-2 w-full" />
-            <ErrorMessage
-              name="title"
-              component="div"
-              className="text-red-500"
+        <Form className={css.form}>
+          <div className={css.fieldGroup}>
+            <h3 className={css.label}>Upload Photo</h3>
+            <input
+              type="file"
+              onChange={(e) => setFieldValue("image", e.target.files[0])}
+              className={css.fileInput}
             />
+            {values.image && (
+              <img
+                src={URL.createObjectURL(values.image)}
+                alt="preview"
+                className={css.preview}
+              />
+            )}
           </div>
 
-          <div>
-            <label>Description</label>
-            <Field
-              as="textarea"
-              name="description"
-              className="border p-2 w-full"
-            />
+          <div className={css.fieldGroup}>
+            <h3 className={css.subtitle}>General Information</h3>
+            <label className={css.label}>Recipe Title</label>
+            <Field name="title" className={css.input} />
+            <ErrorMessage name="title" component="div" className={css.error} />
           </div>
 
-          <div>
-            <label>Cooking Time (min)</label>
-            <Field
-              name="cookingTime"
-              type="number"
-              className="border p-2 w-full"
-            />
+          <div className={css.fieldGroup}>
+            <label className={css.label}>Recipe Description</label>
+            <Field as="textarea" name="description" className={css.textarea} />
           </div>
 
-          <div>
-            <label>Calories (optional)</label>
-            <Field
-              name="calories"
-              type="number"
-              className="border p-2 w-full"
-            />
+          <div className={css.fieldGroup}>
+            <label className={css.label}>Cooking Time in minutes</label>
+            <Field name="cookingTime" type="number" className={css.input} />
           </div>
 
-          <div>
-            <label>Category</label>
-            <Field as="select" name="category" className="border p-2 w-full">
-              <option value="">Select category</option>
-              <option value="Breakfast">Breakfast</option>
-              <option value="Lunch">Lunch</option>
-              <option value="Dinner">Dinner</option>
-            </Field>
+          <div className={css.wraperCalories}>
+            <div>
+              <label className={css.label}>Calories</label>
+              <Field
+                name="cookingCalories"
+                type="numder"
+                className={css.cooking}
+              />
+            </div>
+            <div>
+              <label className={css.label}>Category</label>
+              <Field as="select" name="category" className={css.select} />
+            </div>
           </div>
 
-          <div>
-            <label>Ingredients</label>
+          <div className={css.ingredients}>
+            <h3 className={css.igradientTitle}>Ingredients</h3>
             <FieldArray name="ingredients">
               {({ push, remove }) => (
                 <div>
                   {values.ingredients.map((_, index) => (
-                    <div key={index} className="flex gap-2 mb-2">
+                    <div key={index} className={css.ingredientItem}>
                       <Field
                         name={`ingredients.${index}.name`}
                         placeholder="Ingredient"
-                        className="border p-2"
+                        className={css.input}
                       />
                       <Field
                         name={`ingredients.${index}.amount`}
                         placeholder="Amount"
-                        className="border p-2"
+                        className={css.input}
                       />
                       <button
                         type="button"
                         onClick={() => remove(index)}
-                        className="bg-red-500 text-white px-2"
+                        className={css.removeButton}
                       >
                         X
                       </button>
@@ -112,7 +113,7 @@ export default function AddRecipeForm() {
                   <button
                     type="button"
                     onClick={() => push({ name: "", amount: "" })}
-                    className="bg-blue-500 text-white px-3 py-1 rounded"
+                    className={css.addButton}
                   >
                     + Add Ingredient
                   </button>
@@ -121,34 +122,7 @@ export default function AddRecipeForm() {
             </FieldArray>
           </div>
 
-          <div>
-            <label>Instructions</label>
-            <Field
-              as="textarea"
-              name="instructions"
-              className="border p-2 w-full"
-            />
-          </div>
-
-          <div>
-            <label>Photo</label>
-            <input
-              type="file"
-              onChange={(e) => setFieldValue("image", e.target.files[0])}
-            />
-            {values.image && (
-              <img
-                src={URL.createObjectURL(values.image)}
-                alt="preview"
-                className="mt-2 w-32"
-              />
-            )}
-          </div>
-
-          <button
-            type="submit"
-            className="bg-green-600 text-white py-2 rounded"
-          >
+          <button type="submit" className={css.submitButton}>
             Publish Recipe
           </button>
         </Form>
