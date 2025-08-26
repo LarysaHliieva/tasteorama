@@ -1,5 +1,6 @@
 import React from "react";
 import Hero from "../../components/Hero/Hero";
+
 import LoadMoreBtn from "../../components/LoadMoreBtn/LoadMoreBtn";
 
 export default function MainPage() {
@@ -11,8 +12,8 @@ export default function MainPage() {
       <br />
       RecipeList
       <br />
-      <LoadMoreBtn />
       Loader
+      <LoadMoreBtn />
     </div>
   );
 }
