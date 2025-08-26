@@ -14,11 +14,11 @@
   color: var(--black);
 }
 
-.label {
+.upload {
   display: block;
   margin-bottom: 4px;
-  font-weight: 400;
-  font-size: 18px;
+  font-weight: 600;
+  font-size: 24px;
 }
 
 .fileInput {
@@ -39,6 +39,11 @@
   width: 361px;
   height: 46px;
   max-height: 48px;
+  margin-bottom: 24px;
+}
+
+.label {
+  display: block;
 }
 
 css.textarea {
@@ -73,6 +78,29 @@ css.textarea {
 .igradientTitle {
   font-weight: 600;
   font-size: 24px;
+  margin-bottom: 32px;
+}
+.labelIngradients {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.inputAmount {
+  border-radius: 8px;
+  padding: 12px;
+  width: 361px;
+  height: 46px;
+  max-height: 48px;
+  margin-bottom: 24px;
+}
+
+.inputName {
+  border-radius: 8px;
+  padding: 12px;
+  width: 361px;
+  height: 46px;
+  max-height: 48px;
+  margin-bottom: 24px;
 }
 
 .addButton {
@@ -81,7 +109,21 @@ css.textarea {
   width: 361px;
   height: 44px;
   background-color: #9b6c43;
-  margin-bottom: 8px;
+  margin-bottom: 40px;
+}
+
+.InstructionsTitle {
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.InstructionsText {
+  border-radius: 8px;
+  padding: 12px;
+  width: 361px;
+  height: 144px;
+  margin-bottom: 40px;
 }
 
 .submitButton {
@@ -90,4 +132,84 @@ css.textarea {
   width: 361px;
   height: 44px;
   background-color: #9b6c43;
+}
+
+@media only screen and (min-width: 768px) {
+  .title {
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 48px;
+    color: var(--black);
+  }
+
+  .upload {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 600;
+    font-size: 32px;
+  }
+
+  .fileInput {
+    border-radius: 16px;
+    width: 704px;
+    height: 383px;
+    background-color: grey;
+  }
+
+  .label {
+    display: block;
+  }
+
+  .input {
+    width: 704px;
+  }
+  .inputAmount {
+    width: 249px;
+  }
+
+  .inputName {
+    width: 431px;
+  }
+
+  .subtitle {
+    font-weight: 600;
+    font-size: 32px;
+  }
+
+  .textarea {
+    border-radius: 8px;
+    padding: 12px;
+    width: 704px;
+    height: 144px;
+  }
+
+  .cooking {
+    width: 340px;
+  }
+
+  .select {
+    width: 340px;
+  }
+
+  .ingredientItem {
+    display: flex;
+
+    gap: 20px;
+    margin-bottom: 12px;
+  }
+
+  .labelIngradients {
+    margin-right: auto;
+  }
+
+  .leftGroup,
+  .rightGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .rightGroup {
+    align-items: flex-end;
+  }
 }

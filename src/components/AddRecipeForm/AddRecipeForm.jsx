@@ -37,7 +37,7 @@ export default function AddRecipeForm() {
       {({ values, setFieldValue }) => (
         <Form className={css.form}>
           <div className={css.fieldGroup}>
-            <h3 className={css.label}>Upload Photo</h3>
+            <h3 className={css.upload}>Upload Photo</h3>
             <input
               type="file"
               onChange={(e) => setFieldValue("image", e.target.files[0])}
@@ -91,23 +91,29 @@ export default function AddRecipeForm() {
                 <div>
                   {values.ingredients.map((_, index) => (
                     <div key={index} className={css.ingredientItem}>
-                      <Field
-                        name={`ingredients.${index}.name`}
-                        placeholder="Ingredient"
-                        className={css.input}
-                      />
-                      <Field
-                        name={`ingredients.${index}.amount`}
-                        placeholder="Amount"
-                        className={css.input}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => remove(index)}
-                        className={css.removeButton}
-                      >
-                        X
-                      </button>
+                      <div className={css.leftGroup}>
+                        <label className={css.labelIngradients}>Name</label>
+                        <Field
+                          name={`ingredients.${index}.name`}
+                          placeholder="Name"
+                          className={css.inputName}
+                        />
+                      </div>
+                      <div className={css.rightGroup}>
+                        <label className={css.labelIngradients}>Amount</label>
+                        <Field
+                          name={`ingredients.${index}.amount`}
+                          placeholder="Amount"
+                          className={css.inputAmount}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => remove(index)}
+                          className={css.removeButton}
+                        >
+                          X
+                        </button>
+                      </div>
                     </div>
                   ))}
                   <button
@@ -120,6 +126,15 @@ export default function AddRecipeForm() {
                 </div>
               )}
             </FieldArray>
+          </div>
+          <div>
+            <h3 className={css.InstructionsTitle}>Instructions</h3>
+            <Field
+              as="textarea"
+              name="description"
+              className={css.InstructionsText}
+              placeholder="Enter a text"
+            />
           </div>
 
           <button type="submit" className={css.submitButton}>
