@@ -103,6 +103,10 @@ css.textarea {
   margin-bottom: 24px;
 }
 
+.addButtonWraper {
+  max-width: 420px;
+}
+
 .addButton {
   border-radius: 8px;
 
@@ -110,6 +114,7 @@ css.textarea {
   height: 44px;
   background-color: #9b6c43;
   margin-bottom: 40px;
+  color: white;
 }
 
 .InstructionsTitle {
@@ -190,6 +195,10 @@ css.textarea {
   .select {
     width: 340px;
   }
+  .igradientTitle {
+    font-weight: 600;
+    font-size: 32px;
+  }
 
   .ingredientItem {
     display: flex;
@@ -211,5 +220,49 @@ css.textarea {
 
   .rightGroup {
     align-items: flex-end;
+  }
+
+  .addButton {
+    width: 249px;
+    height: 36px;
+  }
+
+  .addButtonWraper {
+    max-width: 700px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .InstructionsTitle {
+    font-weight: 600;
+    font-size: 32px;
+  }
+
+  .InstructionsText {
+    border-radius: 8px;
+    padding: 12px;
+    width: 704px;
+    height: 144px;
+    background: var(--white);
+  }
+
+  .submitButton {
+    width: 704px;
+    height: 44px;
+  }
+
+  @media only screen and (min-width: 1225px) {
+    .container {
+    }
+    .contentLeft {
+    }
+
+    .ContentRightImg {
+    }
+
+    .fileInput {
+    }
+
+    .preview {
+    }
   }
 }
