@@ -4,7 +4,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import css from "./Header.module.css";
 
 // ТИМЧАСОВА ЗАГЛУШКА
-const selectIsLoggedIn = () => false;
+const selectIsLoggedIn = () => true;
 const selectUser = () => ({ name: "John" });
 
 const Header = () => {
@@ -13,12 +13,15 @@ const Header = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const user = useSelector(selectUser);
 
-  if (location.pathname === "/auth/login" || location.pathname === "/auth/register") {
+  if (
+    location.pathname === "/auth/login" ||
+    location.pathname === "/auth/register"
+  ) {
     return null;
   }
 
   const toggleBurgerMenu = () => setIsBurgerOpen(!isBurgerOpen);
-  const closeBurgerMenu = () => setIsBurgerOpen(false);
+  // const closeBurgerMenu = () => setIsBurgerOpen(false);
 
   const getFirstLetter = (name) => {
     return name ? name.charAt(0).toUpperCase() : "?";
