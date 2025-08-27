@@ -6,13 +6,9 @@ import { RecipeList } from "../../components/RecipeList/RecipeList";
 export default function MainPage() {
   return (
     <div>
-      <Hero/>
-      <br />
-    <FilterSelect/>
-      <br />
-      <RecipeList/>
-      <br />
-      Loader
+      <Hero />
+      <FilterSelect />
+      <RecipeList />
     </div>
   );
 }
