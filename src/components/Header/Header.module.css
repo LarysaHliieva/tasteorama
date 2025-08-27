@@ -13,11 +13,19 @@
 }
 
 .logo {
+  display: flex; /* ДОДАЄМО */
+  align-items: center; /* ДОДАЄМО */
+  gap: 8px; /* ДОДАЄМО */
   font-family: 'Poppins', sans-serif;
   font-size: 18px;
   font-weight: 700;
   color: #FAFAFA;
   text-decoration: none;
+}
+
+.logoIcon {
+  width: 24px;
+  height: 24px;
 }
 
 .nav {
@@ -169,4 +177,17 @@
   .container {
     padding: 0 100px;
   }
+
+  /* Додаємо в кінець файлу */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logoIcon {
+  width: 24px;
+  height: 24px;
+}
+
 }
