@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
 import css from "./Header.module.css";
-import BurgerMenu from "./BurgerMenu";
-import BurgerMenuAuth from "./BurgerMenuAuth";
 
 // ТИМЧАСОВА ЗАГЛУШКА
 const selectIsLoggedIn = () => false;
@@ -104,16 +102,6 @@ const Header = () => {
           <span className={css.burgerLine}></span>
         </button>
       </div>
-
-      {isLoggedIn ? (
-        <BurgerMenuAuth
-          isOpen={isBurgerOpen}
-          onClose={closeBurgerMenu}
-          user={user}
-        />
-      ) : (
-        <BurgerMenu isOpen={isBurgerOpen} onClose={closeBurgerMenu} />
-      )}
     </header>
   );
 };

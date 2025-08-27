@@ -1,39 +1,18 @@
-.registerBtn {
-  font-family: 'Poppins', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: #FAFAFA;
-  text-decoration: none;
-  padding: 10px 20px;
-  border-radius: 16px;
-  background-color: #9B6C43; /* НОВЕ: правильний колір */
-  border: 2px solid #9B6C43;  /* НОВЕ: додали рамку */
-  transition: all 250ms ease-in-out;
-}
-
-.registerBtn:hover {
-  background-color: #8B5A3A; /* НОВЕ: темніший відтінок */
-  border-color: #8B5A3A;     /* НОВЕ: темніший відтінок */
-}
-
 .header {
   background-color: #3D2218;
   padding: 18px 0;
 }
 
 .container {
-  max-width: 1440px;        /* НОВЕ: обмежуємо ширину */
-  margin: 0 auto;           /* НОВЕ: центруємо */
-  padding: 0 16px;          /* НОВЕ: відступи всередині */
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .logo {
-  display: flex;           /* НОВЕ: flex для вирівнювання */
-  align-items: center;     /* НОВЕ: вирівнювання по центру */
-  gap: 8px;               /* НОВЕ: відстань між іконкою і текстом */
   font-family: 'Poppins', sans-serif;
   font-size: 18px;
   font-weight: 700;
@@ -41,15 +20,10 @@
   text-decoration: none;
 }
 
-.logoIcon {
-  width: 24px;            /* НОВЕ: розмір іконки */
-  height: 24px;           /* НОВЕ: розмір іконки */
-}
-
 .nav {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 28px;
 }
 
 .link {
@@ -59,11 +33,28 @@
   color: #FAFAFA;
   text-decoration: none;
   padding: 10px 0;
-  transition: color 250ms ease-in-out;
+  transition: all 250ms ease-in-out;
+  position: relative;
 }
 
-.link:hover {
+.link:hover,
+.link:focus {
   color: #D1D5DB;
+}
+
+.link.active {
+  color: #FAFAFA;
+}
+
+.link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #FAFAFA;
+  border-radius: 8px;
 }
 
 .registerBtn {
@@ -79,9 +70,76 @@
   transition: all 250ms ease-in-out;
 }
 
-.registerBtn:hover {
+.registerBtn:hover,
+.registerBtn:focus {
   background-color: #8B5A3A;
   border-color: #8B5A3A;
+}
+
+.registerBtn.active {
+  background-color: #8B5A3A;
+  border-color: #8B5A3A;
+  color: #FAFAFA;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 16px;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #FAFAFA;
+  color: #3D2218;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.userName {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  color: #FAFAFA;
+  font-weight: 500;
+}
+
+.burgerButton {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.burgerLine {
+  width: 100%;
+  height: 2px;
+  background-color: #FAFAFA;
+  transition: all 250ms ease-in-out;
+}
+
+@media screen and (max-width: 767px) {
+  .nav {
+    display: none;
+  }
+  
+  .burgerButton {
+    display: flex;
+  }
+  
+  .userInfo {
+    display: none;
+  }
 }
 
 @media screen and (min-width: 768px) {
@@ -90,7 +148,11 @@
   }
   
   .nav {
-    gap: 28px;
+    display: flex;
+  }
+  
+  .burgerButton {
+    display: none;
   }
   
   .link {
