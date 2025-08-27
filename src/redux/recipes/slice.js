@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addToFavorites,
   getRecipeById,
+  getRecipes,
   removeFromFavorites,
 } from "./operations.js";
 
@@ -24,6 +25,11 @@ const recipesSlice = createSlice({
     currentRecipe: null,
     isLoading: false,
     error: null,
+    pagination: {
+      page: 1,
+      totalPages: 1,
+      totalItems: 0,
+    },
   },
 
   reducers: {
@@ -53,7 +59,21 @@ const recipesSlice = createSlice({
         state.isLoading = false;
         state.favorite = action.payload;
       })
-      .addCase(removeFromFavorites.rejected, handleRejected);
+      .addCase(removeFromFavorites.rejected, handleRejected)
+      .addCase(getRecipes.pending, handlePending)
+      .addCase(getRecipes.fulfilled, (state, action) => {
+        state.isLoading = false;
+       if (action.payload.page === 1) {
+    state.all = action.payload.data.recipes;
+  } else {
+    state.all = [...state.all, ...action.payload.data.recipes];
+  }
+  state.pagination = {
+    page: action.payload.data.pagination.page || 1,
+          totalPages: action.payload.data.pagination.totalPages || 1,
+          totalItems: action.payload.data.pagination.total || 0,
+  };
+      });
   },
 });
 

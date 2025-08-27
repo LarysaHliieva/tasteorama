@@ -11,13 +11,12 @@
 
 .rightSide {
   display: flex;
-  gap: 12px;
+  gap: 16px;
   align-items: center;
 }
 
 .resetBtn {
-  background: #9b6c43;
-  color: white;
+  color: black;
   padding: 6px 12px;
   border: none;
   border-radius: 6px;
@@ -25,15 +24,24 @@
 }
 
 .filterMobileBtn {
-  display: flex;
+  display: none;
   align-items: center;
   gap: 8px;
   color: black;
-  background-color: #9b6c43;
   padding: 8px 14px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+}
+@media (max-width: 1225px) {
+  .rightSide {
+    display: none;
+  }
+  .filterMobileBtn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
 }
 
 .filterModalOverlay {
@@ -59,11 +67,22 @@
   justify-content: space-between;
 }
 
-.applyBtn {
-  background: #1a591c;
-  color: white;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+
+@media only screen and (min-width: 393px) {
+  .wrapper {
+    max-width: 393px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .wrapper {
+    max-width: 768px;
+    padding: 0 32px;
+  }
+}
+
+@media only screen and (min-width: 1225px) {
+  .wrapper {
+    max-width: 1225px;
+  }
 }

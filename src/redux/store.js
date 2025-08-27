@@ -27,7 +27,7 @@ const persistedAuthReducer = persistReducer(persistAuthConfig, authReducer);
 
 export const store = configureStore({
   reducer: {
-    recepies: recipesReducer,
+    recipes: recipesReducer,
     filters: filtersReducer,    
     auth: persistedAuthReducer,
   },
