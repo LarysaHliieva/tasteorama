@@ -1,10 +1,15 @@
-/* src/components/Header/Header.module.css */
 .header {
+  background-color: #3D2218;
+  padding: 18px 0;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 16px;
-  background-color: #3D2218;
 }
 
 .logo {
@@ -18,7 +23,7 @@
 .nav {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 28px;
 }
 
 .link {
@@ -32,15 +37,13 @@
   position: relative;
 }
 
-/* Сірий колір при ховері/фокусі для звичайних посилань */
 .link:hover,
 .link:focus {
-  color: #D1D5DB; /* Сірий колір */
+  color: #D1D5DB;
 }
 
-/* Активна сторінка - підкреслення білим */
 .link.active {
-  color: #FAFAFA; /* Білий колір для активної сторінки */
+  color: #FAFAFA;
 }
 
 .link.active::after {
@@ -50,11 +53,10 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background-color: #FAFAFA; /* Біла лінія */
+  background-color: #FAFAFA;
   border-radius: 8px;
 }
 
-/* Стиль для кнопки реєстрації */
 .registerBtn {
   font-family: 'Poppins', sans-serif;
   font-size: 14px;
@@ -62,91 +64,24 @@
   color: #FAFAFA;
   text-decoration: none;
   padding: 10px 20px;
-  border-radius: 16px; /* Завуження країв */
-  background-color: #9B6C43; /* Колір з макету */
+  border-radius: 16px;
+  background-color: #9B6C43;
+  border: 2px solid #9B6C43;
   transition: all 250ms ease-in-out;
 }
 
-/* Темніший колір при ховері/фокусі для кнопки */
 .registerBtn:hover,
 .registerBtn:focus {
-  background-color: #7A5435; /* Темніший відтінок */
+  background-color: #8B5A3A;
+  border-color: #8B5A3A;
 }
 
-/* Активна кнопка реєстрації */
 .registerBtn.active {
-  background-color: #7A5435; /* Темніший колір для активної */
+  background-color: #8B5A3A;
+  border-color: #8B5A3A;
   color: #FAFAFA;
 }
 
-/* Адаптивність */
-@media screen and (min-width: 768px) {
-  .header {
-    padding: 18px 32px;
-  }
-  
-  .nav {
-    gap: 28px;
-  }
-  
-  .link {
-    font-size: 16px;
-  }
-  
-  .registerBtn {
-    font-size: 16px;
-    padding: 12px 24px;
-  }
-}
-
-@media screen and (min-width: 1280px) {
-  .header {
-    padding: 18px 100px;
-  }
-}
-/* Додаємо в кінець файлу */
-.burgerButton {
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 24px;
-  height: 18px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
-.burgerLine {
-  width: 100%;
-  height: 2px;
-  background-color: #FAFAFA;
-  transition: all 250ms ease-in-out;
-}
-
-/* Приховуємо звичайну навігацію на мобільних */
-@media screen and (max-width: 767px) {
-  .nav {
-    display: none;
-  }
-  
-  .burgerButton {
-    display: flex;
-  }
-}
-
-/* Показуємо звичайну навігацію на планшетах і десктопах */
-@media screen and (min-width: 768px) {
-  .nav {
-    display: flex;
-  }
-  
-  .burgerButton {
-    display: none;
-  }
-}
-
-/* Додаємо в кінець файлу */
 .userInfo {
   display: flex;
   align-items: center;
@@ -174,9 +109,64 @@
   font-weight: 500;
 }
 
-/* Адаптивність для аватара */
+.burgerButton {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.burgerLine {
+  width: 100%;
+  height: 2px;
+  background-color: #FAFAFA;
+  transition: all 250ms ease-in-out;
+}
+
 @media screen and (max-width: 767px) {
+  .nav {
+    display: none;
+  }
+  
+  .burgerButton {
+    display: flex;
+  }
+  
   .userInfo {
     display: none;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    padding: 0 32px;
+  }
+  
+  .nav {
+    display: flex;
+  }
+  
+  .burgerButton {
+    display: none;
+  }
+  
+  .link {
+    font-size: 16px;
+  }
+  
+  .registerBtn {
+    font-size: 16px;
+    padding: 12px 24px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .container {
+    padding: 0 100px;
   }
 }

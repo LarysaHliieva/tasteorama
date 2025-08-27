@@ -1,20 +1,23 @@
-/* src/components/Footer/Footer.module.css */
 .footer {
   background-color: #3D2218;
-  padding: 32px 16px;
-  color: #FAFAFA;
+  padding: 32px 0;
 }
 
 .container {
+  max-width: 1440px;        /* НОВЕ: обмежуємо ширину */
+  margin: 0 auto;           /* НОВЕ: центруємо */
+  padding: 0 16px;          /* НОВЕ: відступи всередині */
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
 }
 
+/* ... решта стилів без змін ... */
+
 .logo {
   font-family: 'Poppins', sans-serif;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: #FAFAFA;
   text-decoration: none;
@@ -46,19 +49,13 @@
   transition: color 250ms ease-in-out;
 }
 
-/* Сірий колір при ховері/фокусі як в хедері */
-.link:hover,
-.link:focus {
-  color: #D1D5DB; /* Сірий колір */
+.link:hover {
+  color: #D1D5DB;
 }
 
-/* Для планшетів та десктопів */
 @media screen and (min-width: 768px) {
-  .footer {
-    padding: 32px;
-  }
-  
   .container {
+    padding: 0 32px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -74,7 +71,7 @@
 }
 
 @media screen and (min-width: 1280px) {
-  .footer {
-    padding: 32px 100px;
+  .container {
+    padding: 0 100px;
   }
 }
