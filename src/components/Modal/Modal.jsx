@@ -18,6 +18,8 @@ export default function CustomModal({
   cancelText,
   type = "confirm",
 }) {
+  if (!isOpen) return null;
+
   const cls = [
     css.btn,
     type === "confirm" && css.confirm,
