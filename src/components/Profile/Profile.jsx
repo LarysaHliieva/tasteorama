@@ -7,7 +7,7 @@ import css from "./Profile.module.css";
 
 export default function Profile() {
   return (
-    <div className="container">
+    <div className={clsx("container", css.profileSection)}>
       <div className={css.header}>
         <h2 className={css.title}>My profile</h2>
         <nav className={css.nav}>
