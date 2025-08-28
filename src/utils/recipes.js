@@ -115,5 +115,6 @@ export const recipes = [
     ],
     createdAt: new Date(1678562733240),
     updatedAt: new Date(1706301557199),
+    calories: 1200,
   },
 ];
