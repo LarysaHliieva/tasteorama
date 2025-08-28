@@ -1,7 +1,23 @@
 import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { createRecipe } from "../../services/api.js";
+// import { createRecipe } from "../../services/api.js";
 import css from "./AddRecipeForm.module.css";
+
+// export const createRecipe = async (recipe) => {
+//   const formData = new FormData();
+//   Object.keys(recipe).forEach((key) => {
+//     if (key === "ingredients") {
+//       formData.append(key, JSON.stringify(recipe[key]));
+//     } else {
+//       formData.append(key, recipe[key]);
+//     }
+//   });
+
+//   const { data } = await axios.post(API_URL, formData, {
+//     headers: { "Content-Type": "multipart/form-data" },
+//   });
+//   return data;
+// };
 
 export default function AddRecipeForm() {
   return (
@@ -25,7 +41,7 @@ export default function AddRecipeForm() {
       })}
       onSubmit={async (values, { setSubmitting }) => {
         try {
-          await createRecipe(values);
+          // await createRecipe(values);
           alert("Recipe added successfully!");
           window.location.href = "/recipes";
         } catch (err) {
