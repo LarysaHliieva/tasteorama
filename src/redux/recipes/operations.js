@@ -43,21 +43,26 @@ export const getRecipes = createAsyncThunk(
 
   async ({ page = 1, limit = 12, filters }, thunkAPI) => {
     try {
-      console.log(filters)
+      console.log(filters);
       const params = new URLSearchParams({
         page,
         limit,
       });
       if (filters.categories.length) {
-        params.append("category", filters.categories.map((c)=> c.value).join(","));
+        params.append(
+          "category",
+          filters.categories.map((c) => c.lable).join(",")
+        );
       }
       if (filters.ingredients.length) {
-        params.append("ingredients", filters.ingredients.map((i)=> i.value).join(","));
+        params.append(
+          "ingredients",
+          filters.ingredients.map((i) => i.value).join(",")
+        );
       }
       if (filters.searchQuery) {
-        params.append("query", filters.searchQuery);
+        params.append("title", filters.searchQuery);
       }
-      console.log("Request URL:", `/recipes?${params.toString()}`);
       const response = await axiosAPI.get(`/recipes?${params}`);
       return response.data;
     } catch (error) {
