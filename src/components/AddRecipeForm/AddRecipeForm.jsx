@@ -36,7 +36,7 @@ export default function AddRecipeForm() {
     >
       {({ values, setFieldValue }) => (
         <Form className={css.form}>
-          <div className={css.fieldGroup}>
+          <div className={css.ContentRightImg}>
             <h3 className={css.upload}>Upload Photo</h3>
             <input
               type="file"
@@ -51,36 +51,45 @@ export default function AddRecipeForm() {
               />
             )}
           </div>
-
-          <div className={css.fieldGroup}>
-            <h3 className={css.subtitle}>General Information</h3>
-            <label className={css.label}>Recipe Title</label>
-            <Field name="title" className={css.input} />
-            <ErrorMessage name="title" component="div" className={css.error} />
-          </div>
-
-          <div className={css.fieldGroup}>
-            <label className={css.label}>Recipe Description</label>
-            <Field as="textarea" name="description" className={css.textarea} />
-          </div>
-
-          <div className={css.fieldGroup}>
-            <label className={css.label}>Cooking Time in minutes</label>
-            <Field name="cookingTime" type="number" className={css.input} />
-          </div>
-
-          <div className={css.wraperCalories}>
-            <div>
-              <label className={css.label}>Calories</label>
-              <Field
-                name="cookingCalories"
-                type="numder"
-                className={css.cooking}
+          <div className={css.contentLeft}>
+            <div className={css.fieldGroup}>
+              <h3 className={css.subtitle}>General Information</h3>
+              <label className={css.label}>Recipe Title</label>
+              <Field name="title" className={css.input} />
+              <ErrorMessage
+                name="title"
+                component="div"
+                className={css.error}
               />
             </div>
-            <div>
-              <label className={css.label}>Category</label>
-              <Field as="select" name="category" className={css.select} />
+
+            <div className={css.fieldGroup}>
+              <label className={css.label}>Recipe Description</label>
+              <Field
+                as="textarea"
+                name="description"
+                className={css.textarea}
+              />
+            </div>
+
+            <div className={css.fieldGroup}>
+              <label className={css.label}>Cooking Time in minutes</label>
+              <Field name="cookingTime" type="number" className={css.input} />
+            </div>
+
+            <div className={css.wraperCalories}>
+              <div>
+                <label className={css.label}>Calories</label>
+                <Field
+                  name="cookingCalories"
+                  type="numder"
+                  className={css.cooking}
+                />
+              </div>
+              <div>
+                <label className={css.label}>Category</label>
+                <Field as="select" name="category" className={css.select} />
+              </div>
             </div>
           </div>
 
@@ -101,28 +110,32 @@ export default function AddRecipeForm() {
                       </div>
                       <div className={css.rightGroup}>
                         <label className={css.labelIngradients}>Amount</label>
-                        <Field
-                          name={`ingredients.${index}.amount`}
-                          placeholder="Amount"
-                          className={css.inputAmount}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => remove(index)}
-                          className={css.removeButton}
-                        >
-                          X
-                        </button>
+                        <div>
+                          <Field
+                            name={`ingredients.${index}.amount`}
+                            placeholder="Amount"
+                            className={css.inputAmount}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => remove(index)}
+                            className={css.removeButton}
+                          >
+                            X
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))}
-                  <button
-                    type="button"
-                    onClick={() => push({ name: "", amount: "" })}
-                    className={css.addButton}
-                  >
-                    + Add Ingredient
-                  </button>
+                  <div className={css.addButtonWraper}>
+                    <button
+                      type="button"
+                      onClick={() => push({ name: "", amount: "" })}
+                      className={css.addButton}
+                    >
+                      Add new Ingredient
+                    </button>
+                  </div>
                 </div>
               )}
             </FieldArray>
