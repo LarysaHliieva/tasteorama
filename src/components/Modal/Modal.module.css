@@ -1,0 +1,108 @@
+/* затемнений фон */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+}
+
+/* вікно модалки */
+.modal {
+  position: relative;
+  background: #faf3e0;
+  padding: 56px 32px 32px;
+  max-width: 420px;
+  width: 100%;
+  border-radius: 32px;
+  animation: fadeIn 0.2s ease-out;
+  text-align: center;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  border: none;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 20px;
+}
+
+.desc {
+  padding: 0 20px;
+  font-size: 18px;
+  font-weight: 400;
+  color: #000000;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  padding: 8px 16px;
+  min-width: 164px;
+  height: 44px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  border: 1px solid;
+  transition: all 0.3s;
+}
+
+.confirm:first-child {
+  color: #fff;
+  background-color: #c80000;
+  border-color: #c80000;
+}
+
+.confirm:first-child:hover {
+  background-color: hsl(0, 100%, 44%);
+  border-color: hsl(0, 100%, 44%);
+}
+
+.confirm:last-child,
+.navigate:first-child {
+  color: #000000;
+  border-color: #000000;
+}
+
+.confirm:last-child:hover,
+.navigate:first-child:hover {
+  background-color: hsl(44, 72%, 90%);
+}
+
+.navigate:last-child {
+  color: #fff;
+  background-color: #9b6c43;
+  border-color: #9b6c43;
+}
+
+.navigate:last-child:hover {
+  background-color: #6d554b;
+  border-color: #6d554b;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

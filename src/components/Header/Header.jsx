@@ -3,13 +3,13 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { selectIsLoggedIn } from "../../redux/auth/selectors.js";
 import Icon from "../Icon/index.jsx";
-import css from "./Header.module.css";
+import Modal from "../Modal/Modal.jsx";
+
 import BurgerMenu from "./BurgerMenu";
 import BurgerMenuAuth from "./BurgerMenuAuth";
 
+import css from "./Header.module.css";
 const Header = () => {
-  const [isBurgerOpen, setIsBurgerOpen] = useState(false);
-
   const isLoggedIn = useSelector(selectIsLoggedIn);
   // !!! МІСЦЕ ДЛЯ ПІДКЛЮЧЕННЯ REDUX (Потрібно розкоментувати програмісту) !!!
   // const user = useSelector(state => state.auth.user);
@@ -18,100 +18,131 @@ const Header = () => {
   // const user = null;
   const user = { name: "Max" };
 
+  const [isBurgerOpen, setIsBurgerOpen] = useState(false);
+  const [isOpenModalLogout, setIsOpenModalLogout] = useState(false);
+
   const toggleBurgerMenu = () => setIsBurgerOpen(!isBurgerOpen);
   const closeBurgerMenu = () => setIsBurgerOpen(false);
+
+  const handleOpenModalLogout = () => setIsOpenModalLogout(true);
+  const handleCloseModalLogout = () => setIsOpenModalLogout(false);
 
   const getFirstLetter = (name) => {
     return name ? name.charAt(0).toUpperCase() : "?";
   };
 
   return (
-    <header className={css.header}>
-      <div className={css.container}>
-        <NavLink to="/" className={css.logo}>
-          <Icon name="logo" width={32} height={32} />
-          Tasteorama
-        </NavLink>
+    <>
+      <header className={css.header}>
+        <div className={css.container}>
+          <NavLink to="/" className={css.logo}>
+            <Icon name="logo" width={32} height={32} />
+            Tasteorama
+          </NavLink>
+
+          {isLoggedIn ? (
+            <nav className={css.nav}>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive ? `${css.link} ${css.active}` : css.link
+                }
+              >
+                Recipes
+              </NavLink>
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  isActive ? `${css.link} ${css.active}` : css.link
+                }
+              >
+                My profile
+              </NavLink>
+              <NavLink
+                to="/add-recipe"
+                className={({ isActive }) =>
+                  isActive
+                    ? `${css.registerBtn} ${css.active}`
+                    : css.registerBtn
+                }
+              >
+                Add recipe
+              </NavLink>
+
+              <div className={css.userInfo}>
+                <span className={css.avatar}>{getFirstLetter(user?.name)}</span>
+                <span className={css.userName}>{user?.name}</span>
+              </div>
+              <button
+                type="button"
+                className={css.logout}
+                onClick={handleOpenModalLogout}
+              >
+                <Icon name="log-out" width={32} height={32} color="#ffffff" />
+              </button>
+            </nav>
+          ) : (
+            <nav className={css.nav}>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive ? `${css.link} ${css.active}` : css.link
+                }
+              >
+                Recipes
+              </NavLink>
+              <NavLink
+                to="/auth/login"
+                className={({ isActive }) =>
+                  isActive ? `${css.link} ${css.active}` : css.link
+                }
+              >
+                Log in
+              </NavLink>
+              <NavLink
+                to="/auth/register"
+                className={({ isActive }) =>
+                  isActive
+                    ? `${css.registerBtn} ${css.active}`
+                    : css.registerBtn
+                }
+              >
+                Register
+              </NavLink>
+            </nav>
+          )}
+
+          <button className={css.burgerButton} onClick={toggleBurgerMenu}>
+            <Icon
+              name="burger-regular"
+              width={32}
+              height={32}
+              color="#ffffff"
+            />
+          </button>
+        </div>
 
         {isLoggedIn ? (
-          <nav className={css.nav}>
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                isActive ? `${css.link} ${css.active}` : css.link
-              }
-            >
-              Recipes
-            </NavLink>
-            <NavLink
-              to="/profile"
-              className={({ isActive }) =>
-                isActive ? `${css.link} ${css.active}` : css.link
-              }
-            >
-              My profile
-            </NavLink>
-            <NavLink
-              to="/add-recipe"
-              className={({ isActive }) =>
-                isActive ? `${css.registerBtn} ${css.active}` : css.registerBtn
-              }
-            >
-              Add recipe
-            </NavLink>
-
-            <div className={css.userInfo}>
-              <span className={css.avatar}>{getFirstLetter(user?.name)}</span>
-              <span className={css.userName}>{user?.name}</span>
-            </div>
-            <button type="button" className={css.logout}>
-              <Icon name="log-out" width={32} height={32} color="#ffffff" />
-            </button>
-          </nav>
+          <BurgerMenuAuth
+            isOpen={isBurgerOpen}
+            onClose={closeBurgerMenu}
+            user={user}
+            handleLogout={handleOpenModalLogout}
+          />
         ) : (
-          <nav className={css.nav}>
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                isActive ? `${css.link} ${css.active}` : css.link
-              }
-            >
-              Recipes
-            </NavLink>
-            <NavLink
-              to="/auth/login"
-              className={({ isActive }) =>
-                isActive ? `${css.link} ${css.active}` : css.link
-              }
-            >
-              Log in
-            </NavLink>
-            <NavLink
-              to="/auth/register"
-              className={({ isActive }) =>
-                isActive ? `${css.registerBtn} ${css.active}` : css.registerBtn
-              }
-            >
-              Register
-            </NavLink>
-          </nav>
+          <BurgerMenu isOpen={isBurgerOpen} onClose={closeBurgerMenu} />
         )}
+      </header>
 
-        <button className={css.burgerButton} onClick={toggleBurgerMenu}>
-          <Icon name="burger-regular" width={32} height={32} color="#ffffff" />
-        </button>
-      </div>
-
-      {isLoggedIn ? (
-        <BurgerMenuAuth
-          isOpen={isBurgerOpen}
-          onClose={closeBurgerMenu}
-          user={user}
-        />
-      ) : (
-        <BurgerMenu isOpen={isBurgerOpen} onClose={closeBurgerMenu} />
-      )}
-    </header>
+      <Modal
+        isOpen={isOpenModalLogout}
+        onClose={handleCloseModalLogout}
+        title="Are you shure?"
+        desc="We will miss you!"
+        confirmText="Log out"
+        onConfirm={() => console.log("logout")}
+      />
+    </>
   );
 };
 
