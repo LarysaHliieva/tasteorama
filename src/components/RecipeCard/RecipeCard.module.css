@@ -35,6 +35,7 @@
 }
 
 .top {
+  position: relative;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;

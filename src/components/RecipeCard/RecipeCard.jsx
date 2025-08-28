@@ -1,4 +1,5 @@
 import css from "./RecipeCard.module.css";
+import Icon from "../Icon";
 
 export default function RecipeCard({
   variant = "catalog",
@@ -77,12 +78,7 @@ export default function RecipeCard({
             }
             onClick={() => onToggleFavorite?.()}
           >
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-              <path
-                d="M12 21s-6.7-4.35-9.33-7A5.9 5.9 0 1 1 12 6.24 5.9 5.9 0 1 1 21.33 14c-2.63 2.65-9.33 7-9.33 7z"
-                fill="currentColor"
-              />
-            </svg>
+            <Icon name="umbrella" width={32} height={32} color="red" />
           </button>
         )}
       </div>
