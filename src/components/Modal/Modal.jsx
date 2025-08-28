@@ -14,8 +14,8 @@ export default function CustomModal({
   desc,
   onConfirm,
   onCancel,
-  confirmText,
-  cancelText,
+  confirmText = "OK",
+  cancelText = "Cancel",
   type = "confirm",
 }) {
   if (!isOpen) return null;
