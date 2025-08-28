@@ -1,34 +1,36 @@
 .footer {
-  background-color: #3D2218;
+  font-family: "Montserrat", sans-serif;
+  background-color: #3d2218;
   padding: 32px 0;
 }
 
 .container {
-  max-width: 1440px;        /* НОВЕ: обмежуємо ширину */
-  margin: 0 auto;           /* НОВЕ: центруємо */
-  padding: 0 16px;          /* НОВЕ: відступи всередині */
+  margin: 0 auto;
+  padding: 0 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
 }
 
-/* ... решта стилів без змін ... */
-
 .logo {
-  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 18px;
-  font-weight: 700;
-  color: #FAFAFA;
+  font-weight: 600;
+  color: #fafafa;
+}
+
+.logo:hover {
   text-decoration: none;
 }
 
 .copyright {
-  font-family: 'Poppins', sans-serif;
-  font-size: 14px;
-  color: #FAFAFA;
+  font-size: 12px;
+  font-weight: 400;
+  color: #fafafa;
   opacity: 0.8;
-  margin: 0;
   text-align: center;
 }
 
@@ -41,16 +43,32 @@
 }
 
 .link {
-  font-family: 'Poppins', sans-serif;
   font-size: 16px;
-  color: #FAFAFA;
-  text-decoration: none;
-  padding: 8px 0;
-  transition: color 250ms ease-in-out;
+  font-weight: 600;
+  color: #ffffff;
+  padding: 10px 0;
+  transition: all 250ms ease-in-out;
+  position: relative;
 }
 
-.link:hover {
-  color: #D1D5DB;
+.link:hover,
+.link:focus {
+  color: #d1d5db;
+  text-decoration: none;
+}
+
+.link.active {
+  color: #fafafa;
+}
+
+.link.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #fafafa;
 }
 
 @media screen and (min-width: 768px) {
@@ -61,7 +79,7 @@
     align-items: center;
     gap: 0;
   }
-  
+
   .nav {
     flex-direction: row;
     justify-content: flex-end;
@@ -70,8 +88,9 @@
   }
 }
 
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 1225px) {
   .container {
-    padding: 0 100px;
+    max-width: 1225px;
+    padding: 0;
   }
 }
