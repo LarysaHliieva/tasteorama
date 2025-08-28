@@ -98,9 +98,7 @@ const Header = () => {
         )}
 
         <button className={css.burgerButton} onClick={toggleBurgerMenu}>
-          <span className={css.burgerLine}></span>
-          <span className={css.burgerLine}></span>
-          <span className={css.burgerLine}></span>
+          <Icon name="burger-regular" width={32} height={32} color="#ffffff" />
         </button>
       </div>
 

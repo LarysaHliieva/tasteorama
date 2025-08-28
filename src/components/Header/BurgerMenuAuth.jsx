@@ -1,40 +1,53 @@
-import { NavLink } from 'react-router-dom';
-import css from './BurgerMenu.module.css';
+import { NavLink } from "react-router-dom";
+import Icon from "../Icon/index.jsx";
+import css from "./BurgerMenu.module.css";
 
 const BurgerMenuAuth = ({ isOpen, onClose, user }) => {
-  // Функція для отримання першої літери імені
   const getFirstLetter = (name) => {
-    return name ? name.charAt(0).toUpperCase() : '?';
+    return name ? name.charAt(0).toUpperCase() : "?";
   };
 
   return (
     <>
-      <div className={`${css.overlay} ${isOpen ? css.overlayOpen : ''}`} onClick={onClose}></div>
-      
-      <div className={`${css.menu} ${isOpen ? css.menuOpen : ''}`}>
-        <button className={css.closeButton} onClick={onClose}>
-          ✕
-        </button>
-        
-        <nav className={css.nav}>
-          {/* Інформація про користувача */}
-          <div className={css.userInfoMobile}>
-            <span className={css.avatarMobile}>
-              {getFirstLetter(user?.name)}
-            </span>
-            <span className={css.userNameMobile}>{user?.name}</span>
-          </div>
+      <div
+        className={`${css.overlay} ${isOpen ? css.overlayOpen : ""}`}
+        onClick={onClose}
+      ></div>
 
+      <div className={`${css.menu} ${isOpen ? css.menuOpen : ""}`}>
+        <NavLink to="/" className={css.logo}>
+          <Icon name="logo" width={32} height={32} />
+          Tasteorama
+        </NavLink>
+        <button className={css.closeButton} onClick={onClose}>
+          <Icon name="close" width={32} height={32} color="#ffffff" />
+        </button>
+
+        <nav className={css.nav}>
           <NavLink to="/" className={css.link} onClick={onClose}>
             Recipes
           </NavLink>
-          
-          <NavLink to="/add-recipe" className={css.link} onClick={onClose}>
-            Add recipe
-          </NavLink>
-          
+
           <NavLink to="/profile" className={css.link} onClick={onClose}>
             My profile
+          </NavLink>
+
+          <div className={css.userInfoWrap}>
+            <div className={css.userInfo}>
+              <span className={css.avatar}>{getFirstLetter(user?.name)}</span>
+              <span className={css.userName}>{user?.name}</span>
+            </div>
+            <button type="button" className={css.logout}>
+              <Icon name="log-out" width={32} height={32} color="#ffffff" />
+            </button>
+          </div>
+
+          <NavLink
+            to="/add-recipe"
+            className={css.registerLink}
+            onClick={onClose}
+          >
+            Add recipe
           </NavLink>
         </nav>
       </div>

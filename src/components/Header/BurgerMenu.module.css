@@ -20,10 +20,9 @@
   position: fixed;
   top: 0;
   right: -100%;
-  width: 70%;
-  height: 100%;
-  background-color: #3D2218;
-  padding: 80px 20px 20px;
+  width: 100%;
+  background-color: #3d2218;
+  padding: 18px 16px 40px;
   transition: right 250ms ease-in-out;
   z-index: 999;
 }
@@ -38,8 +37,6 @@
   right: 20px;
   background: none;
   border: none;
-  color: #FAFAFA;
-  font-size: 24px;
   cursor: pointer;
   padding: 0;
 }
@@ -47,64 +44,104 @@
 .nav {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-}
-
-.link {
-  font-family: 'Poppins', sans-serif;
-  font-size: 18px;
-  color: #FAFAFA;
-  text-decoration: none;
-  padding: 12px 0;
-  transition: color 250ms ease-in-out;
-}
-
-.link:hover {
-  color: #D1D5DB;
+  align-items: center;
+  gap: 32px;
 }
 
 .registerLink {
-  font-family: 'Poppins', sans-serif;
-  font-size: 18px;
-  color: #FAFAFA;
-  text-decoration: none;
-  padding: 12px 24px;
-  background-color: #9B6C43;
-  border-radius: 16px;
+  height: 44px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background-color: #9b6c43;
+  border: none;
+  transition: all 250ms ease-in-out;
+  width: 100%;
   text-align: center;
-  transition: background-color 250ms ease-in-out;
 }
 
-.registerLink:hover {
-  background-color: #7A5435;
+.registerLink:hover,
+.registerLink:focus {
+  text-decoration: none;
 }
 
-/* Додаємо в кінець файлу */
-.userInfoMobile {
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fafafa;
+  margin-bottom: 32px;
+}
+
+.logo:hover {
+  text-decoration: none;
+}
+
+.link {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  padding: 10px 0;
+  transition: all 250ms ease-in-out;
+  position: relative;
+}
+
+.link:hover,
+.link:focus {
+  color: #d1d5db;
+  text-decoration: none;
+}
+
+.link.active {
+  color: #fafafa;
+}
+
+.userInfo {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 32px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.avatarMobile {
+.avatar {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background-color: #FAFAFA;
-  color: #3D2218;
+  background-color: #9b6c43;
+  color: #ffffff;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 12px;
 }
 
-.userNameMobile {
-  font-family: 'Poppins', sans-serif;
-  font-size: 16px;
-  color: #FAFAFA;
-  font-weight: 500;
+.userName {
+  font-size: 12px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.userInfoWrap {
+  display: flex;
+  flex-direction: row;
+}
+
+.logout {
+  position: relative;
+  margin-left: 32px;
+}
+
+.logout:before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -14px;
+  width: 1px;
+  height: 100%;
+  background-color: #ffffff;
 }
