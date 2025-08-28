@@ -39,7 +39,6 @@
       url(/hero/hero-tab.webp);
   }
   .title {
-    
     font-size: 48px;
     max-width: 493px;
   }
@@ -48,7 +47,7 @@
 @media screen and (min-width: 1225px) {
   .hero {
     max-width: 100%;
-    padding: 128px 108px;
+    padding: 128px 0px;
 
     background-image: linear-gradient(
         to right,
@@ -56,5 +55,11 @@
         rgba(0, 0, 0, 0.3)
       ),
       url(/hero/hero-desk.webp);
+  }
+
+  .heroWrapper {
+    max-width: 1225px;
+    padding: 0;
+    margin: 0 auto;
   }
 }

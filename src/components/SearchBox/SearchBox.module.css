@@ -82,7 +82,7 @@ input.inputError {
   }
 }
 
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1225px) {
   .form {
     gap: 12px;
   }
