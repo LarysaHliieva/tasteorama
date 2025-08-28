@@ -13,6 +13,8 @@ export default function MainPage() {
       <FilterSelect />
       <RecipeList />
       <RecipeCard {...recipes[3]} />
+      <RecipeCard {...recipes[3]} variant="details" />
+      <RecipeCard {...recipes[3]} variant="favorites" />
     </div>
   );
 }

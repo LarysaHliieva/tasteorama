@@ -87,7 +87,7 @@ export default function RecipeCard({
               name="bookmark-alternative"
               width={24}
               height={24}
-              color="#000000"
+              color={variant === "favorites" ? "#fff" : "#000000"}
             />
           </button>
         )}

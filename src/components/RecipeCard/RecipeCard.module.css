@@ -145,15 +145,16 @@
 }
 .favEmph {
   border-color: #9b6c43;
+  background-color: #9b6c43;
   color: #9b6c43;
 }
 
 .details {
   padding: 16px;
 }
-.favorites {
+/* .favorites {
   padding: 16px;
-}
-.favorites .imgWrap {
+} */
+/* .favorites .imgWrap {
   aspect-ratio: 16/9;
-}
+} */
