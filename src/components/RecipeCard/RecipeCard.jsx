@@ -1,5 +1,7 @@
-import css from "./RecipeCard.module.css";
+import { useNavigate } from "react-router-dom";
+
 import Icon from "../Icon";
+import css from "./RecipeCard.module.css";
 
 export default function RecipeCard({
   variant = "catalog",
@@ -11,7 +13,10 @@ export default function RecipeCard({
   isFavorite = false,
   onOpen,
   onToggleFavorite,
+  _id,
 }) {
+  const navigate = useNavigate();
+
   const cls = [
     css.card,
     variant === "catalog" && css.catalog,
@@ -61,7 +66,7 @@ export default function RecipeCard({
           <button
             type="button"
             className={`${css.cta} ${css.primary}`}
-            onClick={() => onOpen?.()}
+            onClick={() => navigate(`/recipes/${_id}`)}
           >
             Learn more
           </button>
