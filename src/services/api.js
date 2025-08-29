@@ -2,7 +2,15 @@ import axios from "axios";
 
 const axiosAPI = axios.create({
   baseURL: "http://localhost:5000", //сюди потрібно додати посилання на наш бекенд
-  // withCredentials: true,
+  withCredentials: true,
+});
+
+axiosAPI.interceptors.request.use((config) => {
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 export default axiosAPI;
