@@ -51,20 +51,30 @@ export const getRecipes = createAsyncThunk(
       if (filters.categories.length) {
         params.append(
           "category",
-          filters.categories.map((c) => c.lable).join(",")
+          filters.categories.map((c) => c.label).join(",")
         );
       }
       if (filters.ingredients.length) {
         params.append(
-          "ingredients",
-          filters.ingredients.map((i) => i.value).join(",")
+          "ingredient",
+          filters.ingredients.map((i) => i.label).join(",")
         );
       }
       if (filters.searchQuery) {
         params.append("title", filters.searchQuery);
       }
       const response = await axiosAPI.get(`/recipes?${params}`);
-      return response.data;
+      const data = response.data?.data;
+      console.log(filters)
+      return {
+        recipes: data?.recipes || [],
+        pagination: {
+          page: data?.page || 1,
+          totalPages: data?.totalPages || 1,
+          totalItems: data?.total || 0,
+        },
+      };
+      
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || error.message
