@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRecipes } from "../../redux/recipes/operations";
 import RecipeCard from "../RecipeCard/RecipeCard";
@@ -13,7 +13,7 @@ import {
   selectSearchQuery,
 } from "../../redux/filters/selectors";
 import css from "../RecipeList/recipeList.module.css";
-import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn"
+import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 
 export function RecipeList() {
   const dispatch = useDispatch();
@@ -27,12 +27,11 @@ export function RecipeList() {
 
   const filters = { categories, ingredients, searchQuery };
 
-  useEffect(() => {
-    
-    dispatch(getRecipes({ page: 1, limit: 12, filters }));
-  }, [categories, ingredients, searchQuery, dispatch]);
+  // useEffect(() => {
 
-  
+  //   dispatch(getRecipes({ page: 1, limit: 12, filters }));
+  // }, [categories, ingredients, searchQuery, dispatch]);
+
   const loadMore = () => {
     dispatch(getRecipes({ page: page + 1, limit: 12, filters }));
   };
@@ -52,7 +51,7 @@ export function RecipeList() {
         ))}
       </div>
 
-      {page < totalPages && <LoadMoreBtn onClick={loadMore}/>}
+      {page < totalPages && <LoadMoreBtn onClick={loadMore} />}
     </div>
   );
 }

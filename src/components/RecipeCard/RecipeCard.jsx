@@ -42,12 +42,17 @@ export default function RecipeCard({
         <h3 className={css.title} title={title}>
           {title}
         </h3>
-        {time ? <span className={css.time}>{time}</span> : null}
+        {time ? (
+          <div className={css.time}>
+            <Icon name="clock" width={24} height={24} color="#000000" />
+            <span>{time}</span>
+          </div>
+        ) : null}
       </div>
       {description && <p className={css.desc}>{description}</p>}
       {typeof calories === "number" && (
         <div className={css.meta}>
-          <span className={css.cals}>{calories} cals</span>
+          <span className={css.cals}>~ {calories} cals</span>
         </div>
       )}
 
@@ -78,7 +83,12 @@ export default function RecipeCard({
             }
             onClick={() => onToggleFavorite?.()}
           >
-            <Icon name="umbrella" width={32} height={32} color="red" />
+            <Icon
+              name="bookmark-alternative"
+              width={24}
+              height={24}
+              color={variant === "favorites" ? "#fff" : "#000000"}
+            />
           </button>
         )}
       </div>

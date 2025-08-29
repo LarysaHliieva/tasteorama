@@ -91,7 +91,7 @@ export const recipes = [
   },
   {
     id: "6462a8f74c3d0ddd28897fbf",
-    title: "Teriyaki Chicken Casserole",
+    title: "Philadelphia Sushi Roll",
     category: "Chicken",
     ownerId: "64c8d958249fae54bae90bb9",
     area: "Japanese",
@@ -101,7 +101,7 @@ export const recipes = [
       "A Japanese-inspired casserole made with chicken, teriyaki sauce, rice, and vegetables.",
     thumb:
       "https://ftp.goit.study/img/so-yummy/preview/Teriyaki%20Chicken%20Casserole.jpg",
-    time: "75",
+    time: "750",
     ingredients: [
       { id: "640c2dd963a319ea671e376c", measure: "3/4 cup" },
       { id: "640c2dd963a319ea671e378f", measure: "1/2 cup" },
@@ -115,5 +115,6 @@ export const recipes = [
     ],
     createdAt: new Date(1678562733240),
     updatedAt: new Date(1706301557199),
+    calories: 1200,
   },
 ];

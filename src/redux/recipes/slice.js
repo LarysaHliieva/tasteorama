@@ -63,16 +63,19 @@ const recipesSlice = createSlice({
       .addCase(getRecipes.pending, handlePending)
       .addCase(getRecipes.fulfilled, (state, action) => {
         state.isLoading = false;
-       if (action.payload.page === 1) {
-    state.all = action.payload.data.recipes;
-  } else {
-    state.all = [...state.all, ...action.payload.data.recipes];
-  }
-  state.pagination = {
-    page: action.payload.data.pagination.page || 1,
-          totalPages: action.payload.data.pagination.totalPages || 1,
-          totalItems: action.payload.data.pagination.total || 0,
-  };
+        const { recipes, pagination } = action.payload.data;
+
+        if (pagination.page === "1" || pagination.page === 1) {
+          state.all = recipes;
+        } else {
+          state.all = [...state.all, ...recipes];
+        }
+
+        state.pagination = {
+          page: Number(pagination.page) || 1,
+          totalPages: pagination.totalPages || 1,
+          totalItems: pagination.total || 0,
+        };
       });
   },
 });

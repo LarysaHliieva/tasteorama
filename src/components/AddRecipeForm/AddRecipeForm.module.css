@@ -1,5 +1,7 @@
 .container {
   padding: 0 16px;
+  display: grid;
+  justify-content: flex-start;
 }
 
 .form {
@@ -103,6 +105,10 @@ css.textarea {
   margin-bottom: 24px;
 }
 
+.addButtonWraper {
+  max-width: 420px;
+}
+
 .addButton {
   border-radius: 8px;
 
@@ -110,6 +116,7 @@ css.textarea {
   height: 44px;
   background-color: #9b6c43;
   margin-bottom: 40px;
+  color: white;
 }
 
 .InstructionsTitle {
@@ -132,19 +139,26 @@ css.textarea {
   width: 361px;
   height: 44px;
   background-color: #9b6c43;
+  color: white;
 }
 
 @media only screen and (min-width: 768px) {
+  .container {
+    padding: 0 32px;
+  }
+
   .title {
     font-family: var(--font-family);
     font-weight: 600;
     font-size: 48px;
     color: var(--black);
+    margin-top: 28px;
+    margin-bottom: 16px;
   }
 
   .upload {
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 32px;
     font-weight: 600;
     font-size: 32px;
   }
@@ -154,6 +168,7 @@ css.textarea {
     width: 704px;
     height: 383px;
     background-color: grey;
+    margin-bottom: 24px;
   }
 
   .label {
@@ -174,6 +189,7 @@ css.textarea {
   .subtitle {
     font-weight: 600;
     font-size: 32px;
+    margin-bottom: 32px;
   }
 
   .textarea {
@@ -185,10 +201,15 @@ css.textarea {
 
   .cooking {
     width: 340px;
+    margin-bottom: 42px;
   }
 
   .select {
     width: 340px;
+  }
+  .igradientTitle {
+    font-weight: 600;
+    font-size: 32px;
   }
 
   .ingredientItem {
@@ -211,5 +232,125 @@ css.textarea {
 
   .rightGroup {
     align-items: flex-end;
+  }
+
+  .addButton {
+    width: 249px;
+    height: 36px;
+  }
+
+  .addButtonWraper {
+    max-width: 700px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .InstructionsTitle {
+    font-weight: 600;
+    font-size: 32px;
+  }
+
+  .InstructionsText {
+    border-radius: 8px;
+    padding: 12px;
+    width: 704px;
+    height: 144px;
+    background: var(--white);
+  }
+
+  .submitButton {
+    width: 704px;
+    height: 44px;
+    margin-bottom: 48px;
+  }
+
+  @media only screen and (min-width: 1225px) {
+    .container {
+      padding: 0 107px;
+    }
+
+    .title {
+      margin-top: 48px;
+      margin-bottom: 40px;
+    }
+
+    .subtitle {
+      margin-bottom: 32px;
+    }
+
+    .fileInput {
+      width: 391px;
+      height: 374px;
+    }
+
+    .ContentRightImg {
+      border-radius: 16px;
+      width: 391px;
+      height: 374px;
+
+      margin-left: 850px;
+      position: absolute;
+    }
+
+    .error {
+      display: none;
+    }
+
+    .label {
+      margin-bottom: 8px;
+    }
+
+    .input {
+      width: 809px;
+      height: 46px;
+      margin-bottom: 32px;
+    }
+
+    .textarea {
+      width: 809px;
+      height: 144px;
+      margin-bottom: 32px;
+    }
+
+    .cooking {
+      width: 392px;
+      height: 46px;
+      margin-bottom: 72px;
+      margin-right: 5px;
+    }
+
+    .select {
+      border: 1px solid light-gray;
+      border-radius: 8px;
+      padding: 12px;
+      width: 392px;
+      height: 46px;
+      max-height: 48px;
+    }
+
+    .inputName {
+      width: 480px;
+      height: 48px;
+    }
+
+    .inputAmount {
+      width: 288px;
+      height: 48px;
+    }
+
+    .addButton {
+      width: 258px;
+      height: 23px;
+      margin-right: -110px;
+    }
+
+    .InstructionsText {
+      width: 809px;
+      height: 144px;
+    }
+
+    .submitButton {
+      width: 809px;
+      height: 44px;
+    }
   }
 }
