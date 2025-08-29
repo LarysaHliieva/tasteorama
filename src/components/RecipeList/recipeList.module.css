@@ -2,7 +2,7 @@
   display: grid;
   align-items: center;
   justify-content: center;
-  grid-template-columns: repeat(4, 288px);
+  grid-template-columns: repeat(3, 288px);
   gap: 16px;
 }
 
@@ -20,7 +20,7 @@
 
 @media (min-width: 1225px) {
   .recipeList {
-    grid-template-columns: repeat(4, 288px);
+    grid-template-columns: repeat(3, 288px);
   }
 }
 
