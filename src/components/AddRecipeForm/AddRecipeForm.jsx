@@ -1,23 +1,9 @@
 import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+import Icon from "../Icon/index.jsx";
+
 import css from "./AddRecipeForm.module.css";
-
-// export const createRecipe = async (recipe) => {
-//   const formData = new FormData();
-//   Object.keys(recipe).forEach((key) => {
-//     if (key === "ingredients") {
-//       formData.append(key, JSON.stringify(recipe[key]));
-//     } else {
-//       formData.append(key, recipe[key]);
-//     }
-//   });
-
-//   const { data } = await axios.post(API_URL, formData, {
-//     headers: { "Content-Type": "multipart/form-data" },
-//   });
-//   return data;
-// };
 
 export default function AddRecipeForm() {
   return (
@@ -71,7 +57,11 @@ export default function AddRecipeForm() {
             <div className={css.fieldGroup}>
               <h3 className={css.subtitle}>General Information</h3>
               <label className={css.label}>Recipe Title</label>
-              <Field name="title" className={css.input} />
+              <Field
+                name="title"
+                className={css.input}
+                placeholder="Enter the name of your recipe"
+              />
               <ErrorMessage
                 name="title"
                 component="div"
@@ -85,6 +75,7 @@ export default function AddRecipeForm() {
                 as="textarea"
                 name="description"
                 className={css.textarea}
+                placeholder="Enter a brief description of your recipe"
               />
             </div>
 
@@ -126,7 +117,7 @@ export default function AddRecipeForm() {
                       </div>
                       <div className={css.rightGroup}>
                         <label className={css.labelIngradients}>Amount</label>
-                        <div>
+                        <div className={css.amountWrapper}>
                           <Field
                             name={`ingredients.${index}.amount`}
                             placeholder="Amount"
@@ -137,7 +128,12 @@ export default function AddRecipeForm() {
                             onClick={() => remove(index)}
                             className={css.removeButton}
                           >
-                            X
+                            <Icon
+                              name="delete"
+                              width={32}
+                              height={32}
+                              color="#000000"
+                            />
                           </button>
                         </div>
                       </div>
