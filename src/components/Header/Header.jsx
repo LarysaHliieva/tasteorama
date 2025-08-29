@@ -4,11 +4,11 @@ import { NavLink } from "react-router-dom";
 import { selectIsLoggedIn } from "../../redux/auth/selectors.js";
 import Icon from "../Icon/index.jsx";
 import Modal from "../Modal/Modal.jsx";
-
 import BurgerMenu from "./BurgerMenu";
 import BurgerMenuAuth from "./BurgerMenuAuth";
 
 import css from "./Header.module.css";
+import Logout from "../AuthComponent/logout.jsx";
 const Header = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   // !!! МІСЦЕ ДЛЯ ПІДКЛЮЧЕННЯ REDUX (Потрібно розкоментувати програмісту) !!!
@@ -16,7 +16,7 @@ const Header = () => {
 
   // Стан за замовчуванням - неавторизований користувач
   // const user = null;
-  const user = { name: "Max" };
+  const user = useSelector(state => state.auth.user)
 
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const [isOpenModalLogout, setIsOpenModalLogout] = useState(false);
@@ -30,6 +30,8 @@ const Header = () => {
   const getFirstLetter = (name) => {
     return name ? name.charAt(0).toUpperCase() : "?";
   };
+
+  const logout = Logout()
 
   return (
     <>
@@ -140,7 +142,7 @@ const Header = () => {
         title="Are you shure?"
         desc="We will miss you!"
         confirmText="Log out"
-        onConfirm={() => console.log("logout")}
+        onConfirm={() => logout()}
       />
     </>
   );
