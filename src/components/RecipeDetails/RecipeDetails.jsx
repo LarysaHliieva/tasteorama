@@ -15,10 +15,7 @@ import { selectIsLoggedIn } from "../../redux/auth/selectors.js";
 
 import css from "./RecipeDetails.module.css";
 
-// import { selectCurrentRecipe } from "../../redux/recepies/selectors.js";
-
-// delete after connection api
-import { recipes } from "../../utils/recipes.js";
+import { selectCurrentRecipe } from "../../redux/recipes/selectors.js";
 
 const RecipeDetails = () => {
   const navigate = useNavigate();
@@ -27,18 +24,19 @@ const RecipeDetails = () => {
   const { id } = useParams();
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  // const recipe = useSelector(selectCurrentRecipe);
+  const recipe = useSelector(selectCurrentRecipe);
 
   // const user = useSelector(selectUser); //---------треба буде витягнути з юзера
   // const isFavorite = user?.favorites?.some((favId) => favId === id); //-----------тут перевіримо, чи рецепт в улюблених в користувача
   const isFavorite = true; // ---------заглушка
 
-  // delete after connection api
-  const recipe = recipes[0];
-
   useEffect(() => {
-    dispatch(getRecipeById(id));
-  }, [dispatch, id]);
+    dispatch(getRecipeById(id))
+      .unwrap()
+      .catch(() => {
+        navigate("/404");
+      });
+  }, [dispatch, id, navigate]);
 
   if (!recipe) {
     return <p>Loading...</p>;
