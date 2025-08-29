@@ -5,6 +5,17 @@ import Icon from "../Icon/index.jsx";
 
 import css from "./AddRecipeForm.module.css";
 
+//   Object.keys(recipe).forEach((key) => {
+//     if (key === "ingredients") {
+//       formData.append(key, JSON.stringify(recipe[key]));
+//     } else {
+//       formData.append(key, recipe[key]);
+//     }
+//   });
+
+import { ingredients as ingredientsList } from "../../utils/ingredients.js";
+import { categories as categoriesList } from "../../utils/categories.js";
+
 export default function AddRecipeForm() {
   return (
     <Formik
@@ -17,6 +28,8 @@ export default function AddRecipeForm() {
         ingredients: [],
         instructions: "",
         image: null,
+        ingredient: "",
+        amount: "",
       }}
       validationSchema={Yup.object({
         title: Yup.string().required("Required"),
@@ -103,14 +116,59 @@ export default function AddRecipeForm() {
               </div>
               <div>
                 <label className={css.label}>Category</label>
-                <Field as="select" name="category" className={css.select} />
+                <Field as="select" name="category" className={css.select}>
+                  {categoriesList.map((opt) => (
+                    <option key={opt._id} value={opt._id}>
+                      {opt.name}
+                    </option>
+                  ))}
+                </Field>
               </div>
             </div>
           </div>
 
           <div className={css.ingredients}>
             <h3 className={css.igradientTitle}>Ingredients</h3>
-            <FieldArray name="ingredients">
+            <Field as="select" name="ingredient" className={css.select}>
+              {ingredientsList.map((opt) => (
+                <option key={opt._id} value={opt._id}>
+                  {opt.name}
+                </option>
+              ))}
+            </Field>
+
+            <Field
+              name="amount"
+              placeholder="Amount"
+              className={css.inputAmount}
+              type="number"
+            />
+
+            <div className={css.addButtonWraper}>
+              <button
+                type="button"
+                // onClick={() => push({ id: "", amount: "" })}
+                className={css.addButton}
+              >
+                Add new Ingredient
+              </button>
+            </div>
+
+            {/* <button
+                        type="button"
+                        onClick={() => remove(index)}
+                        className={css.removeButton}
+                      >
+                        <Icon
+                          name="delete"
+                          width={32}
+                          height={32}
+                          color="#000000"
+                        />
+                      </button> */}
+          </div>
+
+          {/* <FieldArray name="ingredients">
               {({ push, remove }) => (
                 <div>
                   {values.ingredients.map((_, index) => (
@@ -130,36 +188,8 @@ export default function AddRecipeForm() {
                             name={`ingredients.${index}.amount`}
                             placeholder="Amount"
                             className={css.inputAmount}
-                          />
-                          <button
-                            type="button"
-                            onClick={() => remove(index)}
-                            className={css.removeButton}
-                          >
-                            <Icon
-                              name="delete"
-                              width={32}
-                              height={32}
-                              color="#000000"
-                            />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  <div className={css.addButtonWraper}>
-                    <button
-                      type="button"
-                      onClick={() => push({ name: "", amount: "" })}
-                      className={css.addButton}
-                    >
-                      Add new Ingredient
-                    </button>
-                  </div>
-                </div>
-              )}
-            </FieldArray>
-          </div>
+                          />))} */}
+
           <div>
             <h3 className={css.InstructionsTitle}>Instructions</h3>
             <Field
