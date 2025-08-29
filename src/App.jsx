@@ -11,6 +11,8 @@ import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import RestrictedRoute from "./components/RestrictedRoute/RestrictedRoute";
 import Own from "./components/Own/Own.jsx";
 import Favorites from "./components/Favorites/Favorites.jsx";
+import RegisterPage from "./components/AuthComponent/registerPage.jsx";
+import LoginPage from "./components/AuthComponent/loginPage.jsx";
 
 function App() {
   return (
@@ -35,8 +37,8 @@ function App() {
             path="/auth"
             element={<RestrictedRoute component={<AuthPage />} />}
           >
-            <Route path="register" element={<>register</>} />
-            <Route path="login" element={<>login</>} />
+            <Route path="register" element={<RegisterPage/>} />
+            <Route path="login" element={<LoginPage/>} />
           </Route>
         </Route>
       </Routes>
