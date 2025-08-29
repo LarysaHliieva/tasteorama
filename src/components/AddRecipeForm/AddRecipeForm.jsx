@@ -41,17 +41,25 @@ export default function AddRecipeForm() {
           <div className={css.ContentRightImg}>
             <h3 className={css.upload}>Upload Photo</h3>
             <input
+              id="fileInput"
               type="file"
               onChange={(e) => setFieldValue("image", e.target.files[0])}
               className={css.fileInput}
+              hidden
             />
-            {values.image && (
-              <img
-                src={URL.createObjectURL(values.image)}
-                alt="preview"
-                className={css.preview}
-              />
-            )}
+            <div className={css.fileInputNoImage}>
+              <label htmlFor="fileInput">
+                {values.image ? (
+                  <img
+                    src={URL.createObjectURL(values.image)}
+                    alt="preview"
+                    className={css.preview}
+                  />
+                ) : (
+                  <Icon name="icon-bag" width={96} height={80} />
+                )}
+              </label>
+            </div>
           </div>
           <div className={css.contentLeft}>
             <div className={css.fieldGroup}>

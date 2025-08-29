@@ -169,12 +169,22 @@ textarea:focus {
     font-size: 32px;
   }
 
-  .fileInput {
+  .fileInputNoImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 16px;
-    width: 704px;
+    width: 391px;
     height: 383px;
     background-color: grey;
     margin-bottom: 24px;
+    cursor: pointer;
+  }
+
+  .preview {
+    width: 391px;
+    height: 383px;
+    border-radius: 16px;
   }
 
   .label {
