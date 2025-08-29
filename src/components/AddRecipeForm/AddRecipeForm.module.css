@@ -1,9 +1,3 @@
-.container {
-  padding: 0 16px;
-  display: grid;
-  justify-content: flex-start;
-}
-
 .form {
   margin: 48 auto;
   font-family: var(--font-family);
@@ -23,11 +17,16 @@
   font-size: 24px;
 }
 
-.fileInput {
+.fileInputNoImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 16px;
   width: 361px;
   height: 383px;
   background-color: grey;
+  margin-bottom: 24px;
+  cursor: pointer;
 }
 
 .subtitle {
@@ -42,23 +41,31 @@
   height: 46px;
   max-height: 48px;
   margin-bottom: 24px;
+  border: 1px solid #d9d9d9;
 }
 
 .label {
   display: block;
 }
 
-css.textarea {
+.textarea {
   border-radius: 8px;
   padding: 12px;
   width: 361px;
   height: 144px;
   background: var(--white);
+  border: 1px solid #d9d9d9;
 }
 
 .wraperCalories {
   display: flex;
   gap: 20px;
+}
+
+.wraperIngredients {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
 }
 
 .cooking {
@@ -75,6 +82,16 @@ css.textarea {
   width: 172px;
   height: 48px;
   max-height: 48px;
+  border: 1px solid #d9d9d9;
+}
+
+.wraperIngredients .select {
+  width: 100%;
+}
+
+.select:focus {
+  border: 1.5px solid #9b6c43;
+  outline: none;
 }
 
 .igradientTitle {
@@ -94,6 +111,7 @@ css.textarea {
   height: 46px;
   max-height: 48px;
   margin-bottom: 24px;
+  border: 1px solid #d9d9d9;
 }
 
 .inputName {
@@ -103,6 +121,7 @@ css.textarea {
   height: 46px;
   max-height: 48px;
   margin-bottom: 24px;
+  border: 1px solid #d9d9d9;
 }
 
 .addButtonWraper {
@@ -111,7 +130,6 @@ css.textarea {
 
 .addButton {
   border-radius: 8px;
-
   width: 361px;
   height: 44px;
   background-color: #9b6c43;
@@ -131,6 +149,7 @@ css.textarea {
   width: 361px;
   height: 144px;
   margin-bottom: 40px;
+  border: 1px solid #d9d9d9;
 }
 
 .submitButton {
@@ -142,11 +161,51 @@ css.textarea {
   color: white;
 }
 
-@media only screen and (min-width: 768px) {
-  .container {
-    padding: 0 32px;
-  }
+textarea:focus {
+  border: 1.5px solid #9b6c43;
+  outline: none;
+}
 
+.removeButton {
+  display: block;
+}
+
+.addButton:focus,
+.submitButton:focus {
+  outline: none;
+  background-color: #6d554b;
+}
+
+.addButton:hover,
+.submitButton:hover {
+  background-color: #6d554b;
+}
+
+.addButton:active,
+.submitButton:active {
+  box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px #fff;
+  background: #9b6c43;
+}
+
+.ingredientsTable {
+  font-size: 16px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 40px;
+}
+
+.ingredientsTable td,
+.ingredientsTable th {
+  height: 44px;
+  border-bottom: 1px solid #c5c5c5;
+  text-align: left;
+}
+
+.deleteTr {
+  opacity: 0;
+}
+
+@media only screen and (min-width: 768px) {
   .title {
     font-family: var(--font-family);
     font-weight: 600;
@@ -163,12 +222,10 @@ css.textarea {
     font-size: 32px;
   }
 
-  .fileInput {
-    border-radius: 16px;
-    width: 704px;
+  .preview {
+    width: 391px;
     height: 383px;
-    background-color: grey;
-    margin-bottom: 24px;
+    border-radius: 16px;
   }
 
   .label {
@@ -263,11 +320,24 @@ css.textarea {
     margin-bottom: 48px;
   }
 
-  @media only screen and (min-width: 1225px) {
-    .container {
-      padding: 0 107px;
-    }
+  .wraperIngredients {
+    flex-direction: row;
+  }
 
+  .wraperIngredients .select {
+    width: 497px;
+  }
+
+  .fileInputNoImage {
+    width: 100%;
+    height: 383px;
+  }
+
+  .ingredientsTable {
+    width: 431px;
+  }
+
+  @media only screen and (min-width: 1225px) {
     .title {
       margin-top: 48px;
       margin-bottom: 40px;
@@ -277,17 +347,12 @@ css.textarea {
       margin-bottom: 32px;
     }
 
-    .fileInput {
-      width: 391px;
-      height: 374px;
-    }
-
     .ContentRightImg {
       border-radius: 16px;
       width: 391px;
       height: 374px;
 
-      margin-left: 850px;
+      margin-left: 833px;
       position: absolute;
     }
 
@@ -303,12 +368,14 @@ css.textarea {
       width: 809px;
       height: 46px;
       margin-bottom: 32px;
+      border: 1px solid #d9d9d9;
     }
 
     .textarea {
       width: 809px;
       height: 144px;
       margin-bottom: 32px;
+      border: 1px solid #d9d9d9;
     }
 
     .cooking {
@@ -351,6 +418,11 @@ css.textarea {
     .submitButton {
       width: 809px;
       height: 44px;
+    }
+
+    .fileInputNoImage {
+      width: 391px;
+      height: 383px;
     }
   }
 }
