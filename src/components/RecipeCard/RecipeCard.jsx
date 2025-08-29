@@ -13,7 +13,7 @@ export default function RecipeCard({
   isFavorite = false,
   onOpen,
   onToggleFavorite,
-  _id,
+  id,
 }) {
   const navigate = useNavigate();
 
@@ -66,7 +66,7 @@ export default function RecipeCard({
           <button
             type="button"
             className={`${css.cta} ${css.primary}`}
-            onClick={() => navigate(`/recipes/${_id}`)}
+            onClick={() => navigate(`/recipes/${id}`)}
           >
             Learn more
           </button>
