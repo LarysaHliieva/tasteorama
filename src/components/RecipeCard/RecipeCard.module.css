@@ -1,8 +1,10 @@
 .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 288px;
   height: 431px;
   background: #faf3e0;
-  /* border: 1px solid #e5e7eb; */
   border-radius: 16px;
   padding: 12px;
   transition: box-shadow 0.2s;
