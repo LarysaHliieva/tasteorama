@@ -4,6 +4,7 @@ import {
   getRecipeById,
   getRecipes,
   removeFromFavorites,
+  getFavorites,
 } from "./operations.js";
 
 const handlePending = (state) => {
@@ -72,7 +73,13 @@ const recipesSlice = createSlice({
         }
 
         state.pagination = pagination;
-      });
+      })
+      .addCase(getFavorites.pending, handlePending)
+      .addCase(getFavorites.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.favorite = action.payload;
+      })
+      .addCase(getFavorites.rejected, handleRejected);
   },
 });
 

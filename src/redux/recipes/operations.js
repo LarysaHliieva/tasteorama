@@ -65,7 +65,7 @@ export const getRecipes = createAsyncThunk(
       }
       const response = await axiosAPI.get(`/recipes?${params}`);
       const data = response.data?.data;
-      console.log(filters)
+      console.log(filters);
       return {
         recipes: data?.recipes || [],
         pagination: {
@@ -74,11 +74,24 @@ export const getRecipes = createAsyncThunk(
           totalItems: data?.total || 0,
         },
       };
-      
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || error.message
       );
+    }
+  }
+);
+
+export const getFavorites = createAsyncThunk(
+  "recipes/getFavorites",
+  async (_, thunkAPI) => {
+    try {
+      console.log("aaa");
+      const response = await axiosAPI.get("/favorites");
+      console.log(response);
+      return response.data.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
 );

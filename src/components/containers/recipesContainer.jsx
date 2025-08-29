@@ -13,7 +13,6 @@ import {
 } from "../../redux/filters/selectors";
 import { RecipeList } from "../RecipeList/RecipeList";
 
-
 export function RecipeContainer() {
   const dispatch = useDispatch();
   const all = useSelector(selectRecipes);
