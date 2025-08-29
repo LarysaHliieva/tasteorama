@@ -110,7 +110,7 @@ export default function AddRecipeForm() {
                 <label className={css.label}>Calories</label>
                 <Field
                   name="cookingCalories"
-                  type="numder"
+                  type="number"
                   className={css.cooking}
                 />
               </div>
@@ -129,21 +129,22 @@ export default function AddRecipeForm() {
 
           <div className={css.ingredients}>
             <h3 className={css.igradientTitle}>Ingredients</h3>
-            <Field as="select" name="ingredient" className={css.select}>
-              {ingredientsList.map((opt) => (
-                <option key={opt._id} value={opt._id}>
-                  {opt.name}
-                </option>
-              ))}
-            </Field>
+            <div className={css.wraperIngredients}>
+              <Field as="select" name="ingredient" className={css.select}>
+                {ingredientsList.map((opt) => (
+                  <option key={opt._id} value={opt._id}>
+                    {opt.name}
+                  </option>
+                ))}
+              </Field>
 
-            <Field
-              name="amount"
-              placeholder="Amount"
-              className={css.inputAmount}
-              type="number"
-            />
-
+              <Field
+                name="amount"
+                placeholder="Amount"
+                className={css.inputAmount}
+                type="number"
+              />
+            </div>
             <div className={css.addButtonWraper}>
               <button
                 type="button"
