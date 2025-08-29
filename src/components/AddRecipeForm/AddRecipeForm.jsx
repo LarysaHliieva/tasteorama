@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -5,18 +6,24 @@ import Icon from "../Icon/index.jsx";
 
 import css from "./AddRecipeForm.module.css";
 
-//   Object.keys(recipe).forEach((key) => {
-//     if (key === "ingredients") {
-//       formData.append(key, JSON.stringify(recipe[key]));
-//     } else {
-//       formData.append(key, recipe[key]);
-//     }
-//   });
-
 import { ingredients as ingredientsList } from "../../utils/ingredients.js";
 import { categories as categoriesList } from "../../utils/categories.js";
 
 export default function AddRecipeForm() {
+  const [tempIngredients, setTempIngredients] = useState([
+    { selectedId: "", amountValue: "" },
+  ]);
+
+  const addIngredient = (ingredient, amount) => {
+    if (!ingredient || !amount) return;
+    setTempIngredients([
+      ...tempIngredients,
+      { selectedId: "", amountValue: "" },
+    ]);
+  };
+  const removeIngredient = (index) =>
+    setTempIngredients(tempIngredients.filter((_, i) => i !== index));
+
   return (
     <Formik
       initialValues={{
@@ -38,15 +45,15 @@ export default function AddRecipeForm() {
         category: Yup.string().required("Required"),
         instructions: Yup.string().required("Required"),
       })}
-      onSubmit={async (values, { setSubmitting }) => {
-        try {
-          // await createRecipe(values);
-          alert("Recipe added successfully!");
-          window.location.href = "/recipes";
-        } catch (err) {
-          alert("Error: " + err.message);
-        }
-        setSubmitting(false);
+      onSubmit={(values) => {
+        const ingredients = tempIngredients
+          .filter((t) => t.selectedId && t.amountValue)
+          .map((t) => ({
+            _id: t.selectedId,
+            amount: t.amountValue,
+          }));
+        const payload = { ...values, ingredients };
+        console.log(payload);
       }}
     >
       {({ values, setFieldValue }) => (
@@ -148,25 +155,40 @@ export default function AddRecipeForm() {
             <div className={css.addButtonWraper}>
               <button
                 type="button"
-                // onClick={() => push({ id: "", amount: "" })}
+                onClick={() => {
+                  addIngredient(values.ingredient, values.amount);
+                  setFieldValue("ingredient", "");
+                  setFieldValue("amount", "");
+                }}
                 className={css.addButton}
               >
                 Add new Ingredient
               </button>
             </div>
-
-            {/* <button
-                        type="button"
-                        onClick={() => remove(index)}
-                        className={css.removeButton}
-                      >
-                        <Icon
-                          name="delete"
-                          width={32}
-                          height={32}
-                          color="#000000"
-                        />
-                      </button> */}
+            <ul>
+              {tempIngredients.map((t, index) => {
+                const ingredientName =
+                  ingredientsList.find((i) => i._id === t.selectedId)?.name ||
+                  "";
+                return (
+                  <li key={index}>
+                    {ingredientName} — {t.amountValue}
+                    <button
+                      type="button"
+                      onClick={() => removeIngredient(index)}
+                      className={css.removeButton}
+                    >
+                      <Icon
+                        name="delete"
+                        width={32}
+                        height={32}
+                        color="#000000"
+                      />
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
 
           {/* <FieldArray name="ingredients">
