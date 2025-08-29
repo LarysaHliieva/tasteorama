@@ -168,7 +168,6 @@ textarea:focus {
 
 .removeButton {
   display: block;
-  margin-bottom: 24px;
 }
 
 .addButton:focus,
@@ -186,6 +185,24 @@ textarea:focus {
 .submitButton:active {
   box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px #fff;
   background: #9b6c43;
+}
+
+.ingredientsTable {
+  font-size: 16px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 40px;
+}
+
+.ingredientsTable td,
+.ingredientsTable th {
+  height: 44px;
+  border-bottom: 1px solid #c5c5c5;
+  text-align: left;
+}
+
+.deleteTr {
+  opacity: 0;
 }
 
 @media only screen and (min-width: 768px) {
@@ -314,6 +331,10 @@ textarea:focus {
   .fileInputNoImage {
     width: 100%;
     height: 383px;
+  }
+
+  .ingredientsTable {
+    width: 431px;
   }
 
   @media only screen and (min-width: 1225px) {
