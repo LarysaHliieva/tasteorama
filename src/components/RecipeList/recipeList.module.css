@@ -4,7 +4,6 @@
   justify-content: center;
   grid-template-columns: repeat(3, 288px);
   gap: 16px;
-  
 }
 
 @media (max-width: 767px) {

@@ -14,6 +14,7 @@ export function RecipeList({ recipes, page, totalPages, onLoadMore }) {
             thumb={recipe.thumb}
             time={recipe.time}
             calories={recipe.calories}
+            id={recipe._id}
           />
         ))}
       </div>
