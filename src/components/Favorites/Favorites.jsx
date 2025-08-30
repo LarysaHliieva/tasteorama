@@ -23,18 +23,16 @@ export default function Favorites() {
     // dispatch(getFavourite({ page: page + 1, limit: 12 }));
   };
 
-  // console.log(favourite);
-
   return (
     <div>
       <div className={css.counter}>96 recipes</div>
-      {/* <RecipeList
-        recipes={favourite}
+      <RecipeList
+        recipes={favorites}
         // page={page}
         // totalPages={totalPages}
         onLoadMore={loadMore}
         variant="favorites"
-      /> */}
+      />
     </div>
   );
 }

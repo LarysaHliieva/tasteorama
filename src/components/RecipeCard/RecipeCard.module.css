@@ -137,17 +137,17 @@
   gap: 4px;
 }
 .fav {
-  color: #6b7280;
+  color: #000000;
 }
 .favOn {
-  color: #9b6c43;
+  color: #ffffff;
   border-color: #9b6c43;
-  background: #fff5f5;
+  background-color: #9b6c43;
 }
 .favEmph {
   border-color: #9b6c43;
   background-color: #9b6c43;
-  color: #9b6c43;
+  color: #ffffff;
 }
 
 .details {
