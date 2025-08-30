@@ -84,11 +84,18 @@ export const getRecipes = createAsyncThunk(
 
 export const getFavorites = createAsyncThunk(
   "recipes/getFavorites",
+
   async (_, thunkAPI) => {
+    const storedData = JSON.parse(localStorage.getItem("user"));
+    const token =
+      storedData?.accessToken || "VaIZ6/w2OQTMnCs9e6AK8KcA+CWliL7oqgcur+1s";
+    console.log("Token before request:", token);
     try {
-      console.log("aaa");
-      const response = await axiosAPI.get("/favorites");
-      console.log(response);
+      const response = await axiosAPI.get("/favorites", {
+        headers: {
+          Authorization: `Bearer ${token}`, // передаємо токен явно
+        },
+      });
       return response.data.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
