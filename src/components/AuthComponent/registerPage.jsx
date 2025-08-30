@@ -24,8 +24,8 @@ const handleRegister = async (e) => {
     try {
         const res = await AuthAPI.register({ name, email, password, confirmPassword })
         console.log("REGISTER RESPONSE:", res.data)
-        localStorage.setItem("accessToken", res.data.accessToken)
-        localStorage.setItem("refreshToken", res.data.refreshToken)
+        localStorage.setItem("accessToken", res.data.data.accessToken)
+        localStorage.setItem("refreshToken", res.data.data.refreshToken)
         localStorage.setItem("user", JSON.stringify(res.data.data));
         
         dispatch(login(res.data.data))
