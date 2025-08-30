@@ -81,3 +81,16 @@ export const getRecipes = createAsyncThunk(
     }
   }
 );
+
+export const getFavorites = createAsyncThunk(
+  "recipes/getFavorites",
+
+  async (_, thunkAPI) => {
+    try {
+      const response = await axiosAPI.get("/favorites");
+      return response.data.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);
