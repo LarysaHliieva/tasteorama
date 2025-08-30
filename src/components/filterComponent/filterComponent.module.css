@@ -29,6 +29,10 @@
   font-weight: bold;
   border: none;
   cursor: pointer;
+  border-bottom: 1px solid black;
+}
+.resetBtnInModal{
+  align-self: flex-start;
 }
 
 .filterMobileBtn {
@@ -44,10 +48,12 @@
   border-radius: 6px;
   cursor: pointer;
 }
+
 @media (max-width: 1225px) {
   .rightSide {
     display: none;
   }
+
   .filterMobileBtn {
     display: flex;
     align-items: center;
@@ -57,6 +63,9 @@
 
 .filterClose {
   display: flex;
+  align-items: center;
+  margin: 0 0 0 auto;
+  font-weight: bold;
 }
 
 .filterModalOverlay {
@@ -76,8 +85,9 @@
   max-width: 400px;
 }
 
-.filterActions {
-  margin-top: 16px;
+.selectBody {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 24px;
+  margin: 29px 0 0 0;
 }

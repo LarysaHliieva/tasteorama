@@ -53,10 +53,10 @@ export const FilterSelect = () => {
 
   return (
     <>
-      <h1 className={css.name}>{recipesSearchQuery ? `Search Results for"${recipesSearchQuery}"`: "Recepice" }</h1>
+      <h1 className={css.name}>{recipesSearchQuery ? `Search Results for "${recipesSearchQuery}"`: "Recepice" }</h1>
       <div className={css.wrapper}>
         <div className={css.leftSide}>
-          <p>{`${selectedTotalItems}`}</p>
+          <p>{selectedTotalItems} recepis</p>
         </div>
 
         <div className={css.rightSide}>
@@ -80,7 +80,7 @@ export const FilterSelect = () => {
           />
         </div>
         <button className={css.filterMobileBtn} onClick={() => setIsOpen(true)}>
-          Filtrs <Icon name="filterMobile" width={24} height={24} />
+          Filters <Icon name="filterMobile" width={24} height={24} />
         </button>
 
         {isOpen && (
@@ -92,12 +92,13 @@ export const FilterSelect = () => {
               className={css.filterModal}
               onClick={(e) => e.stopPropagation()}
             >
-              <button type="button" className={css.filterClose}>
+              <button onClick={() => setIsOpen(false)} className={css.filterClose}>
                 Filters
                 <Icon name="close" width={24} height={24} />
               </button>
 
-              <Select
+              <div className={css.selectBody}>
+                <Select
                 isMulti
                 options={categoriesOptions}
                 value={selectedCategories}
@@ -111,12 +112,11 @@ export const FilterSelect = () => {
                 onChange={(val) => dispatch(setIngredients(val))}
                 placeholder="Select ingredients..."
               />
-
-              <div className={css.filterActions}>
-                <button className={css.resetBtn} onClick={handleReset}>
+                <button className={`${css.resetBtn} ${css.resetBtnInModal}`} onClick={handleReset}>
                   Reset filters
                 </button>
               </div>
+
             </div>
           </div>
         )}
