@@ -7,6 +7,13 @@ export const registerUser = createAsyncThunk('/auth/register',
     try {
       const response = await AuthAPI.register(payload)
       console.log("FULL REGISTER RESPONSE:", response.data)
+
+      const { accessToken, refreshToken, user } = response.data.data
+      
+      localStorage.setItem("accessToken", accessToken)
+      localStorage.setItem("refreshToken", refreshToken)
+      localStorage.setItem("user", JSON.stringify(user))
+
             return response.data.data
     } catch (error) {
       console.error("REGISTER ERROR:", error.response?.data || error.message)
