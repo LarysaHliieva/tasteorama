@@ -11,8 +11,9 @@ import {
   selectFiltersCategories,
   selectFiltersIngredients,
   selectIngredientsOptions,
+  selectSearchQuery,
 } from "../../redux/filters/selectors";
-import css from "../filterComponent/filterComponent.module.css";
+import css from "./filterComponent.module.css";
 import Icon from "../Icon/index";
 import {
   fetchCategories,
@@ -21,14 +22,16 @@ import {
 import { selectRecipesTotalItems } from "../../redux/recipes/selectors";
 import { getRecipes } from "../../redux/recipes/operations";
 
+
 export const FilterSelect = () => {
   const dispatch = useDispatch();
 
-  const selectedTotalItems = useSelector(selectRecipesTotalItems)
+  const selectedTotalItems = useSelector(selectRecipesTotalItems);
   const selectedCategories = useSelector(selectFiltersCategories);
   const selectedIngredients = useSelector(selectFiltersIngredients);
   const categoriesOptions = useSelector(selectCategoriesOptions);
   const ingredientsOptions = useSelector(selectIngredientsOptions);
+  const recipesSearchQuery = useSelector(selectSearchQuery);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -39,19 +42,26 @@ export const FilterSelect = () => {
 
   const handleReset = () => {
     dispatch(resetFilters());
-    dispatch(getRecipes({ page: 1, limit: 12, filters: { categories: [], ingredients: [], searchQuery: "" } }));
+    dispatch(
+      getRecipes({
+        page: 1,
+        limit: 12,
+        filters: { categories: [], ingredients: [], searchQuery: "" },
+      })
+    );
   };
 
   return (
-    <div className={css.container}>
+    <>
+      <h1 className={css.name}>{recipesSearchQuery ? `Search Results for"${recipesSearchQuery}"`: "Recepice" }</h1>
       <div className={css.wrapper}>
         <div className={css.leftSide}>
-          <h1>Recepice {`${selectedTotalItems}`}</h1>
+          <p>{`${selectedTotalItems}`}</p>
         </div>
 
         <div className={css.rightSide}>
           <button className={css.resetBtn} type="button" onClick={handleReset}>
-            Reset filter
+            Reset filters
           </button>
 
           <Select
@@ -70,7 +80,7 @@ export const FilterSelect = () => {
           />
         </div>
         <button className={css.filterMobileBtn} onClick={() => setIsOpen(true)}>
-          <Icon name="filterMobile" width={24} height={24} /> Filtrs{" "}
+          Filtrs <Icon name="filterMobile" width={24} height={24} />
         </button>
 
         {isOpen && (
@@ -82,7 +92,10 @@ export const FilterSelect = () => {
               className={css.filterModal}
               onClick={(e) => e.stopPropagation()}
             >
-              <h2>Фільтри</h2>
+              <button type="button" className={css.filterClose}>
+                Filters
+                <Icon name="close" width={24} height={24} />
+              </button>
 
               <Select
                 isMulti
@@ -101,13 +114,13 @@ export const FilterSelect = () => {
 
               <div className={css.filterActions}>
                 <button className={css.resetBtn} onClick={handleReset}>
-                  Reset
+                  Reset filters
                 </button>
               </div>
             </div>
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 };

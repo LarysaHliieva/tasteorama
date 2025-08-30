@@ -2,11 +2,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
+  width: 100%;
 }
 
-.leftSide h1 {
-  font-size: 24px;
+.name {
+  /* display: flex; */
+  font-size: 40px;
+}
+
+.leftSide {
+  font-size: 18px;
+  font-weight: 600;
+  font-weight: bold;
 }
 
 .rightSide {
@@ -17,13 +24,17 @@
 
 .resetBtn {
   color: black;
-  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  font-weight: bold;
   border: none;
-  border-radius: 6px;
   cursor: pointer;
 }
 
 .filterMobileBtn {
+  font-size: 18px;
+  font-weight: 600;
+  font-weight: bold;
   display: none;
   align-items: center;
   gap: 8px;
@@ -44,10 +55,14 @@
   }
 }
 
+.filterClose {
+  display: flex;
+}
+
 .filterModalOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,24 +80,4 @@
   margin-top: 16px;
   display: flex;
   justify-content: space-between;
-}
-
-
-@media only screen and (min-width: 393px) {
-  .wrapper {
-    max-width: 393px;
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  .wrapper {
-    max-width: 768px;
-    padding: 0 32px;
-  }
-}
-
-@media only screen and (min-width: 1225px) {
-  .wrapper {
-    max-width: 1225px;
-  }
 }
