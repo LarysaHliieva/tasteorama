@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { FadeLoader } from "react-spinners";
 
 import Icon from "../Icon/index.jsx";
 
@@ -11,51 +12,59 @@ import {
 } from "../../redux/recipes/operations.js";
 
 import { selectIsLoggedIn } from "../../redux/auth/selectors.js";
-// import { selectUser } from "../../redux/auth/selectors.js"; //-------імпортувати з юзерів
+import { selectUser } from "../../redux/auth/selectors.js";
+import { selectCurrentRecipe } from "../../redux/recipes/selectors.js";
+import { clearCurrentRecipe } from "../../redux/recipes/slice.js";
 
 import css from "./RecipeDetails.module.css";
 
-// import { selectCurrentRecipe } from "../../redux/recepies/selectors.js";
-
-// delete after connection api
-import { recipes } from "../../utils/recipes.js";
-
 const RecipeDetails = () => {
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
   const { id } = useParams();
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  // const recipe = useSelector(selectCurrentRecipe);
+  const recipe = useSelector(selectCurrentRecipe);
+  const user = useSelector(selectUser);
 
-  // const user = useSelector(selectUser); //---------треба буде витягнути з юзера
-  // const isFavorite = user?.favorites?.some((favId) => favId === id); //-----------тут перевіримо, чи рецепт в улюблених в користувача
-  const isFavorite = true; // ---------заглушка
-
-  // delete after connection api
-  const recipe = recipes[0];
+  const isFavorite = user?.favorites?.some((favId) => favId === id) ?? false;
 
   useEffect(() => {
+    dispatch(clearCurrentRecipe());
     dispatch(getRecipeById(id));
   }, [dispatch, id]);
 
-  if (!recipe) {
-    return <p>Loading...</p>;
-  }
-
-  const { title, category, instructions, description, thumb, time } = recipe;
-
   const handleClick = () => {
+    console.log("🚀 ~ RecipeDetails ~ user:", user);
     if (!isLoggedIn) {
       navigate("/auth");
       return;
     }
 
-    isFavorite
-      ? dispatch(removeFromFavorites(id))
-      : dispatch(addToFavorites(id));
+    if (isFavorite) {
+      dispatch(removeFromFavorites(id));
+    } else {
+      dispatch(addToFavorites(id));
+    }
   };
+
+  if (!recipe) {
+    return (
+      <div className={css.loaderWrap}>
+        <FadeLoader color="#9b6c43" />
+      </div>
+    );
+  }
+
+  const {
+    title,
+    category,
+    instructions,
+    description,
+    thumb,
+    time,
+    ingredients,
+  } = recipe;
 
   return (
     <div className={css.section}>
@@ -112,21 +121,9 @@ const RecipeDetails = () => {
             <h2 className={css.title}>About recipe</h2>
             <p className={css.text}>{description}</p>
             <h2 className={css.title}>Ingredients:</h2>
-            {/* <ul className={css.ingrediensList}>
-              <li className={css.ingredientsItem}>Eggs — 3</li>
-              <li className={css.ingredientsItem}>
-                Butter — 1 tbsp (about 15 g)
-              </li>
-              <li className={css.ingredientsItem}>Salt — a pinch</li>
-              <li className={css.ingredientsItem}>Black pepper — to taste</li>
-              <li className={css.ingredientsItem}>
-                Fresh herbs (parsley, dill, or green onions) — for garnish
-                (optional)
-              </li>
-            </ul> */}
 
             <ul className={css.ingrediensList}>
-              {recipe.ingredients.map((ing) => (
+              {ingredients.map((ing) => (
                 <li key={ing.id._id} className={css.ingredientsItem}>
                   {ing.id.name} — {ing.measure}
                 </li>
