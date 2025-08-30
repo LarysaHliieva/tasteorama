@@ -1,14 +1,13 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import {  useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
 import { selectIsLoggedIn } from "../../redux/auth/selectors.js";
 import Icon from "../Icon/index.jsx";
 import Modal from "../Modal/Modal.jsx";
 import BurgerMenu from "./BurgerMenu";
 import BurgerMenuAuth from "./BurgerMenuAuth";
-
 import css from "./Header.module.css";
-import Logout from "../AuthComponent/logout.jsx";
+import { logoutUser } from "../../redux/auth/operations.js";
 const Header = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   // !!! МІСЦЕ ДЛЯ ПІДКЛЮЧЕННЯ REDUX (Потрібно розкоментувати програмісту) !!!
@@ -31,8 +30,8 @@ const Header = () => {
     return name ? name.charAt(0).toUpperCase() : "?";
   };
 
-  const logout = Logout()
-
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   return (
     <>
       <header className={css.header}>
@@ -142,8 +141,11 @@ const Header = () => {
         title="Are you shure?"
         desc="We will miss you!"
         confirmText="Log out"
-        onConfirm={() => logout()}
-      />
+        onConfirm={() => {
+    dispatch(logoutUser()).unwrap().then(() => {
+      navigate("/auth/login")
+    })
+  }}      />
     </>
   );
 };

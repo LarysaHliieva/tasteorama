@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { AuthAPI } from "../../api/auth.js";
 import { Link, useNavigate } from "react-router-dom";
-
 import { useDispatch } from "react-redux";
-import { login } from "../../redux/auth/slice.js";
-
+import { registerUser } from "../../redux/auth/operations.js";
+import { loginUser } from "../../redux/auth/operations.js";
 
 
 export default function RegisterPage() {
@@ -18,27 +16,18 @@ export default function RegisterPage() {
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
+  const handleRegister = (e) => {
+    e.preventDefault();
+    setError("");
 
-const handleRegister = async (e) => {
-    e.preventDefault()
-    try {
-        const res = await AuthAPI.register({ name, email, password, confirmPassword })
-        console.log("REGISTER RESPONSE:", res.data)
-        localStorage.setItem("accessToken", res.data.accessToken)
-        localStorage.setItem("refreshToken", res.data.refreshToken)
-        localStorage.setItem("user", JSON.stringify(res.data.data));
-        
-        dispatch(login(res.data.data))
-        navigate('/')
-    } catch (err) {
-        if (err.response) {
-            const messages = err.response.data.errors || [err.response.data.message]
-            setError(messages.join(", "))
-        }
-    }
-    
-    };
-
+    dispatch(registerUser({ name, email, password, confirmPassword }))
+      .unwrap()
+      .then(() => dispatch(loginUser({ email, password })).unwrap())
+      .then(() => navigate("/"))
+      .catch((err) =>
+        setError(typeof err === "string" ? err : err?.message || "Register failed")
+      );
+  };
 
     return (
         <div>
@@ -100,3 +89,20 @@ const handleRegister = async (e) => {
         </div>
     )
 }
+
+
+
+//  try {
+//         const res = await AuthAPI.register({ name, email, password, confirmPassword })
+//         console.log("REGISTER RESPONSE:", res.data)
+//         localStorage.setItem("accessToken", res.data.accessToken)
+//         localStorage.setItem("refreshToken", res.data.refreshToken)
+//         localStorage.setItem("user", JSON.stringify(res.data.data));
+        
+//         dispatch(login(res.data.data))
+//         navigate('/')
+//     } catch (err) {
+//         if (err.response) {
+//             const messages = err.response.data.errors || [err.response.data.message]
+//             setError(messages.join(", "))
+//         }

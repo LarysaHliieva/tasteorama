@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { AuthAPI } from "../../api/auth.js";
 import { Link, useNavigate } from "react-router-dom";
-
 import { useDispatch } from "react-redux";
-import { login } from "../../redux/auth/slice.js";
+import { loginUser } from "../../redux/auth/operations.js";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("")
@@ -13,23 +11,16 @@ export default function LoginPage() {
     const dispatch = useDispatch()
     
 
-    const handleLogin = async (e) => {
-    e.preventDefault()
-    try {
-        const res = await AuthAPI.login({ email, password })
-        localStorage.setItem("accessToken", res.data.accessToken)
-        localStorage.setItem("refreshToken", res.data.refreshToken)
-        localStorage.setItem("user", JSON.stringify(res.data.data))
-        dispatch(login(res.data.data))
-        navigate('/')
-    } catch (err) {
-            if (err.response) {
-            const messages = err.response.data.errors || [err.response.data.message]
-            setError(messages.join(", "))
-        
-        }
-    }
-}
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setError("");
+    dispatch(loginUser({ email, password }))
+      .unwrap()
+      .then(() => navigate("/"))
+      .catch((err) => {
+        setError(typeof err === "string" ? err : err?.message || "Login failed");
+      });
+  };
 
     return (
         <div>
