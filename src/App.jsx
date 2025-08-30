@@ -13,6 +13,7 @@ import Own from "./components/Own/Own.jsx";
 import Favorites from "./components/Favorites/Favorites.jsx";
 import RegisterPage from "./components/AuthComponent/registerPage.jsx";
 import LoginPage from "./components/AuthComponent/loginPage.jsx";
+import NotFound from "./components/NotFound/NotFound.jsx";
 
 function App() {
   return (
@@ -37,9 +38,10 @@ function App() {
             path="/auth"
             element={<RestrictedRoute component={<AuthPage />} />}
           >
-            <Route path="register" element={<RegisterPage/>} />
-            <Route path="login" element={<LoginPage/>} />
+            <Route path="register" element={<RegisterPage />} />
+            <Route path="login" element={<LoginPage />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>

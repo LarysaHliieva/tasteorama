@@ -1,25 +1,25 @@
-import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
+import { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+
+import Icon from "../Icon/index.jsx";
 
 import css from "./AddRecipeForm.module.css";
 
-// export const createRecipe = async (recipe) => {
-//   const formData = new FormData();
-//   Object.keys(recipe).forEach((key) => {
-//     if (key === "ingredients") {
-//       formData.append(key, JSON.stringify(recipe[key]));
-//     } else {
-//       formData.append(key, recipe[key]);
-//     }
-//   });
-
-//   const { data } = await axios.post(API_URL, formData, {
-//     headers: { "Content-Type": "multipart/form-data" },
-//   });
-//   return data;
-// };
+// тимчасово, потім підключити фільтри та категорії з беку
+import { ingredients as ingredientsList } from "../../utils/ingredients.js";
+import { categories as categoriesList } from "../../utils/categories.js";
 
 export default function AddRecipeForm() {
+  const [tempIngredients, setTempIngredients] = useState([]);
+
+  const addIngredient = (ingredient, amount) => {
+    if (!ingredient || !amount) return;
+    setTempIngredients([...tempIngredients, { ingredient, amount }]);
+  };
+  const removeIngredient = (index) =>
+    setTempIngredients(tempIngredients.filter((_, i) => i !== index));
+
   return (
     <Formik
       initialValues={{
@@ -31,6 +31,8 @@ export default function AddRecipeForm() {
         ingredients: [],
         instructions: "",
         image: null,
+        ingredient: "",
+        amount: "",
       }}
       validationSchema={Yup.object({
         title: Yup.string().required("Required"),
@@ -39,15 +41,14 @@ export default function AddRecipeForm() {
         category: Yup.string().required("Required"),
         instructions: Yup.string().required("Required"),
       })}
-      onSubmit={async (values, { setSubmitting }) => {
-        try {
-          // await createRecipe(values);
-          alert("Recipe added successfully!");
-          window.location.href = "/recipes";
-        } catch (err) {
-          alert("Error: " + err.message);
-        }
-        setSubmitting(false);
+      onSubmit={(values) => {
+        const ingredients = tempIngredients.map((t) => ({
+          _id: t.ingredient,
+          amount: t.amount,
+        }));
+        const { ingredient, amount, ...rest } = values;
+        const payload = { ...rest, ingredients };
+        console.log(payload);
       }}
     >
       {({ values, setFieldValue }) => (
@@ -55,23 +56,35 @@ export default function AddRecipeForm() {
           <div className={css.ContentRightImg}>
             <h3 className={css.upload}>Upload Photo</h3>
             <input
+              id="fileInput"
               type="file"
               onChange={(e) => setFieldValue("image", e.target.files[0])}
               className={css.fileInput}
+              hidden
             />
-            {values.image && (
-              <img
-                src={URL.createObjectURL(values.image)}
-                alt="preview"
-                className={css.preview}
-              />
-            )}
+            <div className={css.fileInputNoImage}>
+              <label htmlFor="fileInput">
+                {values.image ? (
+                  <img
+                    src={URL.createObjectURL(values.image)}
+                    alt="preview"
+                    className={css.preview}
+                  />
+                ) : (
+                  <Icon name="icon-bag" width={96} height={80} />
+                )}
+              </label>
+            </div>
           </div>
           <div className={css.contentLeft}>
             <div className={css.fieldGroup}>
               <h3 className={css.subtitle}>General Information</h3>
               <label className={css.label}>Recipe Title</label>
-              <Field name="title" className={css.input} />
+              <Field
+                name="title"
+                className={css.input}
+                placeholder="Enter the name of your recipe"
+              />
               <ErrorMessage
                 name="title"
                 component="div"
@@ -85,6 +98,7 @@ export default function AddRecipeForm() {
                 as="textarea"
                 name="description"
                 className={css.textarea}
+                placeholder="Enter a brief description of your recipe"
               />
             </div>
 
@@ -96,71 +110,99 @@ export default function AddRecipeForm() {
             <div className={css.wraperCalories}>
               <div>
                 <label className={css.label}>Calories</label>
-                <Field
-                  name="cookingCalories"
-                  type="numder"
-                  className={css.cooking}
-                />
+                <Field name="calories" type="number" className={css.cooking} />
               </div>
               <div>
                 <label className={css.label}>Category</label>
-                <Field as="select" name="category" className={css.select} />
+                <Field as="select" name="category" className={css.select}>
+                  <option value="">Select a category</option>
+                  {categoriesList.map((opt) => (
+                    <option key={opt._id} value={opt._id}>
+                      {opt.name}
+                    </option>
+                  ))}
+                </Field>
               </div>
             </div>
           </div>
 
           <div className={css.ingredients}>
             <h3 className={css.igradientTitle}>Ingredients</h3>
-            <FieldArray name="ingredients">
-              {({ push, remove }) => (
-                <div>
-                  {values.ingredients.map((_, index) => (
-                    <div key={index} className={css.ingredientItem}>
-                      <div className={css.leftGroup}>
-                        <label className={css.labelIngradients}>Name</label>
-                        <Field
-                          name={`ingredients.${index}.name`}
-                          placeholder="Name"
-                          className={css.inputName}
-                        />
-                      </div>
-                      <div className={css.rightGroup}>
-                        <label className={css.labelIngradients}>Amount</label>
-                        <div>
-                          <Field
-                            name={`ingredients.${index}.amount`}
-                            placeholder="Amount"
-                            className={css.inputAmount}
+            <div className={css.wraperIngredients}>
+              <Field as="select" name="ingredient" className={css.select}>
+                <option value="">Select an ingredient</option>
+                {ingredientsList.map((opt) => (
+                  <option key={opt._id} value={opt._id}>
+                    {opt.name}
+                  </option>
+                ))}
+              </Field>
+
+              <Field
+                name="amount"
+                placeholder="Amount"
+                className={css.inputAmount}
+                type="number"
+              />
+            </div>
+            <div className={css.addButtonWraper}>
+              <button
+                type="button"
+                onClick={() => {
+                  addIngredient(values.ingredient, values.amount);
+                  setFieldValue("ingredient", "");
+                  setFieldValue("amount", "");
+                }}
+                className={css.addButton}
+              >
+                Add new Ingredient
+              </button>
+            </div>
+            <table className={css.ingredientsTable}>
+              <thead>
+                <tr>
+                  <th width="50%">Name</th>
+                  <th width="30%">Amount</th>
+                  <th width="20%" className={css.deleteTr}>
+                    Delete
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {tempIngredients.map((t, index) => {
+                  const ingredientName =
+                    ingredientsList.find((i) => i._id === t.ingredient)?.name ||
+                    "";
+                  return (
+                    <tr key={index}>
+                      <td width="50%">{ingredientName}</td>
+                      <td width="30%">{t.amount}</td>
+                      <td width="20%">
+                        <button
+                          type="button"
+                          onClick={() => removeIngredient(index)}
+                          className={css.removeButton}
+                        >
+                          <Icon
+                            name="delete"
+                            width={32}
+                            height={32}
+                            color="#000000"
                           />
-                          <button
-                            type="button"
-                            onClick={() => remove(index)}
-                            className={css.removeButton}
-                          >
-                            X
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  <div className={css.addButtonWraper}>
-                    <button
-                      type="button"
-                      onClick={() => push({ name: "", amount: "" })}
-                      className={css.addButton}
-                    >
-                      Add new Ingredient
-                    </button>
-                  </div>
-                </div>
-              )}
-            </FieldArray>
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
+
           <div>
             <h3 className={css.InstructionsTitle}>Instructions</h3>
             <Field
               as="textarea"
-              name="description"
+              name="instructions"
               className={css.InstructionsText}
               placeholder="Enter a text"
             />
