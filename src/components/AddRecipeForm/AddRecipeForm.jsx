@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -6,16 +7,34 @@ import Icon from "../Icon/index.jsx";
 
 import css from "./AddRecipeForm.module.css";
 
-// тимчасово, потім підключити фільтри та категорії з беку
-import { ingredients as ingredientsList } from "../../utils/ingredients.js";
-import { categories as categoriesList } from "../../utils/categories.js";
+import {
+  selectCategoriesOptions,
+  selectIngredientsOptions,
+} from "../../redux/filters/selectors";
+
+import {
+  fetchCategories,
+  fetchIngredients,
+} from "../../redux/filters/operations";
 
 export default function AddRecipeForm() {
   const [tempIngredients, setTempIngredients] = useState([]);
 
+  const dispatch = useDispatch();
+
+  const categoriesOptions = useSelector(selectCategoriesOptions);
+  const ingredientsOptions = useSelector(selectIngredientsOptions);
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+    dispatch(fetchIngredients());
+  }, [dispatch]);
+
   const addIngredient = (ingredient, amount) => {
     if (!ingredient || !amount) return;
-    setTempIngredients([...tempIngredients, { ingredient, amount }]);
+    const label =
+      ingredientsOptions.find((i) => i.value === ingredient)?.label || "";
+    setTempIngredients([...tempIngredients, { ingredient, label, amount }]);
   };
   const removeIngredient = (index) =>
     setTempIngredients(tempIngredients.filter((_, i) => i !== index));
@@ -75,13 +94,14 @@ export default function AddRecipeForm() {
           )
           .nullable(),
       })}
-      onSubmit={(values) => {
+      onSubmit={(values, { setFieldValue }) => {
         const ingredients = tempIngredients.map((t) => ({
           _id: t.ingredient,
           amount: t.amount,
         }));
+
         const { ingredient, amount, ...rest } = values;
-        const payload = { ...rest, ingredients };
+        const payload = { ...rest, ingredients: syncedIngredients };
         console.log(payload);
       }}
     >
@@ -155,9 +175,9 @@ export default function AddRecipeForm() {
                 <label className={css.label}>Category</label>
                 <Field as="select" name="category" className={css.select}>
                   <option value="">Select a category</option>
-                  {categoriesList.map((opt) => (
-                    <option key={opt._id} value={opt._id}>
-                      {opt.name}
+                  {categoriesOptions.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
                     </option>
                   ))}
                 </Field>
@@ -170,9 +190,9 @@ export default function AddRecipeForm() {
             <div className={css.wraperIngredients}>
               <Field as="select" name="ingredient" className={css.select}>
                 <option value="">Select an ingredient</option>
-                {ingredientsList.map((opt) => (
-                  <option key={opt._id} value={opt._id}>
-                    {opt.name}
+                {ingredientsOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
                   </option>
                 ))}
               </Field>
@@ -209,12 +229,9 @@ export default function AddRecipeForm() {
               </thead>
               <tbody>
                 {tempIngredients.map((t, index) => {
-                  const ingredientName =
-                    ingredientsList.find((i) => i._id === t.ingredient)?.name ||
-                    "";
                   return (
                     <tr key={index}>
-                      <td width="50%">{ingredientName}</td>
+                      <td width="50%">{t.label}</td>
                       <td width="30%">{t.amount}</td>
                       <td width="20%">
                         <button
