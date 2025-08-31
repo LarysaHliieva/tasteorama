@@ -70,17 +70,16 @@ export default function AddRecipeForm() {
 
         category: Yup.string().required("Required"),
 
-        ingredients: Yup.array()
-          .of(
-            Yup.object({
-              name: Yup.string().required("Ingredient name is required"),
-              amount: Yup.number()
-                .min(2, "Min amount is 2")
-                .max(16, "Max amount is 16")
-                .required("Ingredient amount is required"),
-            })
-          )
-          // .min(1, "At least one ingredient is required"),
+        ingredients: Yup.array().of(
+          Yup.object({
+            name: Yup.string().required("Ingredient name is required"),
+            amount: Yup.number()
+              .min(2, "Min amount is 2")
+              .max(16, "Max amount is 16")
+              .required("Ingredient amount is required"),
+          })
+        ),
+        // .min(1, "At least one ingredient is required")
 
         instructions: Yup.string()
           .max(1200, "Max 1200 characters")
