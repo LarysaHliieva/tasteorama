@@ -95,11 +95,12 @@ export default function AddRecipeForm() {
           .nullable(),
       })}
       onSubmit={(values, { setFieldValue }) => {
-        const ingredients = tempIngredients.map((t) => ({
-          _id: t.ingredient,
+        const syncedIngredients = tempIngredients.map((t) => ({
+          name: t.label,
           amount: t.amount,
         }));
 
+        setFieldValue("ingredients", syncedIngredients, false);
         const { ingredient, amount, ...rest } = values;
         const payload = { ...rest, ingredients: syncedIngredients };
         console.log(payload);
