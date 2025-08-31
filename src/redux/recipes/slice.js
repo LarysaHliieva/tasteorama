@@ -5,6 +5,7 @@ import {
   getRecipes,
   removeFromFavorites,
   getFavorites,
+  getOwn,
 } from "./operations.js";
 
 const handlePending = (state) => {
@@ -61,6 +62,7 @@ const recipesSlice = createSlice({
         state.favorite = action.payload;
       })
       .addCase(removeFromFavorites.rejected, handleRejected)
+
       .addCase(getRecipes.pending, handlePending)
       .addCase(getRecipes.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -74,12 +76,32 @@ const recipesSlice = createSlice({
 
         state.pagination = pagination;
       })
+
       .addCase(getFavorites.pending, handlePending)
       .addCase(getFavorites.fulfilled, (state, action) => {
         state.isLoading = false;
         state.favorite = action.payload;
       })
-      .addCase(getFavorites.rejected, handleRejected);
+      .addCase(getFavorites.rejected, handleRejected)
+
+      .addCase(getOwn.pending, handlePending)
+      .addCase(getOwn.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const { data, page, totalPages, totalItems } = action.payload;
+
+        if (page === 1) {
+          state.favorite = data;
+        } else {
+          state.favorite = [...state.favorite, ...data];
+        }
+
+        state.pagination = {
+          page,
+          totalPages,
+          totalItems,
+        };
+      })
+      .addCase(getOwn.rejected, handleRejected);
   },
 });
 

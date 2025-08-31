@@ -11,7 +11,6 @@ export default function RecipeCard({
   time,
   calories,
   isFavorite = false,
-  onOpen,
   onToggleFavorite,
   id,
 }) {
@@ -29,12 +28,7 @@ export default function RecipeCard({
   const showFavorite = variant !== "details";
 
   return (
-    <article
-      className={cls}
-      role="group"
-      aria-label={title}
-      onClick={() => onOpen?.()}
-    >
+    <article className={cls} role="group" aria-label={title}>
       <div className={css.imgWrap}>
         {thumb ? (
           <img src={thumb} alt={title} loading="lazy" />
@@ -88,12 +82,7 @@ export default function RecipeCard({
             }
             onClick={() => onToggleFavorite?.()}
           >
-            <Icon
-              name="bookmark-alternative"
-              width={24}
-              height={24}
-              color={variant === "favorites" ? "#fff" : "#000000"}
-            />
+            <Icon name="bookmark-alternative" width={24} height={24} />
           </button>
         )}
       </div>

@@ -26,6 +26,9 @@
   height: 383px;
   background-color: grey;
   margin-bottom: 24px;
+}
+
+.addFile {
   cursor: pointer;
 }
 

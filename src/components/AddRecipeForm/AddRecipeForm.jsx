@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -6,16 +7,34 @@ import Icon from "../Icon/index.jsx";
 
 import css from "./AddRecipeForm.module.css";
 
-// тимчасово, потім підключити фільтри та категорії з беку
-import { ingredients as ingredientsList } from "../../utils/ingredients.js";
-import { categories as categoriesList } from "../../utils/categories.js";
+import {
+  selectCategoriesOptions,
+  selectIngredientsOptions,
+} from "../../redux/filters/selectors";
+
+import {
+  fetchCategories,
+  fetchIngredients,
+} from "../../redux/filters/operations";
 
 export default function AddRecipeForm() {
   const [tempIngredients, setTempIngredients] = useState([]);
 
+  const dispatch = useDispatch();
+
+  const categoriesOptions = useSelector(selectCategoriesOptions);
+  const ingredientsOptions = useSelector(selectIngredientsOptions);
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+    dispatch(fetchIngredients());
+  }, [dispatch]);
+
   const addIngredient = (ingredient, amount) => {
     if (!ingredient || !amount) return;
-    setTempIngredients([...tempIngredients, { ingredient, amount }]);
+    const label =
+      ingredientsOptions.find((i) => i.value === ingredient)?.label || "";
+    setTempIngredients([...tempIngredients, { ingredient, label, amount }]);
   };
   const removeIngredient = (index) =>
     setTempIngredients(tempIngredients.filter((_, i) => i !== index));
@@ -35,19 +54,55 @@ export default function AddRecipeForm() {
         amount: "",
       }}
       validationSchema={Yup.object({
-        title: Yup.string().required("Required"),
-        description: Yup.string().required("Required"),
-        cookingTime: Yup.number().required("Required"),
+        title: Yup.string().max(64).required("Required"),
+        description: Yup.string()
+          .max(200, "Max 200 characters")
+          .required("Description is required"),
+
+        cookingTime: Yup.number()
+          .min(1, "Min 1 minute")
+          .max(360, "Max 360 minutes")
+          .required("time in minutes"),
+
+        calories: Yup.number()
+          .min(1, "Min 1 kcal")
+          .max(10000, "Max 10000 kcal"),
+
         category: Yup.string().required("Required"),
-        instructions: Yup.string().required("Required"),
+
+        ingredients: Yup.array()
+          .of(
+            Yup.object({
+              name: Yup.string().required("Ingredient name is required"),
+              amount: Yup.number()
+                .min(2, "Min amount is 2")
+                .max(16, "Max amount is 16")
+                .required("Ingredient amount is required"),
+            })
+          )
+          .min(1, "At least one ingredient is required"),
+
+        instructions: Yup.string()
+          .max(1200, "Max 1200 characters")
+          .required("Instructions are required"),
+
+        image: Yup.mixed()
+          .test(
+            "fileSize",
+            "File too large (max 2MB)",
+            (value) => !value || (value && value.size <= 2 * 1024 * 1024)
+          )
+          .nullable(),
       })}
-      onSubmit={(values) => {
-        const ingredients = tempIngredients.map((t) => ({
-          _id: t.ingredient,
+      onSubmit={(values, { setFieldValue }) => {
+        const syncedIngredients = tempIngredients.map((t) => ({
+          name: t.label,
           amount: t.amount,
         }));
+
+        setFieldValue("ingredients", syncedIngredients, false);
         const { ingredient, amount, ...rest } = values;
-        const payload = { ...rest, ingredients };
+        const payload = { ...rest, ingredients: syncedIngredients };
         console.log(payload);
       }}
     >
@@ -71,7 +126,12 @@ export default function AddRecipeForm() {
                     className={css.preview}
                   />
                 ) : (
-                  <Icon name="icon-bag" width={96} height={80} />
+                  <Icon
+                    name="icon-bag"
+                    width={96}
+                    height={80}
+                    className={css.addFile}
+                  />
                 )}
               </label>
             </div>
@@ -116,9 +176,9 @@ export default function AddRecipeForm() {
                 <label className={css.label}>Category</label>
                 <Field as="select" name="category" className={css.select}>
                   <option value="">Select a category</option>
-                  {categoriesList.map((opt) => (
-                    <option key={opt._id} value={opt._id}>
-                      {opt.name}
+                  {categoriesOptions.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
                     </option>
                   ))}
                 </Field>
@@ -131,9 +191,9 @@ export default function AddRecipeForm() {
             <div className={css.wraperIngredients}>
               <Field as="select" name="ingredient" className={css.select}>
                 <option value="">Select an ingredient</option>
-                {ingredientsList.map((opt) => (
-                  <option key={opt._id} value={opt._id}>
-                    {opt.name}
+                {ingredientsOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
                   </option>
                 ))}
               </Field>
@@ -170,12 +230,9 @@ export default function AddRecipeForm() {
               </thead>
               <tbody>
                 {tempIngredients.map((t, index) => {
-                  const ingredientName =
-                    ingredientsList.find((i) => i._id === t.ingredient)?.name ||
-                    "";
                   return (
                     <tr key={index}>
-                      <td width="50%">{ingredientName}</td>
+                      <td width="50%">{t.label}</td>
                       <td width="30%">{t.amount}</td>
                       <td width="20%">
                         <button
