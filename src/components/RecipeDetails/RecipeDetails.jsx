@@ -26,6 +26,7 @@ const RecipeDetails = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const recipe = useSelector(selectCurrentRecipe);
   const user = useSelector(selectUser);
+  const { error, isLoading } = useSelector((state) => state.recipes);
 
   const isFavorite = user?.favorites?.some((favId) => favId === id) ?? false;
 
@@ -34,8 +35,13 @@ const RecipeDetails = () => {
     dispatch(getRecipeById(id));
   }, [dispatch, id]);
 
+  useEffect(() => {
+    if (error) {
+      navigate("/not-found");
+    }
+  }, [error, navigate]);
+
   const handleClick = () => {
-    console.log("🚀 ~ RecipeDetails ~ user:", user);
     if (!isLoggedIn) {
       navigate("/auth");
       return;
@@ -48,7 +54,7 @@ const RecipeDetails = () => {
     }
   };
 
-  if (!recipe) {
+  if (isLoading || !recipe) {
     return (
       <div className={css.loaderWrap}>
         <FadeLoader color="#9b6c43" />
