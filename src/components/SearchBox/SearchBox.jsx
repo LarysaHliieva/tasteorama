@@ -1,19 +1,25 @@
 import css from "./SearchBox.module.css";
 import * as Yup from "yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { changeSearch } from "../../redux/filters/slice";
 import { selectSearchQuery } from "../../redux/filters/selectors";
 
-export default function SearchBox() {  
+export default function SearchBox() {
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
 
   const search = useSelector(selectSearchQuery);
   const dispatch = useDispatch();
 
-  const handleChange = (e) => {    
+  useEffect(() => {
+    if (search) return;
+    setInputValue("");
+    setError("")
+  }, [search]);
+  
+  const handleChange = (e) => {
     setInputValue(e.target.value);
     setError("");
   };
@@ -31,10 +37,9 @@ export default function SearchBox() {
       await validationSchema.validate(inputValue);
       setError("");
 
-      dispatch(changeSearch(inputValue))
+      dispatch(changeSearch(inputValue));
       console.log("Find recipe here:", search);
-
-
+      setInputValue("");
     } catch (validationError) {
       setError(validationError.message);
     }

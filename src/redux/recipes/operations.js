@@ -1,5 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
+import toast from "react-hot-toast";
+
 import axiosAPI from "../../services/api.js";
 
 export const getRecipeById = createAsyncThunk(
@@ -18,7 +20,7 @@ export const addToFavorites = createAsyncThunk(
   "recipes/addToFavorites",
   async (recipeId, thunkAPI) => {
     try {
-      const response = await axiosAPI.post(`/recipes/favorites/${recipeId}`);
+      const response = await axiosAPI.post(`/favorites/${recipeId}`);
       return response.data.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -30,7 +32,7 @@ export const removeFromFavorites = createAsyncThunk(
   "recipes/removeFromFavorites",
   async (recipeId, thunkAPI) => {
     try {
-      const response = await axiosAPI.delete(`/recipes/favorites/${recipeId}`);
+      const response = await axiosAPI.delete(`/favorites/${recipeId}`);
       return response.data.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -65,7 +67,7 @@ export const getRecipes = createAsyncThunk(
       }
       const response = await axiosAPI.get(`/recipes?${params}`);
       const data = response.data?.data;
-      console.log(filters)
+      console.log(filters);
       return {
         recipes: data?.recipes || [],
         pagination: {
@@ -74,11 +76,38 @@ export const getRecipes = createAsyncThunk(
           totalItems: data?.total || 0,
         },
       };
-      
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || error.message
       );
+    }
+  }
+);
+
+export const getFavorites = createAsyncThunk(
+  "recipes/getFavorites",
+
+  async (_, thunkAPI) => {
+    try {
+      const response = await axiosAPI.get("/favorites");
+      return response.data.data;
+    } catch (error) {
+      toast.error(error.response?.data?.messages || "Something went wrong!");
+      return thunkAPI.rejectWithValue(error.response?.data?.messages);
+    }
+  }
+);
+
+export const getOwn = createAsyncThunk(
+  "recipes/getOwn",
+
+  async (_, thunkAPI) => {
+    try {
+      const response = await axiosAPI.get("/recipes/my");
+      return response.data;
+    } catch (error) {
+      toast.error(error.response?.data?.messages || "Something went wrong!");
+      return thunkAPI.rejectWithValue(error.response?.data?.messages);
     }
   }
 );

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { selectIsLoggedIn } from "../../redux/auth/selectors.js";
+import { selectIsLoggedIn, selectUser } from "../../redux/auth/selectors.js";
 import Icon from "../Icon/index.jsx";
 import Modal from "../Modal/Modal.jsx";
 import BurgerMenu from "./BurgerMenu";
@@ -11,12 +11,8 @@ import css from "./Header.module.css";
 import Logout from "../AuthComponent/logout.jsx";
 const Header = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  // !!! МІСЦЕ ДЛЯ ПІДКЛЮЧЕННЯ REDUX (Потрібно розкоментувати програмісту) !!!
-  // const user = useSelector(state => state.auth.user);
 
-  // Стан за замовчуванням - неавторизований користувач
-  // const user = null;
-  const user = useSelector(state => state.auth.user)
+  const user = useSelector(selectUser);
 
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const [isOpenModalLogout, setIsOpenModalLogout] = useState(false);
@@ -31,7 +27,7 @@ const Header = () => {
     return name ? name.charAt(0).toUpperCase() : "?";
   };
 
-  const logout = Logout()
+  const logout = Logout();
 
   return (
     <>
@@ -72,8 +68,10 @@ const Header = () => {
               </NavLink>
 
               <div className={css.userInfo}>
-                <span className={css.avatar}>{getFirstLetter(user?.name)}</span>
-                <span className={css.userName}>{user?.name}</span>
+                <span className={css.avatar}>
+                  {getFirstLetter(user.user?.name)}
+                </span>
+                <span className={css.userName}>{user.user?.name}</span>
               </div>
               <button
                 type="button"

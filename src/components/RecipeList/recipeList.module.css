@@ -2,26 +2,19 @@
   display: grid;
   align-items: center;
   justify-content: center;
-  grid-template-columns: repeat(3, 288px);
-  gap: 16px;
-  
+  grid-template-columns: repeat(4, 288px);
+  gap: 24px;
 }
 
 @media (max-width: 767px) {
   .recipeList {
-    grid-template-columns: repeat(1, 288px);
+    grid-template-columns: repeat(1, 361px);
   }
 }
 
 @media (min-width: 768px) and (max-width: 1224px) {
   .recipeList {
-    grid-template-columns: repeat(2, 288px);
-  }
-}
-
-@media (min-width: 1225px) {
-  .recipeList {
-    grid-template-columns: repeat(3, 288px);
+    grid-template-columns: repeat(2, 339px);
   }
 }
 
@@ -35,11 +28,5 @@
   .wrapper {
     max-width: 768px;
     padding: 0 32px;
-  }
-}
-
-@media only screen and (min-width: 1225px) {
-  .wrapper {
-    max-width: 1225px;
   }
 }
