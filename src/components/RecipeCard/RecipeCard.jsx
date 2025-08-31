@@ -22,7 +22,7 @@ export default function RecipeCard({
 }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isAuth = useSelector(selectIsLoggedIn); // или: (state) => state.auth.isLoggedIn
+  const isAuth = useSelector(selectIsLoggedIn);
 
   const handleFavoriteClick = async () => {
     if (!isAuth) {
