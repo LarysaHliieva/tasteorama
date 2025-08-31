@@ -17,6 +17,7 @@
   font-weight: 600;
   text-align: center;
   width: 383px;
+  max-width: 100%;
 }
 
 .button {
@@ -31,8 +32,7 @@
 }
 
 @media (max-width: 393px) {
-  .text  {
+  .text {
     width: 313px;
   }
- 
 }

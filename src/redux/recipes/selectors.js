@@ -12,6 +12,6 @@ export const selectRecipesTotalItems = (state) =>
 
 export const selectRecipesLoading = (state) => state.recipes.isLoading;
 
-export const selectFavorites = (state) => state.recipes.favorite;
+export const selectRecipesFavorites = (state) => state.recipes.favorite;
 
-export const selectOwn = (state) => state.recipes.own;
+export const selectRecipesOwn = (state) => state.recipes.own;

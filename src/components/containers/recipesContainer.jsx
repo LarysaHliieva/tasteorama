@@ -14,7 +14,6 @@ import {
 import { RecipeList } from "../RecipeList/RecipeList";
 import { NoResult } from "../NoResult/NoResult";
 
-
 export function RecipeContainer() {
   const dispatch = useDispatch();
   const all = useSelector(selectRecipes);
@@ -34,8 +33,8 @@ export function RecipeContainer() {
   const loadMore = () => {
     dispatch(getRecipes({ page: page + 1, limit: 12, filters }));
   };
-  if(all.length === 0 && searchQuery) {
-    return <NoResult/>;
+  if (all.length === 0 && searchQuery) {
+    return <NoResult />;
   }
 
   return (
