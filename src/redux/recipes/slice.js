@@ -26,6 +26,7 @@ const recipesSlice = createSlice({
     favorite: [],
     own: [],
     currentRecipe: null,
+    newRecipe: null,
     isLoading: false,
     error: null,
     pagination: {
@@ -107,7 +108,7 @@ const recipesSlice = createSlice({
       .addCase(addOwnRecipe.pending, handlePending)
       .addCase(addOwnRecipe.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.favorite = action.payload;
+        state.newRecipe = action.payload;
       })
       .addCase(addOwnRecipe.rejected, handleRejected);
   },

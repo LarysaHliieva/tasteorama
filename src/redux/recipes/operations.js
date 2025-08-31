@@ -119,7 +119,9 @@ export const addOwnRecipe = createAsyncThunk(
       const formData = new FormData();
 
       Object.keys(body).forEach((key) => {
-        if (key !== "image") {
+        if (key === "ingredients") {
+          formData.append("ingredients", JSON.stringify(body.ingredients));
+        } else if (key !== "image") {
           formData.append(key, body[key]);
         }
       });
@@ -135,8 +137,8 @@ export const addOwnRecipe = createAsyncThunk(
       });
 
       toast.success(res.data.message);
-
-      return res.data.data;
+      console.log(res.data.data.recipe);
+      return res.data.data.recipe;
     } catch (error) {
       toast.error(error.response?.data?.messages || "Something went wrong!");
       return thunkAPI.rejectWithValue(error.response?.data?.messages);

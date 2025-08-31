@@ -17,6 +17,8 @@ import {
   fetchIngredients,
 } from "../../redux/filters/operations";
 
+import { addOwnRecipe } from "../../redux/recipes/operations.js";
+
 export default function AddRecipeForm() {
   const [tempIngredients, setTempIngredients] = useState([]);
 
@@ -70,17 +72,16 @@ export default function AddRecipeForm() {
 
         category: Yup.string().required("Required"),
 
-        ingredients: Yup.array()
-          .of(
-            Yup.object({
-              name: Yup.string().required("Ingredient name is required"),
-              amount: Yup.number()
-                .min(2, "Min amount is 2")
-                .max(16, "Max amount is 16")
-                .required("Ingredient amount is required"),
-            })
-          )
-          .min(1, "At least one ingredient is required"),
+        ingredients: Yup.array().of(
+          Yup.object({
+            name: Yup.string().required("Ingredient name is required"),
+            amount: Yup.number()
+              .min(2, "Min amount is 2")
+              .max(16, "Max amount is 16")
+              .required("Ingredient amount is required"),
+          })
+        ),
+        // .min(1, "At least one ingredient is required"),
 
         instructions: Yup.string()
           .max(1200, "Max 1200 characters")
@@ -94,16 +95,16 @@ export default function AddRecipeForm() {
           )
           .nullable(),
       })}
-      onSubmit={(values, { setFieldValue }) => {
+      onSubmit={async (values) => {
         const syncedIngredients = tempIngredients.map((t) => ({
           name: t.label,
           amount: t.amount,
         }));
 
-        setFieldValue("ingredients", syncedIngredients, false);
         const { ingredient, amount, ...rest } = values;
         const payload = { ...rest, ingredients: syncedIngredients };
         console.log(payload);
+        await dispatch(addOwnRecipe(payload)).unwrap();
       }}
     >
       {({ values, setFieldValue }) => (
