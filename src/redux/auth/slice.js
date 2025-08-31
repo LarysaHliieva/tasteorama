@@ -1,11 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loginUser, logoutUser, registerUser } from "./operations";
 
-const initialState = localStorage.getItem("user")
-  ? JSON.parse(localStorage.getItem("user"))
-  :null
-
 const token = localStorage.getItem("accessToken");
+
 const user = (() => {
   const raw = localStorage.getItem("user");
   if (!raw || raw === "undefined") return null;
@@ -16,71 +13,59 @@ const user = (() => {
   }
 })();
 
+const initialState = {
+  isLoggedIn: !!token,
+  user,
+  error: null,
+  status: "idle", 
+};
+
 const slice = createSlice({
   name: "auth",
-    initialState: {
-    isLoggedIn: !!token,
-      user: user,
-      error:null
+  initialState,
+  reducers: {
+    logout(state) {
+      state.isLoggedIn = false;
+      state.user = null;
+      localStorage.removeItem("user");
+      localStorage.removeItem("accessToken");
     },
-reducers: {},
+  },
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
-        state.status = "loading"
+        state.status = "loading";
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        state.status = "success"
-        state.user = action.payload
+        state.status = "success";
+        state.user = action.payload;
+        state.isLoggedIn = true;
       })
       .addCase(registerUser.rejected, (state, action) => {
-        state.status = "failed"
-        state.error = action.payload || "Error"
+        state.status = "failed";
+        state.error = action.payload || "Error";
       })
 
       .addCase(loginUser.pending, (state) => {
-        state.status = "loading"
+        state.status = "loading";
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.status = "success"
-        state.user = action.payload
+        state.status = "success";
+        state.user = action.payload;
+        state.isLoggedIn = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.status = "reject"
-        state.error = action.payload
+        state.status = "reject";
+        state.error = action.payload;
       })
 
       .addCase(logoutUser.fulfilled, (state) => {
-        state.status = "success"
-        state.user = null
-      })
-  }
+        state.status = "success";
+        state.user = null;
+        state.isLoggedIn = false;
+      });
+  },
 });
 
-export const { login, logout } = slice.actions;
-
+export const { logout } = slice.actions;
 export default slice.reducer;
-
-
-
-// const slice = createSlice({
-//   name: "auth",
-//   initialState: {
-//     isLoggedIn: !!token,
-//     user: user
-//   },
-//   reducers: {
-//     login: (state,action) => {
-//       state.isLoggedIn = true
-//       state.user = action.payload
-//       localStorage.setItem("user", JSON.stringify(action.payload))
-//     },
-//     logout: (state) => {
-//       state.isLoggedIn = false
-//       state.user = null
-//           localStorage.removeItem("accessToken")
-//     localStorage.removeItem("refreshToken")
-//     localStorage.removeItem("user");
-//     }
-//   }
-// });

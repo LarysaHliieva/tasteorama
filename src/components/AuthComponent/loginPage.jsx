@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/auth/operations.js";
+import { AuthAPI } from "../../services/api.js";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -18,7 +19,7 @@ export default function LoginPage() {
       localStorage.setItem("accessToken", res.data.data.accessToken);
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
       localStorage.setItem("user", JSON.stringify(res.data.data));
-      dispatch(login(res.data.data));
+      dispatch(loginUser(res.data.data));
       navigate("/");
     } catch (err) {
       if (err.response) {
@@ -29,16 +30,7 @@ export default function LoginPage() {
       }
     }
   };
-  const handleLogin = (e) => {
-    e.preventDefault();
-    setError("");
-    dispatch(loginUser({ email, password }))
-      .unwrap()
-      .then(() => navigate("/"))
-      .catch((err) => {
-        setError(typeof err === "string" ? err : err?.message || "Login failed");
-      });
-  };
+
 
   return (
     <div>

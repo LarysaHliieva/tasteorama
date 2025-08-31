@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { login } from "../../redux/auth/slice.js";
+import { AuthAPI } from "../../services/api.js";
+import { loginUser } from "../../redux/auth/operations.js";
 
 
 
@@ -26,7 +27,7 @@ const handleRegister = async (e) => {
         localStorage.setItem("refreshToken", res.data.data.refreshToken)
         localStorage.setItem("user", JSON.stringify(res.data.data));
         
-        dispatch(login(res.data.data))
+        dispatch(loginUser(res.data.data))
         navigate('/')
     } catch (err) {
         if (err.response) {
@@ -93,4 +94,3 @@ const handleRegister = async (e) => {
             </div>
         )
     }
-}
