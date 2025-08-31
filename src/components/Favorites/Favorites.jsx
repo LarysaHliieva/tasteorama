@@ -12,6 +12,7 @@ import {
   // selectRecipesTotalPages,
   // selectRecipesTotalItems,
   selectRecipesLoading,
+  selectRecipesError,
 } from "../../redux/recipes/selectors";
 import { getFavorites } from "../../redux/recipes/operations";
 
@@ -24,6 +25,7 @@ export default function Favorites() {
   // const totalPages = useSelector(selectRecipesTotalPages);
   const selectedTotalItems = useSelector(selectRecipesTotalItems);
   const loading = useSelector(selectRecipesLoading);
+  const error = useSelector(selectRecipesError);
 
   useEffect(() => {
     dispatch(getFavorites());
@@ -36,6 +38,8 @@ export default function Favorites() {
   if (loading) {
     return <FadeLoader color="#9b6c43" />;
   }
+
+  if (error) return null;
 
   if (favorites.length === 0 && !loading) {
     return <NoResult isButton={false} />;

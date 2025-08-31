@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 import "./App.css";
 import Loyout from "./components/Loyout/Loyout";
@@ -18,6 +19,18 @@ import NotFound from "./components/NotFound/NotFound.jsx";
 function App() {
   return (
     <BrowserRouter>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          error: {
+            style: {
+              background: "#e04b4bff",
+              color: "white",
+            },
+            // duration: 4000,
+          },
+        }}
+      />
       <Routes>
         <Route path="/" element={<Loyout />}>
           <Route path="/" element={<MainPage />} />

@@ -1,3 +1,5 @@
+// import toast from "react-hot-toast";
+
 import { createSlice } from "@reduxjs/toolkit";
 import {
   addToFavorites,
@@ -16,6 +18,8 @@ const handlePending = (state) => {
 const handleRejected = (state, action) => {
   state.isLoading = false;
   state.error = action.payload;
+  // state.error = action.payload || "Something went wrong!";
+  // toast.error(state.error);
 };
 
 const recipesSlice = createSlice({
