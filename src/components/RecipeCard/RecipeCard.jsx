@@ -1,4 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from "../../redux/recipes/operations";
+import { selectIsLoggedIn } from "../../redux/auth/selectors";
+import toast from "react-hot-toast";
 
 import Icon from "../Icon";
 import css from "./RecipeCard.module.css";
@@ -11,10 +18,31 @@ export default function RecipeCard({
   time,
   calories,
   isFavorite = false,
-  onToggleFavorite,
   id,
 }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isAuth = useSelector(selectIsLoggedIn);
+
+  const handleFavoriteClick = async () => {
+    if (!isAuth) {
+      navigate("/login");
+      return;
+    }
+    try {
+      if (variant === "favorites") {
+        await dispatch(removeFromFavorites(id)).unwrap();
+      } else {
+        if (isFavorite) {
+          await dispatch(removeFromFavorites(id)).unwrap();
+        } else {
+          await dispatch(addToFavorites(id)).unwrap();
+        }
+      }
+    } catch (e) {
+      toast.error(e?.message || "Something went wrong");
+    }
+  };
 
   const cls = [
     css.card,
@@ -80,7 +108,7 @@ export default function RecipeCard({
             aria-label={
               isFavorite ? "Remove from favorites" : "Add to favorites"
             }
-            onClick={() => onToggleFavorite?.()}
+            onClick={handleFavoriteClick}
           >
             <Icon name="bookmark-alternative" width={24} height={24} />
           </button>
