@@ -28,7 +28,6 @@ export default function Profile() {
             Saved Recipes
           </NavLink>
         </nav>
-        <div className={css.counter}>96 recipes</div>
       </div>
       <Outlet />
     </div>
