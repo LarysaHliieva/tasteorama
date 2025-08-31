@@ -111,3 +111,35 @@ export const getOwn = createAsyncThunk(
     }
   }
 );
+
+export const addOwnRecipe = createAsyncThunk(
+  "recipes/addOwnRecipe",
+  async (body, thunkAPI) => {
+    try {
+      const formData = new FormData();
+
+      Object.keys(body).forEach((key) => {
+        if (key !== "image") {
+          formData.append(key, body[key]);
+        }
+      });
+
+      if (body.image) {
+        formData.append("image", body.image);
+      }
+
+      const res = await axiosAPI.post("/recipes/add", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      toast.success(res.data.message);
+
+      return res.data.data;
+    } catch (error) {
+      toast.error(error.response?.data?.messages || "Something went wrong!");
+      return thunkAPI.rejectWithValue(error.response?.data?.messages);
+    }
+  }
+);
