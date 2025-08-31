@@ -126,8 +126,12 @@ export const addOwnRecipe = createAsyncThunk(
         }
       });
 
-      if (body.image) {
-        formData.append("image", body.image);
+      // if (body.image) {
+      //   formData.append("image", body.image);
+      // }
+      console.log(body.image[0].type);
+      if (body.image && body.image[0] instanceof File) {
+        formData.append("image", body.image[0]);
       }
 
       const res = await axiosAPI.post("/recipes/add", formData, {
