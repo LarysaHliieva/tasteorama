@@ -114,6 +114,7 @@ export default function AddRecipeForm() {
             <input
               id="fileInput"
               type="file"
+              accept="image/*"
               onChange={(e) => setFieldValue("image", e.target.files[0])}
               className={css.fileInput}
               hidden
