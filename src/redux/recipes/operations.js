@@ -11,7 +11,11 @@ export const getRecipeById = createAsyncThunk(
       const response = await axiosAPI.get(`/recipes/${recipeId}`);
       return response.data.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      const message =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        "Not found";
+      return thunkAPI.rejectWithValue(message);
     }
   }
 );
