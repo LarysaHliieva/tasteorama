@@ -2,7 +2,7 @@
   display: grid;
   align-items: center;
   justify-content: center;
-  grid-template-columns: repeat(3, 288px);
+  grid-template-columns: repeat(4, 288px);
   gap: 16px;
 }
 
@@ -18,12 +18,6 @@
   }
 }
 
-@media (min-width: 1225px) {
-  .recipeList {
-    grid-template-columns: repeat(3, 288px);
-  }
-}
-
 @media only screen and (min-width: 393px) {
   .wrapper {
     max-width: 393px;
@@ -34,11 +28,5 @@
   .wrapper {
     max-width: 768px;
     padding: 0 32px;
-  }
-}
-
-@media only screen and (min-width: 1225px) {
-  .wrapper {
-    max-width: 1225px;
   }
 }
