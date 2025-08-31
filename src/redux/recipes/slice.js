@@ -1,3 +1,5 @@
+// import toast from "react-hot-toast";
+
 import { createSlice } from "@reduxjs/toolkit";
 import {
   addToFavorites,
@@ -5,6 +7,7 @@ import {
   getRecipes,
   removeFromFavorites,
   getFavorites,
+  getOwn,
 } from "./operations.js";
 
 const handlePending = (state) => {
@@ -15,6 +18,8 @@ const handlePending = (state) => {
 const handleRejected = (state, action) => {
   state.isLoading = false;
   state.error = action.payload;
+  // state.error = action.payload || "Something went wrong!";
+  // toast.error(state.error);
 };
 
 const recipesSlice = createSlice({
@@ -61,6 +66,7 @@ const recipesSlice = createSlice({
         state.favorite = action.payload;
       })
       .addCase(removeFromFavorites.rejected, handleRejected)
+
       .addCase(getRecipes.pending, handlePending)
       .addCase(getRecipes.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -74,12 +80,32 @@ const recipesSlice = createSlice({
 
         state.pagination = pagination;
       })
+
       .addCase(getFavorites.pending, handlePending)
       .addCase(getFavorites.fulfilled, (state, action) => {
         state.isLoading = false;
         state.favorite = action.payload;
       })
-      .addCase(getFavorites.rejected, handleRejected);
+      .addCase(getFavorites.rejected, handleRejected)
+
+      .addCase(getOwn.pending, handlePending)
+      .addCase(getOwn.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const { data, page, totalPages, totalItems } = action.payload;
+
+        if (page === 1) {
+          state.favorite = data;
+        } else {
+          state.favorite = [...state.favorite, ...data];
+        }
+
+        state.pagination = {
+          page,
+          totalPages,
+          totalItems,
+        };
+      })
+      .addCase(getOwn.rejected, handleRejected);
   },
 });
 

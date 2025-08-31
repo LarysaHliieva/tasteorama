@@ -3,18 +3,18 @@
   align-items: center;
   justify-content: center;
   grid-template-columns: repeat(4, 288px);
-  gap: 16px;
+  gap: 24px;
 }
 
 @media (max-width: 767px) {
   .recipeList {
-    grid-template-columns: repeat(1, 288px);
+    grid-template-columns: repeat(1, 361px);
   }
 }
 
 @media (min-width: 768px) and (max-width: 1224px) {
   .recipeList {
-    grid-template-columns: repeat(2, 288px);
+    grid-template-columns: repeat(2, 339px);
   }
 }
 

@@ -1,5 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
+import toast from "react-hot-toast";
+
 import axiosAPI from "../../services/api.js";
 
 export const getRecipeById = createAsyncThunk(
@@ -90,7 +92,22 @@ export const getFavorites = createAsyncThunk(
       const response = await axiosAPI.get("/favorites");
       return response.data.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      toast.error(error.response?.data?.messages || "Something went wrong!");
+      return thunkAPI.rejectWithValue(error.response?.data?.messages);
+    }
+  }
+);
+
+export const getOwn = createAsyncThunk(
+  "recipes/getOwn",
+
+  async (_, thunkAPI) => {
+    try {
+      const response = await axiosAPI.get("/recipes/my");
+      return response.data;
+    } catch (error) {
+      toast.error(error.response?.data?.messages || "Something went wrong!");
+      return thunkAPI.rejectWithValue(error.response?.data?.messages);
     }
   }
 );
