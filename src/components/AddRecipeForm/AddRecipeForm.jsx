@@ -45,9 +45,9 @@ export default function AddRecipeForm() {
           .max(360, "Max 360 minutes")
           .required("time in minutes"),
 
-        calories:
-          Yup.number().min(1, "Min 1 kcal").max(10000, "Max 10000 kcal").non -
-          require("calories amount"),
+        calories: Yup.number()
+          .min(1, "Min 1 kcal")
+          .max(10000, "Max 10000 kcal"),
 
         category: Yup.string().required("Required"),
 
@@ -105,7 +105,12 @@ export default function AddRecipeForm() {
                     className={css.preview}
                   />
                 ) : (
-                  <Icon name="icon-bag" width={96} height={80} />
+                  <Icon
+                    name="icon-bag"
+                    width={96}
+                    height={80}
+                    className={css.addFile}
+                  />
                 )}
               </label>
             </div>
