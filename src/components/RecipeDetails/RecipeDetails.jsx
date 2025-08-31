@@ -1,51 +1,69 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { FadeLoader } from "react-spinners";
-
-import Icon from "../Icon/index.jsx";
-
+import { fetchIngredients } from "../../redux/filters/operations";
+import { selectIngredientsOptions } from "../../redux/filters/selectors";
+import { getFavorites } from "../../redux/recipes/operations";
 import {
   getRecipeById,
   addToFavorites,
   removeFromFavorites,
-} from "../../redux/recipes/operations.js";
-
-import { selectIsLoggedIn } from "../../redux/auth/selectors.js";
-import { selectUser } from "../../redux/auth/selectors.js";
-import { selectCurrentRecipe } from "../../redux/recipes/selectors.js";
-import { clearCurrentRecipe } from "../../redux/recipes/slice.js";
-
+} from "../../redux/recipes/operations";
+import { selectCurrentRecipe } from "../../redux/recipes/selectors";
+import { selectIsLoggedIn } from "../../redux/auth/selectors";
+import { clearCurrentRecipe } from "../../redux/recipes/slice";
+import Icon from "../Icon";
 import css from "./RecipeDetails.module.css";
 
+import { selectRecipesFavorites } from "../../redux/recipes/selectors";
+
 const RecipeDetails = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { id } = useParams();
 
-  const isLoggedIn = useSelector(selectIsLoggedIn);
   const recipe = useSelector(selectCurrentRecipe);
-  const user = useSelector(selectUser);
 
-  const isFavorite = user?.favorites?.some((favId) => favId === id) ?? false;
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const ingredientsOptions = useSelector(selectIngredientsOptions);
+
+  const [mappedIngredients, setMappedIngredients] = useState([]);
+
+  const favorites = useSelector(selectRecipesFavorites);
+  const isFavorite = favorites.some((fav) => fav._id === id);
 
   useEffect(() => {
     dispatch(clearCurrentRecipe());
     dispatch(getRecipeById(id));
+    dispatch(fetchIngredients());
   }, [dispatch, id]);
 
-  const handleClick = () => {
-    console.log("🚀 ~ RecipeDetails ~ user:", user);
-    if (!isLoggedIn) {
-      navigate("/auth");
-      return;
+  useEffect(() => {
+    if (recipe && ingredientsOptions.length) {
+      const mapped = recipe.ingredients.map((ing) => {
+        const ingredientData = ingredientsOptions.find(
+          (opt) => opt.value === ing.id
+        );
+        return {
+          ...ing,
+          name: ingredientData?.label || "Unknown",
+        };
+      });
+      setMappedIngredients(mapped);
     }
+  }, [recipe, ingredientsOptions]);
+
+  const handleClick = async () => {
+    if (!isLoggedIn) return navigate("/auth");
 
     if (isFavorite) {
-      dispatch(removeFromFavorites(id));
+      await dispatch(removeFromFavorites(id));
     } else {
-      dispatch(addToFavorites(id));
+      await dispatch(addToFavorites(id));
     }
+
+    dispatch(getFavorites());
   };
 
   if (!recipe) {
@@ -56,15 +74,7 @@ const RecipeDetails = () => {
     );
   }
 
-  const {
-    title,
-    category,
-    instructions,
-    description,
-    thumb,
-    time,
-    ingredients,
-  } = recipe;
+  const { title, category, instructions, description, thumb, time } = recipe;
 
   return (
     <div className={css.section}>
@@ -85,12 +95,10 @@ const RecipeDetails = () => {
                   <span className={css.span}>Category: </span>
                   {category}
                 </li>
-
                 <li className={css.infoItem}>
                   <span className={css.span}>Cooking time: </span>
                   {time} min
                 </li>
-
                 <li className={css.infoItem}>
                   <span className={css.span}>Caloric content: </span>
                   Approximately 200 kcal per serving
@@ -99,37 +107,36 @@ const RecipeDetails = () => {
             </div>
 
             <button className={css.btn} onClick={handleClick}>
-              Save
+              Save{" "}
               {isFavorite ? (
                 <Icon
                   name="bookmark-saved"
-                  width="24"
-                  height="24"
+                  width={24}
+                  height={24}
                   color="white"
                 />
               ) : (
                 <Icon
                   name="bookmark-unsaved"
-                  width="24"
-                  height="24"
+                  width={24}
+                  height={24}
                   color="white"
                 />
               )}
             </button>
           </div>
+
           <div className={css.aboutWrapper}>
             <h2 className={css.title}>About recipe</h2>
             <p className={css.text}>{description}</p>
             <h2 className={css.title}>Ingredients:</h2>
-
             <ul className={css.ingrediensList}>
-              {ingredients.map((ing) => (
-                <li key={ing.id._id} className={css.ingredientsItem}>
-                  {ing.id.name} — {ing.measure}
+              {mappedIngredients.map((ing) => (
+                <li key={ing.id} className={css.ingredientsItem}>
+                  {ing.name} — {ing.measure}
                 </li>
               ))}
             </ul>
-
             <h2 className={css.preparationTitle}>Preparation Steps:</h2>
             <p className={css.preparationText}>{instructions}</p>
           </div>
