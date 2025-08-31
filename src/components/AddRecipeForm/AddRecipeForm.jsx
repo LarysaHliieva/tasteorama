@@ -80,7 +80,7 @@ export default function AddRecipeForm() {
                 .required("Ingredient amount is required"),
             })
           )
-          .min(1, "At least one ingredient is required"),
+          // .min(1, "At least one ingredient is required"),
 
         instructions: Yup.string()
           .max(1200, "Max 1200 characters")
