@@ -8,7 +8,7 @@ import { NoResult } from "../NoResult/NoResult";
 
 import {
   selectRecipesFavorites,
-  selectRecipesTotalItems,
+  // selectRecipesTotalItems,
   // selectRecipesTotalPages,
   // selectRecipesTotalItems,
   selectRecipesLoading,
@@ -23,7 +23,7 @@ export default function Favorites() {
   const favorites = useSelector(selectRecipesFavorites);
   // const page = useSelector(selectRecipesPage);
   // const totalPages = useSelector(selectRecipesTotalPages);
-  const selectedTotalItems = useSelector(selectRecipesTotalItems);
+  // const selectedTotalItems = useSelector(selectRecipesTotalItems);
   const loading = useSelector(selectRecipesLoading);
   const error = useSelector(selectRecipesError);
 
@@ -47,7 +47,7 @@ export default function Favorites() {
 
   return (
     <div>
-      <div className={css.counter}>{selectedTotalItems} recepis</div>
+      <div className={css.counter}>{favorites.length} recepis</div>
       <RecipeList
         recipes={favorites}
         // page={page}

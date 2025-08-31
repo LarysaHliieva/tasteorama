@@ -1,4 +1,13 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from "../../redux/recipes/operations";
+import { selectIsLoggedIn } from "../../redux/auth/selectors";
+import Modal from "../Modal/Modal.jsx";
+// import toast from "react-hot-toast";
 
 import Icon from "../Icon";
 import css from "./RecipeCard.module.css";
@@ -11,10 +20,36 @@ export default function RecipeCard({
   time,
   calories,
   isFavorite = false,
-  onToggleFavorite,
   id,
 }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isAuth = useSelector(selectIsLoggedIn);
+
+  const [isOpenModalAuth, setIsOpenModalAuth] = useState(false);
+  const handleOpenModalAuth = () => setIsOpenModalAuth(true);
+  const handleCloseModalAuth = () => setIsOpenModalAuth(false);
+
+  const handleFavoriteClick = async () => {
+    if (!isAuth) {
+      handleOpenModalAuth();
+      return;
+    }
+    try {
+      if (variant === "favorites") {
+        await dispatch(removeFromFavorites(id)).unwrap();
+      } else {
+        if (isFavorite) {
+          await dispatch(removeFromFavorites(id)).unwrap();
+        } else {
+          await dispatch(addToFavorites(id)).unwrap();
+        }
+      }
+    } catch (e) {
+      console.log(e?.message);
+      // toast.error(e?.message || "Something went wrong");
+    }
+  };
 
   const cls = [
     css.card,
@@ -28,64 +63,77 @@ export default function RecipeCard({
   const showFavorite = variant !== "details";
 
   return (
-    <article className={cls} role="group" aria-label={title}>
-      <div className={css.imgWrap}>
-        {thumb ? (
-          <img src={thumb} alt={title} loading="lazy" />
-        ) : (
-          <div className={css.placeholder}>No image</div>
-        )}
-      </div>
-
-      <div className={css.top}>
-        <h3 className={css.title} title={title}>
-          {title}
-        </h3>
-        {time ? (
-          <div className={css.time}>
-            <Icon name="clock" width={24} height={24} color="#000000" />
-            <span>{time}</span>
-          </div>
-        ) : null}
-      </div>
-      {description && <p className={css.desc}>{description}</p>}
-      {typeof calories === "number" && (
-        <div className={css.meta}>
-          <span className={css.cals}>~ {calories} cals</span>
+    <>
+      <article className={cls} role="group" aria-label={title}>
+        <div className={css.imgWrap}>
+          {thumb ? (
+            <img src={thumb} alt={title} loading="lazy" />
+          ) : (
+            <div className={css.placeholder}>No image</div>
+          )}
         </div>
-      )}
 
-      <div className={css.actions} onClick={(e) => e.stopPropagation()}>
-        {showCTA && (
-          <button
-            type="button"
-            className={`${css.cta} ${css.primary}`}
-            onClick={() => navigate(`/recipes/${id}`)}
-          >
-            Learn more
-          </button>
+        <div className={css.top}>
+          <h3 className={css.title} title={title}>
+            {title}
+          </h3>
+          {time ? (
+            <div className={css.time}>
+              <Icon name="clock" width={24} height={24} color="#000000" />
+              <span>{time}</span>
+            </div>
+          ) : null}
+        </div>
+        {description && <p className={css.desc}>{description}</p>}
+        {typeof calories === "number" && (
+          <div className={css.meta}>
+            <span className={css.cals}>~ {calories} cals</span>
+          </div>
         )}
-        {showFavorite && (
-          <button
-            type="button"
-            className={[
-              css.iconBtn,
-              css.fav,
-              variant === "favorites" && css.favEmph,
-              isFavorite && css.favOn,
-            ]
-              .filter(Boolean)
-              .join(" ")}
-            aria-pressed={!!isFavorite}
-            aria-label={
-              isFavorite ? "Remove from favorites" : "Add to favorites"
-            }
-            onClick={() => onToggleFavorite?.()}
-          >
-            <Icon name="bookmark-alternative" width={24} height={24} />
-          </button>
-        )}
-      </div>
-    </article>
+
+        <div className={css.actions} onClick={(e) => e.stopPropagation()}>
+          {showCTA && (
+            <button
+              type="button"
+              className={`${css.cta} ${css.primary}`}
+              onClick={() => navigate(`/recipes/${id}`)}
+            >
+              Learn more
+            </button>
+          )}
+          {showFavorite && (
+            <button
+              type="button"
+              className={[
+                css.iconBtn,
+                css.fav,
+                variant === "favorites" && css.favEmph,
+                isFavorite && css.favOn,
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              aria-pressed={!!isFavorite}
+              aria-label={
+                isFavorite ? "Remove from favorites" : "Add to favorites"
+              }
+              onClick={handleFavoriteClick}
+            >
+              <Icon name="bookmark-alternative" width={24} height={24} />
+            </button>
+          )}
+        </div>
+        <Modal
+          isOpen={isOpenModalAuth}
+          onClose={handleCloseModalAuth}
+          title="Error while saving"
+          desc="Error while saving"
+          confirmText="Log in"
+          cancelText="Register"
+          onConfirm={() => navigate("/auth/login")}
+          onCancel={() => navigate("auth/register")}
+          type="navigate"
+        />
+      </article>
+    </>
   );
 }
