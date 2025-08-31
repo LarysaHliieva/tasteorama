@@ -8,6 +8,9 @@ import BurgerMenu from "./BurgerMenu";
 import BurgerMenuAuth from "./BurgerMenuAuth";
 import css from "./Header.module.css";
 import { logoutUser } from "../../redux/auth/operations.js";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
 const Header = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
@@ -26,8 +29,9 @@ const Header = () => {
     return name ? name.charAt(0).toUpperCase() : "?";
   };
 
-  const logout = Logout();
-
+const dispatch = useDispatch()
+const navigate = useNavigate()
+  
   return (
     <>
       <header className={css.header}>
