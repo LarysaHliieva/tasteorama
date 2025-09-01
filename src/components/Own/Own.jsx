@@ -18,8 +18,8 @@ import css from "./Own.module.css";
 
 export default function Own() {
   const dispatch = useDispatch();
-  const favorites = useSelector(selectRecipesOwn);
-  const { page, totalPages, totalItems } = useSelector(paginationOwn);
+  const own = useSelector(selectRecipesOwn);
+  const { page, totalPages } = useSelector(paginationOwn);
   const loading = useSelector(selectRecipesLoading);
   const error = useSelector(selectRecipesError);
 
@@ -43,15 +43,15 @@ export default function Own() {
 
   if (error) return null;
 
-  if (favorites.length === 0 && !loading && !error) {
+  if (own.length === 0 && !loading && !error) {
     return <NoResult isButton={false} />;
   }
 
   return (
     <div>
-      <div className={css.counter}>{totalItems} recepis</div>
+      <div className={css.counter}>{own.length} recepis</div>
       <RecipeList
-        recipes={favorites}
+        recipes={own}
         page={page}
         totalPages={totalPages}
         onLoadMore={loadMore}
