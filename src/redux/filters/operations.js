@@ -6,7 +6,6 @@ export const fetchCategories = createAsyncThunk(
   async (_,thunkAPI) => {
     try {
       const { data } = await axiosAPI.get("/categories")
-      console.log("Raw Categories Response:",data);
       return data.data.map((c) => ({ label: c.name, value: c._id }));
     } catch (error) {
       return thunkAPI.rejectWithValue(

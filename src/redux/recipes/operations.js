@@ -54,7 +54,6 @@ export const getRecipes = createAsyncThunk(
 
   async ({ page = 1, limit = 12, filters }, thunkAPI) => {
     try {
-      console.log(filters);
       const params = new URLSearchParams({
         page,
         limit,
@@ -76,7 +75,6 @@ export const getRecipes = createAsyncThunk(
       }
       const response = await axiosAPI.get(`/recipes?${params}`);
       const data = response.data?.data;
-      console.log(filters);
       return {
         recipes: data?.recipes || [],
         pagination: {
