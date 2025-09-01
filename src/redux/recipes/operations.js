@@ -99,9 +99,11 @@ export const getRecipes = createAsyncThunk(
 export const getFavorites = createAsyncThunk(
   "recipes/getFavorites",
 
-  async (_, thunkAPI) => {
+  async ({ page = 1, limit = 10 }, thunkAPI) => {
     try {
-      const response = await axiosAPI.get("/favorites");
+      const response = await axiosAPI.get("/favorites", {
+        params: { page, limit },
+      });
       return response.data.data;
     } catch (error) {
       toast.error(error.response?.data?.messages || "Something went wrong!");
@@ -113,9 +115,11 @@ export const getFavorites = createAsyncThunk(
 export const getOwn = createAsyncThunk(
   "recipes/getOwn",
 
-  async (_, thunkAPI) => {
+  async ({ page = 1, limit = 10 }, thunkAPI) => {
     try {
-      const response = await axiosAPI.get("/recipes/my");
+      const response = await axiosAPI.get("/recipes/my", {
+        params: { page, limit },
+      });
       return response.data;
     } catch (error) {
       toast.error(error.response?.data?.messages || "Something went wrong!");

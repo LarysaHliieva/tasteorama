@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { FadeLoader } from "react-spinners";
@@ -27,15 +27,19 @@ export default function Favorites() {
   const loading = useSelector(selectRecipesLoading);
   const error = useSelector(selectRecipesError);
 
+  const [isInitialRequest, setIsInitialRequest] = useState(true);
+
   useEffect(() => {
-    dispatch(getFavorites());
+    dispatch(getFavorites({ page: 1, limit: 12 })).finally(() =>
+      setIsInitialRequest(false)
+    );
   }, [dispatch]);
 
   const loadMore = () => {
     dispatch(getFavorites({ page: page + 1, limit: 12 }));
   };
 
-  if (loading) {
+  if (loading && isInitialRequest) {
     return <FadeLoader color="#9b6c43" />;
   }
 

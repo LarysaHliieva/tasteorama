@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { FadeLoader } from "react-spinners";
@@ -27,15 +27,21 @@ export default function Own() {
   const loading = useSelector(selectRecipesLoading);
   const error = useSelector(selectRecipesError);
 
+  const [isInitialRequest, setIsInitialRequest] = useState(true);
+
   useEffect(() => {
     dispatch(getOwn());
   }, [dispatch]);
 
   const loadMore = () => {
-    dispatch(getOwn({ page: page + 1, limit: 12 }));
+    dispatch(
+      getOwn({ page: page + 1, limit: 12 }).finally(() =>
+        setIsInitialRequest(false)
+      )
+    );
   };
 
-  if (loading) {
+  if (loading && isInitialRequest) {
     return <FadeLoader color="#9b6c43" />;
   }
 
