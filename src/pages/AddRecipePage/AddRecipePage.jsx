@@ -6,7 +6,6 @@ export default function AddRecipePage() {
   return (
     <div className="container">
       <h1 className={css.title}>Add Recipe</h1>
-
       <AddRecipeForm />
     </div>
   );
