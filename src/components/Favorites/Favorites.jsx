@@ -19,12 +19,10 @@ import css from "./Favorites.module.css";
 export default function Favorites() {
   const dispatch = useDispatch();
   const favorites = useSelector(selectRecipesFavorites);
-  const { page, totalPages } = useSelector(paginationFavorite);
+  const { page, totalPages, totalItems } = useSelector(paginationFavorite);
   const loading = useSelector(selectRecipesLoading);
   const error = useSelector(selectRecipesError);
 
-  console.log("favorites:", favorites);
-  console.log("paginationFavorite:", { page, totalPages });
   const [isInitialRequest, setIsInitialRequest] = useState(true);
 
   useEffect(() => {
@@ -56,7 +54,7 @@ export default function Favorites() {
 
   return (
     <div>
-      <div className={css.counter}>{favorites.length} recepis</div>
+      <div className={css.counter}>{totalItems} recepis</div>
       <RecipeList
         recipes={favorites}
         page={page}

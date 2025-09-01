@@ -19,7 +19,7 @@ import css from "./Own.module.css";
 export default function Own() {
   const dispatch = useDispatch();
   const own = useSelector(selectRecipesOwn);
-  const { page, totalPages } = useSelector(paginationOwn);
+  const { page, totalPages, totalItems } = useSelector(paginationOwn);
   const loading = useSelector(selectRecipesLoading);
   const error = useSelector(selectRecipesError);
 
@@ -49,7 +49,7 @@ export default function Own() {
 
   return (
     <div>
-      <div className={css.counter}>{own.length} recepis</div>
+      <div className={css.counter}>{totalItems} recepis</div>
       <RecipeList
         recipes={own}
         page={page}
