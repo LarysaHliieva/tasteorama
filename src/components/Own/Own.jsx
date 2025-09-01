@@ -8,11 +8,9 @@ import { NoResult } from "../NoResult/NoResult";
 
 import {
   selectRecipesOwn,
-  selectRecipesPage,
-  selectRecipesTotalPages,
-  selectRecipesTotalItems,
   selectRecipesLoading,
   selectRecipesError,
+  paginationOwn,
 } from "../../redux/recipes/selectors";
 import { getOwn } from "../../redux/recipes/operations";
 
@@ -21,9 +19,7 @@ import css from "./Own.module.css";
 export default function Own() {
   const dispatch = useDispatch();
   const favorites = useSelector(selectRecipesOwn);
-  const page = useSelector(selectRecipesPage);
-  const totalPages = useSelector(selectRecipesTotalPages);
-  const selectedTotalItems = useSelector(selectRecipesTotalItems);
+  const { page, totalPages, totalItems } = useSelector(paginationOwn);
   const loading = useSelector(selectRecipesLoading);
   const error = useSelector(selectRecipesError);
 
@@ -53,7 +49,7 @@ export default function Own() {
 
   return (
     <div>
-      <div className={css.counter}>{selectedTotalItems} recepis</div>
+      <div className={css.counter}>{totalItems} recepis</div>
       <RecipeList
         recipes={favorites}
         page={page}

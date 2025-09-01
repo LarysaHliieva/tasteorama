@@ -33,6 +33,16 @@ const recipesSlice = createSlice({
       totalPages: 1,
       totalItems: 0,
     },
+    paginationFavorite: {
+      page: 1,
+      totalPages: 1,
+      totalItems: 0,
+    },
+    paginationOwn: {
+      page: 1,
+      totalPages: 1,
+      totalItems: 0,
+    },
   },
 
   reducers: {
@@ -89,9 +99,9 @@ const recipesSlice = createSlice({
           state.favorite = [...state.favorite, ...recipes];
         }
 
-        state.pagination.page = currentPage;
-        state.pagination.totalPages = totalPages;
-        state.pagination.totalItems = total;
+        state.paginationFavorite.page = currentPage;
+        state.paginationFavorite.totalPages = totalPages;
+        state.paginationFavorite.totalItems = total;
       })
       .addCase(getFavorites.rejected, handleRejected)
       // ----------------------------------------------------
@@ -107,7 +117,7 @@ const recipesSlice = createSlice({
           state.favorite = [...state.favorite, ...data];
         }
 
-        state.pagination = {
+        state.paginationOwn = {
           page,
           totalPages,
           totalItems,
