@@ -39,11 +39,25 @@ const RecipeDetails = () => {
   const favorites = useSelector(selectRecipesFavorites);
   const isFavorite = favorites.some((fav) => fav._id === id);
 
+  // useEffect(() => {
+  //   dispatch(clearCurrentRecipe());
+  //   dispatch(getRecipeById(id));
+  //   dispatch(fetchIngredients());
+  // }, [dispatch, id]);
+
   useEffect(() => {
-    dispatch(clearCurrentRecipe());
-    dispatch(getRecipeById(id));
-    dispatch(fetchIngredients());
-  }, [dispatch, id]);
+    const fetchRecipe = async () => {
+      try {
+        dispatch(clearCurrentRecipe());
+        await dispatch(getRecipeById(id)).unwrap();
+        dispatch(fetchIngredients());
+      } catch (err) {
+        navigate("/not-found");
+      }
+    };
+
+    fetchRecipe();
+  }, [dispatch, id, navigate]);
 
   useEffect(() => {
     if (recipe && ingredientsOptions.length) {
@@ -59,12 +73,6 @@ const RecipeDetails = () => {
       setMappedIngredients(mapped);
     }
   }, [recipe, ingredientsOptions]);
-
-  useEffect(() => {
-    if (error) {
-      navigate("/not-found");
-    }
-  }, [error, navigate]);
 
   const handleClick = async () => {
     if (!isLoggedIn) return navigate("/auth");

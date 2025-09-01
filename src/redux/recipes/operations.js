@@ -11,6 +11,7 @@ export const getRecipeById = createAsyncThunk(
       const response = await axiosAPI.get(`/recipes/${recipeId}`);
       return response.data.data;
     } catch (error) {
+      console.log("error", error);
       const message =
         error.response?.data?.message ||
         error.response?.data?.error ||
