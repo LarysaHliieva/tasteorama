@@ -24,7 +24,7 @@ export default function Favorites() {
   const error = useSelector(selectRecipesError);
 
   console.log("favorites:", favorites);
-console.log("paginationFavorite:", { page, totalPages, totalItems });
+  console.log("paginationFavorite:", { page, totalPages });
   const [isInitialRequest, setIsInitialRequest] = useState(true);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ console.log("paginationFavorite:", { page, totalPages, totalItems });
     );
   }, [dispatch]);
 
-   const favoriteObject = useMemo(() => {
+  const favoriteObject = useMemo(() => {
     return (favorites || []).reduce((acc, recipe) => {
       acc[recipe._id] = true;
       return acc;
