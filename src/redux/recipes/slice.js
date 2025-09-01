@@ -6,6 +6,7 @@ import {
   removeFromFavorites,
   getFavorites,
   getOwn,
+  addOwnRecipe,
 } from "./operations.js";
 
 const handlePending = (state) => {
@@ -101,7 +102,14 @@ const recipesSlice = createSlice({
           totalItems,
         };
       })
-      .addCase(getOwn.rejected, handleRejected);
+      .addCase(getOwn.rejected, handleRejected)
+
+      .addCase(addOwnRecipe.pending, handlePending)
+      .addCase(addOwnRecipe.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.newRecipe = action.payload;
+      })
+      .addCase(addOwnRecipe.rejected, handleRejected);
   },
 });
 

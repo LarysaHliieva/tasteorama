@@ -115,3 +115,41 @@ export const getOwn = createAsyncThunk(
     }
   }
 );
+
+export const addOwnRecipe = createAsyncThunk(
+  "recipes/addOwnRecipe",
+  async (body, thunkAPI) => {
+    try {
+      const formData = new FormData();
+
+      Object.keys(body).forEach((key) => {
+        if (key === "ingredients") {
+          formData.append("ingredients", JSON.stringify(body.ingredients));
+        } else if (key !== "image") {
+          formData.append(key, body[key]);
+        }
+      });
+
+      if (body.image) {
+        formData.append("image", body.image);
+      }
+      // console.log(body.image[0].type);
+      // if (body.image && body.image[0] instanceof File) {
+      //   formData.append("image", body.image[0]);
+      // }
+
+      const res = await axiosAPI.post("/recipes/add", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      toast.success(res.data.message);
+      console.log(res.data.data.recipe);
+      return res.data.data.recipe;
+    } catch (error) {
+      toast.error(error.response?.data?.messages || "Something went wrong!");
+      return thunkAPI.rejectWithValue(error.response?.data?.messages);
+    }
+  }
+);

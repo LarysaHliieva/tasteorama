@@ -27,8 +27,8 @@ export function RecipeContainer() {
   const favorite = useSelector(selectRecipesFavorites);
 
   const filters = useMemo(() => {
-    return { categories, ingredients, searchQuery }
-  },[categories, ingredients, searchQuery ]);
+    return { categories, ingredients, searchQuery };
+  }, [categories, ingredients, searchQuery]);
 
   useEffect(() => {
     dispatch(getRecipes({ page: 1, limit: 12, filters }));
@@ -41,8 +41,15 @@ export function RecipeContainer() {
   console.log("all.length", all.length);
   console.log("favorite", favorite);
 
+  // const favoriteObject = useMemo(() => {
+  //   return (favorite || []).reduce((acc, cur) => {
+  //     acc[cur._id] = true;
+  //     return acc;
+  //   }, {});
+  // }, [favorite]);
+
   const favoriteObject = useMemo(() => {
-    return (favorite || []).reduce((acc, cur) => {
+    return (favorite?.recipes || favorite || []).reduce((acc, cur) => {
       acc[cur._id] = true;
       return acc;
     }, {});
