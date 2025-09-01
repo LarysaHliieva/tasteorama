@@ -64,6 +64,8 @@ const recipesSlice = createSlice({
       .addCase(addToFavorites.fulfilled, (state, action) => {
         state.isLoading = false;
         state.favorite = action.payload;
+        state.paginationFavorite.totalItems = action.payload.length;
+        state.paginationFavorite.page = 1
       })
       .addCase(addToFavorites.rejected, handleRejected)
 
@@ -71,6 +73,8 @@ const recipesSlice = createSlice({
       .addCase(removeFromFavorites.fulfilled, (state, action) => {
         state.isLoading = false;
         state.favorite = action.payload;
+        state.paginationFavorite.totalItems = action.payload.length;
+        state.paginationFavorite.page = 1;
       })
       .addCase(removeFromFavorites.rejected, handleRejected)
 

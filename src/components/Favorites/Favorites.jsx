@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { FadeLoader } from "react-spinners";
@@ -23,6 +23,8 @@ export default function Favorites() {
   const loading = useSelector(selectRecipesLoading);
   const error = useSelector(selectRecipesError);
 
+  console.log("favorites:", favorites);
+console.log("paginationFavorite:", { page, totalPages, totalItems });
   const [isInitialRequest, setIsInitialRequest] = useState(true);
 
   useEffect(() => {
@@ -30,6 +32,13 @@ export default function Favorites() {
       setIsInitialRequest(false)
     );
   }, [dispatch]);
+
+   const favoriteObject = useMemo(() => {
+    return (favorites || []).reduce((acc, recipe) => {
+      acc[recipe._id] = true;
+      return acc;
+    }, {});
+  }, [favorites]);
 
   const loadMore = () => {
     dispatch(getFavorites({ page: page + 1, limit: 12 }));
@@ -54,6 +63,7 @@ export default function Favorites() {
         totalPages={totalPages}
         onLoadMore={loadMore}
         variant="favorites"
+        favoriteObject={favoriteObject}
       />
     </div>
   );
