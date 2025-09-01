@@ -14,7 +14,7 @@ const Header = () => {
 
   const user = useSelector(selectUser);
 
-  const name = user.user?.name || "";
+  const name = user?.user?.name || "";
 
   const firstLetter = useMemo(() => {
     return name ? name.charAt(0).toUpperCase() : "?";
