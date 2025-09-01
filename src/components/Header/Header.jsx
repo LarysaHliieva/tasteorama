@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { selectIsLoggedIn, selectUser } from "../../redux/auth/selectors.js";
@@ -14,6 +14,12 @@ const Header = () => {
 
   const user = useSelector(selectUser);
 
+  const name = user.user?.name || "";
+
+  const firstLetter = useMemo(() => {
+    return name ? name.charAt(0).toUpperCase() : "?";
+  }, [name]);
+
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const [isOpenModalLogout, setIsOpenModalLogout] = useState(false);
 
@@ -22,10 +28,6 @@ const Header = () => {
 
   const handleOpenModalLogout = () => setIsOpenModalLogout(true);
   const handleCloseModalLogout = () => setIsOpenModalLogout(false);
-
-  const getFirstLetter = (name) => {
-    return name ? name.charAt(0).toUpperCase() : "?";
-  };
 
   const logout = Logout();
 
@@ -68,10 +70,8 @@ const Header = () => {
               </NavLink>
 
               <div className={css.userInfo}>
-                <span className={css.avatar}>
-                  {getFirstLetter(user.user?.name)}
-                </span>
-                <span className={css.userName}>{user.user?.name}</span>
+                <span className={css.avatar}>{firstLetter}</span>
+                <span className={css.userName}>{name}</span>
               </div>
               <button
                 type="button"
@@ -126,7 +126,8 @@ const Header = () => {
           <BurgerMenuAuth
             isOpen={isBurgerOpen}
             onClose={closeBurgerMenu}
-            user={user}
+            name={name}
+            firstLetter={firstLetter}
             handleLogout={handleOpenModalLogout}
           />
         ) : (

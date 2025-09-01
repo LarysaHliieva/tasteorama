@@ -65,7 +65,7 @@ const recipesSlice = createSlice({
         state.isLoading = false;
         state.favorite = action.payload;
         state.paginationFavorite.totalItems = action.payload.length;
-        state.paginationFavorite.page = 1
+        state.paginationFavorite.page = 1;
       })
       .addCase(addToFavorites.rejected, handleRejected)
 
@@ -116,9 +116,9 @@ const recipesSlice = createSlice({
         const { data, page, totalPages, totalItems } = action.payload;
 
         if (page === 1) {
-          state.favorite = data;
+          state.own = data;
         } else {
-          state.favorite = [...state.favorite, ...data];
+          state.own = [...state.own, ...data];
         }
 
         state.paginationOwn = {

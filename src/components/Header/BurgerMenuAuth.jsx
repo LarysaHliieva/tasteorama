@@ -2,11 +2,13 @@ import { NavLink } from "react-router-dom";
 import Icon from "../Icon/index.jsx";
 import css from "./BurgerMenu.module.css";
 
-const BurgerMenuAuth = ({ isOpen, onClose, user, handleLogout }) => {
-  const getFirstLetter = (name) => {
-    return name ? name.charAt(0).toUpperCase() : "?";
-  };
-
+const BurgerMenuAuth = ({
+  isOpen,
+  onClose,
+  name,
+  firstLetter,
+  handleLogout,
+}) => {
   return (
     <>
       <div
@@ -34,8 +36,8 @@ const BurgerMenuAuth = ({ isOpen, onClose, user, handleLogout }) => {
 
           <div className={css.userInfoWrap}>
             <div className={css.userInfo}>
-              <span className={css.avatar}>{getFirstLetter(user?.name)}</span>
-              <span className={css.userName}>{user?.name}</span>
+              <span className={css.avatar}>{firstLetter}</span>
+              <span className={css.userName}>{name}</span>
             </div>
             <button type="button" className={css.logout} onClick={handleLogout}>
               <Icon name="log-out" width={32} height={32} color="#ffffff" />

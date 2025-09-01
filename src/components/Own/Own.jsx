@@ -26,15 +26,13 @@ export default function Own() {
   const [isInitialRequest, setIsInitialRequest] = useState(true);
 
   useEffect(() => {
-    dispatch(getOwn());
+    dispatch(getOwn({ page: 1, limit: 12 })).finally(() =>
+      setIsInitialRequest(false)
+    );
   }, [dispatch]);
 
   const loadMore = () => {
-    dispatch(
-      getOwn({ page: page + 1, limit: 12 }).finally(() =>
-        setIsInitialRequest(false)
-      )
-    );
+    dispatch(getOwn({ page: page + 1, limit: 12 }));
   };
 
   if (loading && isInitialRequest) {
