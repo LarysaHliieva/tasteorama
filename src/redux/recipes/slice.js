@@ -77,13 +77,24 @@ const recipesSlice = createSlice({
 
         state.pagination = pagination;
       })
-
+      // --------------------------------------------------------
       .addCase(getFavorites.pending, handlePending)
       .addCase(getFavorites.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.favorite = action.payload;
+        const { recipes, total, totalPages, currentPage } = action.payload;
+
+        if (currentPage === 1) {
+          state.favorite = recipes;
+        } else {
+          state.favorite = [...state.favorite, ...recipes];
+        }
+
+        state.pagination.page = currentPage;
+        state.pagination.totalPages = totalPages;
+        state.pagination.totalItems = total;
       })
       .addCase(getFavorites.rejected, handleRejected)
+      // ----------------------------------------------------
 
       .addCase(getOwn.pending, handlePending)
       .addCase(getOwn.fulfilled, (state, action) => {

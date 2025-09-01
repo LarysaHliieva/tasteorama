@@ -38,22 +38,22 @@ export function RecipeContainer() {
   const loadMore = () => {
     dispatch(getRecipes({ page: page + 1, limit: 12, filters }));
   };
-  console.log("all.length", all.length);
-  console.log("favorite", favorite);
-
-  // const favoriteObject = useMemo(() => {
-  //   return (favorite || []).reduce((acc, cur) => {
-  //     acc[cur._id] = true;
-  //     return acc;
-  //   }, {});
-  // }, [favorite]);
+  // console.log("all.length", all.length);
+  // console.log("favorite", favorite);
 
   const favoriteObject = useMemo(() => {
-    return (favorite?.recipes || favorite || []).reduce((acc, cur) => {
+    return (favorite || []).reduce((acc, cur) => {
       acc[cur._id] = true;
       return acc;
     }, {});
   }, [favorite]);
+
+  // const favoriteObject = useMemo(() => {
+  //   return (favorite?.recipes || favorite || []).reduce((acc, cur) => {
+  //     acc[cur._id] = true;
+  //     return acc;
+  //   }, {});
+  // }, [favorite]);
 
   if (all?.length === 0 && searchQuery) {
     return <NoResult />;

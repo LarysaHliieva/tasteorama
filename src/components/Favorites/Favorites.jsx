@@ -8,11 +8,11 @@ import { NoResult } from "../NoResult/NoResult";
 
 import {
   selectRecipesFavorites,
-  // selectRecipesTotalItems,
-  // selectRecipesTotalPages,
-  // selectRecipesTotalItems,
+  selectRecipesTotalItems,
+  selectRecipesTotalPages,
   selectRecipesLoading,
   selectRecipesError,
+  selectRecipesPage,
 } from "../../redux/recipes/selectors";
 import { getFavorites } from "../../redux/recipes/operations";
 
@@ -21,9 +21,9 @@ import css from "./Favorites.module.css";
 export default function Favorites() {
   const dispatch = useDispatch();
   const favorites = useSelector(selectRecipesFavorites);
-  // const page = useSelector(selectRecipesPage);
-  // const totalPages = useSelector(selectRecipesTotalPages);
-  // const selectedTotalItems = useSelector(selectRecipesTotalItems);
+  const page = useSelector(selectRecipesPage);
+  const totalPages = useSelector(selectRecipesTotalPages);
+  const selectedTotalItems = useSelector(selectRecipesTotalItems);
   const loading = useSelector(selectRecipesLoading);
   const error = useSelector(selectRecipesError);
 
@@ -32,7 +32,7 @@ export default function Favorites() {
   }, [dispatch]);
 
   const loadMore = () => {
-    // dispatch(getFavourite({ page: page + 1, limit: 12 }));
+    dispatch(getFavorites({ page: page + 1, limit: 12 }));
   };
 
   if (loading) {
@@ -47,11 +47,11 @@ export default function Favorites() {
 
   return (
     <div>
-      <div className={css.counter}>{favorites.length} recepis</div>
+      <div className={css.counter}>{selectedTotalItems} recepis</div>
       <RecipeList
         recipes={favorites}
-        // page={page}
-        // totalPages={totalPages}
+        page={page}
+        totalPages={totalPages}
         onLoadMore={loadMore}
         variant="favorites"
       />
