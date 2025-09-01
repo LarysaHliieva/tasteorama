@@ -17,3 +17,9 @@ export const selectRecipesFavorites = (state) => state.recipes.favorite;
 export const selectRecipesOwn = (state) => state.recipes.own;
 
 export const selectRecipesError = (state) => state.recipes.error;
+
+export const selectNewRecipe = (state) => state.recipes.newRecipe;
+
+export const paginationFavorite = (state) => state.recipes.paginationFavorite;
+
+export const paginationOwn = (state) => state.recipes.paginationOwn;

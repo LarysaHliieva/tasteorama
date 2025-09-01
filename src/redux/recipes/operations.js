@@ -11,7 +11,12 @@ export const getRecipeById = createAsyncThunk(
       const response = await axiosAPI.get(`/recipes/${recipeId}`);
       return response.data.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      console.log("error", error);
+      const message =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        "Not found";
+      return thunkAPI.rejectWithValue(message);
     }
   }
 );
@@ -21,8 +26,10 @@ export const addToFavorites = createAsyncThunk(
   async (recipeId, thunkAPI) => {
     try {
       const response = await axiosAPI.post(`/favorites/${recipeId}`);
+      toast.success(response.data.message);
       return response.data.data;
     } catch (error) {
+      toast.error(error.response?.data?.messages || "Something went wrong!");
       return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
@@ -33,9 +40,11 @@ export const removeFromFavorites = createAsyncThunk(
   async (recipeId, thunkAPI) => {
     try {
       const response = await axiosAPI.delete(`/favorites/${recipeId}`);
+      toast.success(response.data.message);
       return response.data.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      toast.error(error.response?.data?.messages || "Something went wrong!");
+      return thunkAPI.rejectWithValue(error.response?.data?.messages);
     }
   }
 );
@@ -45,7 +54,6 @@ export const getRecipes = createAsyncThunk(
 
   async ({ page = 1, limit = 12, filters }, thunkAPI) => {
     try {
-      console.log(filters);
       const params = new URLSearchParams({
         page,
         limit,
@@ -67,7 +75,6 @@ export const getRecipes = createAsyncThunk(
       }
       const response = await axiosAPI.get(`/recipes?${params}`);
       const data = response.data?.data;
-      console.log(filters);
       return {
         recipes: data?.recipes || [],
         pagination: {
@@ -77,6 +84,11 @@ export const getRecipes = createAsyncThunk(
         },
       };
     } catch (error) {
+      toast.error(
+        error.response?.data?.messages ||
+          error.message ||
+          "Something went wrong!"
+      );
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || error.message
       );
@@ -87,9 +99,11 @@ export const getRecipes = createAsyncThunk(
 export const getFavorites = createAsyncThunk(
   "recipes/getFavorites",
 
-  async (_, thunkAPI) => {
+  async ({ page = 1, limit = 10 }, thunkAPI) => {
     try {
-      const response = await axiosAPI.get("/favorites");
+      const response = await axiosAPI.get("/favorites", {
+        params: { page, limit },
+      });
       return response.data.data;
     } catch (error) {
       toast.error(error.response?.data?.messages || "Something went wrong!");
@@ -101,12 +115,48 @@ export const getFavorites = createAsyncThunk(
 export const getOwn = createAsyncThunk(
   "recipes/getOwn",
 
-  async (_, thunkAPI) => {
+  async ({ page = 1, limit = 10 }, thunkAPI) => {
     try {
-      const response = await axiosAPI.get("/recipes/my");
+      const response = await axiosAPI.get("/recipes/my", {
+        params: { page, limit },
+      });
       return response.data;
     } catch (error) {
       toast.error(error.response?.data?.messages || "Something went wrong!");
+      return thunkAPI.rejectWithValue(error.response?.data?.messages);
+    }
+  }
+);
+
+export const addOwnRecipe = createAsyncThunk(
+  "recipes/addOwnRecipe",
+  async (body, thunkAPI) => {
+    try {
+      const formData = new FormData();
+
+      Object.keys(body).forEach((key) => {
+        if (key === "ingredients") {
+          formData.append("ingredients", JSON.stringify(body.ingredients));
+        } else if (key !== "image") {
+          formData.append(key, body[key]);
+        }
+      });
+
+      if (body.image) {
+        formData.append("image", body.image);
+      }
+
+      const res = await axiosAPI.post("/recipes/add", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      toast.success(res.data.message);
+      console.log(res.data.data.recipe);
+      return res.data.data.recipe;
+    } catch (error) {
+      // toast.error(error.response?.data?.messages || "Something went wrong!");
       return thunkAPI.rejectWithValue(error.response?.data?.messages);
     }
   }

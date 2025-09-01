@@ -1,20 +1,28 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { Suspense, lazy } from "react";
+
+import { FadeLoader } from "react-spinners";
 
 import "./App.css";
 import Loyout from "./components/Loyout/Loyout";
-import MainPage from "./pages/MainPage/MainPage";
-import RecipeDetailsPage from "./pages/RecipeDetailsPage/RecipeDetailsPage.jsx";
-import AddRecipePage from "./pages/AddRecipePage/AddRecipePage";
-import ProfilePage from "./pages/ProfilePage/ProfilePage";
-import AuthPage from "./pages/AuthPage/AuthPage";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import RestrictedRoute from "./components/RestrictedRoute/RestrictedRoute";
-import Own from "./components/Own/Own.jsx";
-import Favorites from "./components/Favorites/Favorites.jsx";
-import RegisterPage from "./components/AuthComponent/registerPage.jsx";
-import LoginPage from "./components/AuthComponent/loginPage.jsx";
-import NotFound from "./components/NotFound/NotFound.jsx";
+
+const MainPage = lazy(() => import("./pages/MainPage/MainPage"));
+const RecipeDetailsPage = lazy(() =>
+  import("./pages/RecipeDetailsPage/RecipeDetailsPage")
+);
+const AddRecipePage = lazy(() => import("./pages/AddRecipePage/AddRecipePage"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage/ProfilePage"));
+const AuthPage = lazy(() => import("./pages/AuthPage/AuthPage"));
+const Own = lazy(() => import("./components/Own/Own"));
+const Favorites = lazy(() => import("./components/Favorites/Favorites"));
+const RegisterPage = lazy(() =>
+  import("./components/AuthComponent/registerPage")
+);
+const LoginPage = lazy(() => import("./components/AuthComponent/loginPage"));
+const NotFound = lazy(() => import("./components/NotFound/NotFound"));
 
 function App() {
   return (
@@ -23,40 +31,67 @@ function App() {
         position="top-right"
         toastOptions={{
           error: {
-            style: {
-              background: "#e04b4bff",
-              color: "white",
-            },
-            // duration: 4000,
+            style: { background: "#e04b4bff", color: "white" },
+            duration: 1500,
+          },
+          success: {
+            style: { background: "#70a360ff", color: "white" },
+            duration: 1500,
           },
         }}
       />
-      <Routes>
-        <Route path="/" element={<Loyout />}>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/recipes/:id" element={<RecipeDetailsPage />} />
-          <Route
-            path="/add-recipe"
-            element={<PrivateRoute component={<AddRecipePage />} />}
-          />
-          <Route
-            path="/profile"
-            element={<PrivateRoute component={<ProfilePage />} />}
-          >
-            <Route index element={<Navigate to="own" replace />} />
-            <Route path="own" element={<Own />} />
-            <Route path="favorites" element={<Favorites />} />
+
+      <Suspense fallback={<FadeLoader color="#9B6C43" />}>
+        <Routes>
+          <Route path="/" element={<Loyout />}>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/recipes/:id" element={<RecipeDetailsPage />} />
+            <Route
+              path="/add-recipe"
+              element={<PrivateRoute component={<AddRecipePage />} />}
+            />
+            <Route
+              path="/profile"
+              element={<PrivateRoute component={<ProfilePage />} />}
+            >
+              <Route index element={<Navigate to="own" replace />} />
+              <Route path="own" element={<Own />} />
+              <Route path="favorites" element={<Favorites />} />
+            </Route>
+
+            <Route
+              path="/auth"
+              element={<RestrictedRoute component={<AuthPage />} />}
+            >
+              <Route
+                path="register"
+                element={
+                  <Suspense fallback={<div>Loading Register...</div>}>
+                    <RegisterPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="login"
+                element={
+                  <Suspense fallback={<FadeLoader color="#9B6C43" />}>
+                    <LoginPage />
+                  </Suspense>
+                }
+              />
+            </Route>
+
+            <Route
+              path="*"
+              element={
+                <Suspense fallback={<FadeLoader color="#9B6C43" />}>
+                  <NotFound />
+                </Suspense>
+              }
+            />
           </Route>
-          <Route
-            path="/auth"
-            element={<RestrictedRoute component={<AuthPage />} />}
-          >
-            <Route path="register" element={<RegisterPage />} />
-            <Route path="login" element={<LoginPage />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }

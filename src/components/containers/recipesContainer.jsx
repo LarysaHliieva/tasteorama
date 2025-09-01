@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getRecipes } from "../../redux/recipes/operations";
+import { getFavorites, getRecipes } from "../../redux/recipes/operations";
 import {
   selectRecipes,
+  selectRecipesFavorites,
   selectRecipesPage,
   selectRecipesTotalPages,
 } from "../../redux/recipes/selectors";
@@ -23,26 +24,47 @@ export function RecipeContainer() {
   const categories = useSelector(selectFiltersCategories);
   const ingredients = useSelector(selectFiltersIngredients);
   const searchQuery = useSelector(selectSearchQuery);
+  const favorite = useSelector(selectRecipesFavorites);
 
-  const filters = { categories, ingredients, searchQuery };
+  const filters = useMemo(() => {
+    return { categories, ingredients, searchQuery };
+  }, [categories, ingredients, searchQuery]);
 
   useEffect(() => {
     dispatch(getRecipes({ page: 1, limit: 12, filters }));
-  }, [categories, ingredients, searchQuery, dispatch]);
+    dispatch(getFavorites());
+  }, [filters, dispatch]);
 
   const loadMore = () => {
     dispatch(getRecipes({ page: page + 1, limit: 12, filters }));
   };
-  if (all.length === 0 && searchQuery) {
+  // console.log("all.length", all.length);
+  // console.log("favorite", favorite);
+
+  const favoriteObject = useMemo(() => {
+    return (favorite || []).reduce((acc, cur) => {
+      acc[cur._id] = true;
+      return acc;
+    }, {});
+  }, [favorite]);
+
+  // const favoriteObject = useMemo(() => {
+  //   return (favorite?.recipes || favorite || []).reduce((acc, cur) => {
+  //     acc[cur._id] = true;
+  //     return acc;
+  //   }, {});
+  // }, [favorite]);
+
+  if (all?.length === 0 && searchQuery) {
     return <NoResult />;
   }
-
   return (
     <RecipeList
       recipes={all}
       page={page}
       totalPages={totalPages}
       onLoadMore={loadMore}
+      favoriteObject={favoriteObject}
     />
   );
 }

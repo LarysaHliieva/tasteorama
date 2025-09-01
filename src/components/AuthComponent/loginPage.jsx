@@ -19,8 +19,7 @@ export default function LoginPage() {
 
   const handleLogin = async (values, { setSubmitting }) => {
     try {
-      const res = await AuthAPI.login(values);
-
+      const res = await AuthAPI.login({ email, password });
       localStorage.setItem("accessToken", res.data.data.accessToken);
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
       localStorage.setItem("user", JSON.stringify(res.data.data));
