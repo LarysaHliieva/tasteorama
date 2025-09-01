@@ -27,7 +27,14 @@ function App() {
               background: "#e04b4bff",
               color: "white",
             },
-            // duration: 4000,
+            duration: 1500,
+          },
+          success: {
+            style: {
+              background: "#70a360ff",
+              color: "white",
+            },
+            duration: 1500,
           },
         }}
       />

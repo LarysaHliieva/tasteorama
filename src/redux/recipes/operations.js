@@ -26,8 +26,10 @@ export const addToFavorites = createAsyncThunk(
   async (recipeId, thunkAPI) => {
     try {
       const response = await axiosAPI.post(`/favorites/${recipeId}`);
+      toast.success(response.data.message);
       return response.data.data;
     } catch (error) {
+      toast.error(error.response?.data?.messages || "Something went wrong!");
       return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
@@ -38,9 +40,11 @@ export const removeFromFavorites = createAsyncThunk(
   async (recipeId, thunkAPI) => {
     try {
       const response = await axiosAPI.delete(`/favorites/${recipeId}`);
+      toast.success(response.data.message);
       return response.data.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      toast.error(error.response?.data?.messages || "Something went wrong!");
+      return thunkAPI.rejectWithValue(error.response?.data?.messages);
     }
   }
 );
@@ -82,6 +86,11 @@ export const getRecipes = createAsyncThunk(
         },
       };
     } catch (error) {
+      toast.error(
+        error.response?.data?.messages ||
+          error.message ||
+          "Something went wrong!"
+      );
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || error.message
       );
@@ -149,7 +158,7 @@ export const addOwnRecipe = createAsyncThunk(
       console.log(res.data.data.recipe);
       return res.data.data.recipe;
     } catch (error) {
-      toast.error(error.response?.data?.messages || "Something went wrong!");
+      // toast.error(error.response?.data?.messages || "Something went wrong!");
       return thunkAPI.rejectWithValue(error.response?.data?.messages);
     }
   }
