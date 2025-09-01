@@ -32,7 +32,7 @@ export function RecipeContainer() {
 
   useEffect(() => {
     dispatch(getRecipes({ page: 1, limit: 12, filters }));
-    dispatch(getFavorites());
+    dispatch(getFavorites({ limit: 1000 }));
   }, [filters, dispatch]);
 
   const loadMore = () => {
@@ -46,7 +46,7 @@ export function RecipeContainer() {
       acc[cur._id] = true;
       return acc;
     }, {});
-  }, [favorite]);
+  }, [favorite, favorite?.length]);
 
   // const favoriteObject = useMemo(() => {
   //   return (favorite?.recipes || favorite || []).reduce((acc, cur) => {
