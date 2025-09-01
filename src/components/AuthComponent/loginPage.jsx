@@ -16,7 +16,6 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       const res = await AuthAPI.login({ email, password });
-      console.log({ res });
       localStorage.setItem("accessToken", res.data.data.accessToken);
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
       localStorage.setItem("user", JSON.stringify(res.data.data));

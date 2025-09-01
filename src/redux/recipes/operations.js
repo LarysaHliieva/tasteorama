@@ -54,7 +54,6 @@ export const getRecipes = createAsyncThunk(
 
   async ({ page = 1, limit = 12, filters }, thunkAPI) => {
     try {
-      console.log(filters);
       const params = new URLSearchParams({
         page,
         limit,
@@ -76,7 +75,6 @@ export const getRecipes = createAsyncThunk(
       }
       const response = await axiosAPI.get(`/recipes?${params}`);
       const data = response.data?.data;
-      console.log(filters);
       return {
         recipes: data?.recipes || [],
         pagination: {
@@ -101,9 +99,11 @@ export const getRecipes = createAsyncThunk(
 export const getFavorites = createAsyncThunk(
   "recipes/getFavorites",
 
-  async (_, thunkAPI) => {
+  async ({ page = 1, limit = 10 }, thunkAPI) => {
     try {
-      const response = await axiosAPI.get("/favorites");
+      const response = await axiosAPI.get("/favorites", {
+        params: { page, limit },
+      });
       return response.data.data;
     } catch (error) {
       toast.error(error.response?.data?.messages || "Something went wrong!");
@@ -115,9 +115,11 @@ export const getFavorites = createAsyncThunk(
 export const getOwn = createAsyncThunk(
   "recipes/getOwn",
 
-  async (_, thunkAPI) => {
+  async ({ page = 1, limit = 10 }, thunkAPI) => {
     try {
-      const response = await axiosAPI.get("/recipes/my");
+      const response = await axiosAPI.get("/recipes/my", {
+        params: { page, limit },
+      });
       return response.data;
     } catch (error) {
       toast.error(error.response?.data?.messages || "Something went wrong!");
@@ -143,10 +145,6 @@ export const addOwnRecipe = createAsyncThunk(
       if (body.image) {
         formData.append("image", body.image);
       }
-      // console.log(body.image[0].type);
-      // if (body.image && body.image[0] instanceof File) {
-      //   formData.append("image", body.image[0]);
-      // }
 
       const res = await axiosAPI.post("/recipes/add", formData, {
         headers: {

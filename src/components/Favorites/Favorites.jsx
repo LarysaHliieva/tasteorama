@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { FadeLoader } from "react-spinners";
@@ -8,11 +8,9 @@ import { NoResult } from "../NoResult/NoResult";
 
 import {
   selectRecipesFavorites,
-  // selectRecipesTotalItems,
-  // selectRecipesTotalPages,
-  // selectRecipesTotalItems,
   selectRecipesLoading,
   selectRecipesError,
+  paginationFavorite,
 } from "../../redux/recipes/selectors";
 import { getFavorites } from "../../redux/recipes/operations";
 
@@ -21,21 +19,32 @@ import css from "./Favorites.module.css";
 export default function Favorites() {
   const dispatch = useDispatch();
   const favorites = useSelector(selectRecipesFavorites);
-  // const page = useSelector(selectRecipesPage);
-  // const totalPages = useSelector(selectRecipesTotalPages);
-  // const selectedTotalItems = useSelector(selectRecipesTotalItems);
+  const { page, totalPages } = useSelector(paginationFavorite);
   const loading = useSelector(selectRecipesLoading);
   const error = useSelector(selectRecipesError);
 
+  console.log("favorites:", favorites);
+  console.log("paginationFavorite:", { page, totalPages });
+  const [isInitialRequest, setIsInitialRequest] = useState(true);
+
   useEffect(() => {
-    dispatch(getFavorites());
+    dispatch(getFavorites({ page: 1, limit: 12 })).finally(() =>
+      setIsInitialRequest(false)
+    );
   }, [dispatch]);
 
+  const favoriteObject = useMemo(() => {
+    return (favorites || []).reduce((acc, recipe) => {
+      acc[recipe._id] = true;
+      return acc;
+    }, {});
+  }, [favorites]);
+
   const loadMore = () => {
-    // dispatch(getFavourite({ page: page + 1, limit: 12 }));
+    dispatch(getFavorites({ page: page + 1, limit: 12 }));
   };
 
-  if (loading) {
+  if (loading && isInitialRequest) {
     return <FadeLoader color="#9b6c43" />;
   }
 
@@ -50,10 +59,11 @@ export default function Favorites() {
       <div className={css.counter}>{favorites.length} recepis</div>
       <RecipeList
         recipes={favorites}
-        // page={page}
-        // totalPages={totalPages}
+        page={page}
+        totalPages={totalPages}
         onLoadMore={loadMore}
         variant="favorites"
+        favoriteObject={favoriteObject}
       />
     </div>
   );
