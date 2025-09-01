@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import clsx from "clsx";
 
 import Icon from "../Icon/index.jsx";
 
@@ -100,7 +101,7 @@ export default function AddRecipeForm() {
         }
       }}
     >
-      {({ values, setFieldValue }) => {
+      {({ values, setFieldValue, errors, touched }) => {
         const addIngredient = () => {
           const ingredientValue = values.ingredient;
           const amountValue = values.amount;
@@ -126,6 +127,14 @@ export default function AddRecipeForm() {
             values.ingredients.filter((_, i) => i !== index)
           );
         };
+
+        const getFieldClass = (fieldName, className) => {
+          return clsx(
+            className,
+            errors[fieldName] && touched[fieldName] && css.inputError
+          );
+        };
+
         return (
           <Form className={css.form}>
             <div className={css.ContentRightImg}>
@@ -156,6 +165,11 @@ export default function AddRecipeForm() {
                   )}
                 </label>
               </div>
+              <ErrorMessage
+                name="fileInput"
+                component="div"
+                className={css.error}
+              />
             </div>
             <div className={css.contentLeft}>
               <div className={css.fieldGroup}>
@@ -163,7 +177,7 @@ export default function AddRecipeForm() {
                 <label className={css.label}>Recipe Title</label>
                 <Field
                   name="title"
-                  className={css.input}
+                  className={getFieldClass("title", css.input)}
                   placeholder="Enter the name of your recipe"
                 />
                 <ErrorMessage
@@ -178,14 +192,28 @@ export default function AddRecipeForm() {
                 <Field
                   as="textarea"
                   name="description"
-                  className={css.textarea}
+                  className={getFieldClass("description", css.textarea)}
                   placeholder="Enter a brief description of your recipe"
+                />
+                <ErrorMessage
+                  name="description"
+                  component="div"
+                  className={css.error}
                 />
               </div>
 
               <div className={css.fieldGroup}>
                 <label className={css.label}>Cooking Time in minutes</label>
-                <Field name="cookingTime" type="number" className={css.input} />
+                <Field
+                  name="cookingTime"
+                  type="number"
+                  className={getFieldClass("cookingTime", css.input)}
+                />
+                <ErrorMessage
+                  name="cookingTime"
+                  component="div"
+                  className={css.error}
+                />
               </div>
 
               <div className={css.wraperCalories}>
@@ -194,12 +222,21 @@ export default function AddRecipeForm() {
                   <Field
                     name="calories"
                     type="number"
-                    className={css.cooking}
+                    className={getFieldClass("calories", css.cooking)}
+                  />
+                  <ErrorMessage
+                    name="calories"
+                    component="div"
+                    className={css.error}
                   />
                 </div>
                 <div>
                   <label className={css.label}>Category</label>
-                  <Field as="select" name="category" className={css.select}>
+                  <Field
+                    as="select"
+                    name="category"
+                    className={getFieldClass("category", css.select)}
+                  >
                     <option value="">Select a category</option>
                     {categoriesOptions.map((opt) => (
                       <option key={opt.value} value={opt.value}>
@@ -207,6 +244,11 @@ export default function AddRecipeForm() {
                       </option>
                     ))}
                   </Field>
+                  <ErrorMessage
+                    name="category"
+                    component="div"
+                    className={css.error}
+                  />
                 </div>
               </div>
             </div>
@@ -214,7 +256,11 @@ export default function AddRecipeForm() {
             <div className={css.ingredients}>
               <h3 className={css.igradientTitle}>Ingredients</h3>
               <div className={css.wraperIngredients}>
-                <Field as="select" name="ingredient" className={css.select}>
+                <Field
+                  as="select"
+                  name="ingredient"
+                  className={getFieldClass("ingredients", css.select)}
+                >
                   <option value="">Select an ingredient</option>
                   {ingredientsOptions.map((opt) => (
                     <option key={opt.value} value={opt.value}>
@@ -222,12 +268,22 @@ export default function AddRecipeForm() {
                     </option>
                   ))}
                 </Field>
+                <ErrorMessage
+                  name="ingredients"
+                  component="div"
+                  className={css.error}
+                />
 
                 <Field
                   name="amount"
                   placeholder="Amount"
-                  className={css.inputAmount}
+                  className={getFieldClass("ingredients", css.inputAmount)}
                   type="number"
+                />
+                <ErrorMessage
+                  name="amount"
+                  component="div"
+                  className={css.error}
                 />
               </div>
               <div className={css.addButtonWraper}>
@@ -285,8 +341,13 @@ export default function AddRecipeForm() {
               <Field
                 as="textarea"
                 name="instructions"
-                className={css.InstructionsText}
+                className={getFieldClass("instructions", css.InstructionsText)}
                 placeholder="Enter a text"
+              />
+              <ErrorMessage
+                name="instruction"
+                component="div"
+                className={css.error}
               />
             </div>
 
