@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 export default function AuthPage() {
   return <div>
     <nav>
-      <Link to="register">Register</Link> || <Link to="/auth/login">Login</Link>
+      <Link to="register"></Link>
+      <Link to="/auth/login"></Link>
     </nav>
     <Outlet/>
   </div>;
