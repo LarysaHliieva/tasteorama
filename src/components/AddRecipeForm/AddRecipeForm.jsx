@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -20,8 +20,6 @@ import {
 import { addOwnRecipe } from "../../redux/recipes/operations.js";
 
 export default function AddRecipeForm() {
-  const [tempIngredients, setTempIngredients] = useState([]);
-
   const dispatch = useDispatch();
 
   const categoriesOptions = useSelector(selectCategoriesOptions);
@@ -31,16 +29,6 @@ export default function AddRecipeForm() {
     dispatch(fetchCategories());
     dispatch(fetchIngredients());
   }, [dispatch]);
-
-  // const addIngredient = (ingredient, amount) => {
-  //   if (!ingredient || !amount) return;
-  //   const label =
-  //     ingredientsOptions.find((i) => i.value === ingredient)?.label || "";
-  //   // setTempIngredients([...tempIngredients, { ingredient, label, amount }]);
-  //   setTempIngredients([...tempIngredients, { label, amount }]);
-  // };
-  // const removeIngredient = (index) =>
-  //   setTempIngredients(tempIngredients.filter((_, i) => i !== index));
 
   return (
     <Formik
@@ -98,11 +86,6 @@ export default function AddRecipeForm() {
           .nullable(),
       })}
       onSubmit={async (values) => {
-        // const syncedIngredients = tempIngredients.map((t) => ({
-        //   name: t.label,
-        //   amount: t.amount,
-        // }));
-
         const { ingredient, amount, ...rest } = values;
 
         const payload = { ...rest };
@@ -274,7 +257,7 @@ export default function AddRecipeForm() {
                   {values.ingredients.map((t, index) => {
                     return (
                       <tr key={index}>
-                        <td width="50%">{t.label}</td>
+                        <td width="50%">{t.name}</td>
                         <td width="30%">{t.amount}</td>
                         <td width="20%">
                           <button
