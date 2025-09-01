@@ -10,7 +10,11 @@ import {
   addToFavorites,
   removeFromFavorites,
 } from "../../redux/recipes/operations";
-import { selectCurrentRecipe } from "../../redux/recipes/selectors";
+import {
+  selectCurrentRecipe,
+  selectRecipesLoading,
+  selectRecipesError,
+} from "../../redux/recipes/selectors";
 import { selectIsLoggedIn } from "../../redux/auth/selectors";
 import { clearCurrentRecipe } from "../../redux/recipes/slice";
 import Icon from "../Icon";
@@ -24,6 +28,8 @@ const RecipeDetails = () => {
   const { id } = useParams();
 
   const recipe = useSelector(selectCurrentRecipe);
+  const isLoading = useSelector(selectRecipesLoading);
+  const error = useSelector(selectRecipesError);
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const ingredientsOptions = useSelector(selectIngredientsOptions);
@@ -54,6 +60,12 @@ const RecipeDetails = () => {
     }
   }, [recipe, ingredientsOptions]);
 
+  useEffect(() => {
+    if (error) {
+      navigate("/not-found");
+    }
+  }, [error, navigate]);
+
   const handleClick = async () => {
     if (!isLoggedIn) return navigate("/auth");
 
@@ -66,7 +78,7 @@ const RecipeDetails = () => {
     dispatch(getFavorites());
   };
 
-  if (!recipe) {
+  if (isLoading || !recipe) {
     return (
       <div className={css.loaderWrap}>
         <FadeLoader color="#9b6c43" />
