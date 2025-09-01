@@ -7,7 +7,6 @@ import {
 } from "../../redux/recipes/operations";
 import { selectIsLoggedIn } from "../../redux/auth/selectors";
 import Modal from "../Modal/Modal.jsx";
-// import toast from "react-hot-toast";
 
 import Icon from "../Icon";
 import css from "./RecipeCard.module.css";
@@ -35,19 +34,15 @@ export default function RecipeCard({
       handleOpenModalAuth();
       return;
     }
-    try {
-      if (variant === "favorites") {
+
+    if (variant === "favorites") {
+      await dispatch(removeFromFavorites(id)).unwrap();
+    } else {
+      if (isFavorite) {
         await dispatch(removeFromFavorites(id)).unwrap();
       } else {
-        if (isFavorite) {
-          await dispatch(removeFromFavorites(id)).unwrap();
-        } else {
-          await dispatch(addToFavorites(id)).unwrap();
-        }
+        await dispatch(addToFavorites(id)).unwrap();
       }
-    } catch (e) {
-      console.log(e?.message);
-      // toast.error(e?.message || "Something went wrong");
     }
   };
 
