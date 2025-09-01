@@ -36,7 +36,8 @@ export default function AddRecipeForm() {
     if (!ingredient || !amount) return;
     const label =
       ingredientsOptions.find((i) => i.value === ingredient)?.label || "";
-    setTempIngredients([...tempIngredients, { ingredient, label, amount }]);
+    // setTempIngredients([...tempIngredients, { ingredient, label, amount }]);
+    setTempIngredients([...tempIngredients, { label, amount }]);
   };
   const removeIngredient = (index) =>
     setTempIngredients(tempIngredients.filter((_, i) => i !== index));
