@@ -6,11 +6,9 @@ import Icon from "../Icon/index.jsx";
 import Modal from "../Modal/Modal.jsx";
 import BurgerMenu from "./BurgerMenu";
 import BurgerMenuAuth from "./BurgerMenuAuth";
-import css from "./Header.module.css";
-import { logoutUser } from "../../redux/auth/operations.js";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
+import css from "./Header.module.css";
+import Logout from "../AuthComponent/logout.jsx";
 const Header = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
@@ -29,9 +27,8 @@ const Header = () => {
     return name ? name.charAt(0).toUpperCase() : "?";
   };
 
-const dispatch = useDispatch()
-const navigate = useNavigate()
-  
+  const logout = Logout();
+
   return (
     <>
       <header className={css.header}>
@@ -143,11 +140,8 @@ const navigate = useNavigate()
         title="Are you shure?"
         desc="We will miss you!"
         confirmText="Log out"
-        onConfirm={() => {
-    dispatch(logoutUser()).unwrap().then(() => {
-      navigate("/auth/login")
-    })
-  }}      />
+        onConfirm={() => logout()}
+      />
     </>
   );
 };
