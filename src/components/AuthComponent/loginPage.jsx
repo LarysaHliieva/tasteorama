@@ -3,12 +3,13 @@ import { AuthAPI } from "../../services/api.js";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import toast from "react-hot-toast";
+import { loginValidationSchema } from "../../utils/validationSchemas.js";
 import { login } from "../../redux/auth/slice.js";
 import styles from "./loginPage.module.css";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -31,7 +32,7 @@ export default function LoginPage() {
         const messages = err.response.data.errors || [
           err.response.data.message,
         ];
-        setError(messages.join(", "));
+        toast.error(messages.join(", "));
       }
     } finally {
       setSubmitting(false);
@@ -40,7 +41,11 @@ export default function LoginPage() {
 
   return (
     <div className={styles.container}>
-      <Formik initialValues={initialValues} onSubmit={handleLogin}>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleLogin}
+        validationSchema={loginValidationSchema}
+      >
         {({ isSubmitting }) => (
           <Form className={styles.formContainer}>
             <h2 className={styles.loginTitle}>Login</h2>
@@ -82,8 +87,6 @@ export default function LoginPage() {
               component="strong"
               className={styles.errorMessage}
             />
-
-            {error && <p className={styles.errorMessage}>{error}</p>}
 
             <button
               className={styles.btnLogin}

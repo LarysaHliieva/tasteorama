@@ -9,6 +9,8 @@ import {
   addOwnRecipe,
 } from "./operations.js";
 
+import { logout } from "../auth/slice.js";
+
 const handlePending = (state) => {
   state.isLoading = true;
   state.error = null;
@@ -17,6 +19,12 @@ const handlePending = (state) => {
 const handleRejected = (state, action) => {
   state.isLoading = false;
   state.error = action.payload;
+};
+
+const initialPagination = {
+  page: 1,
+  totalPages: 1,
+  totalItems: 0,
 };
 
 const recipesSlice = createSlice({
@@ -28,21 +36,9 @@ const recipesSlice = createSlice({
     currentRecipe: null,
     isLoading: false,
     error: null,
-    pagination: {
-      page: 1,
-      totalPages: 1,
-      totalItems: 0,
-    },
-    paginationFavorite: {
-      page: 1,
-      totalPages: 1,
-      totalItems: 0,
-    },
-    paginationOwn: {
-      page: 1,
-      totalPages: 1,
-      totalItems: 0,
-    },
+    pagination: initialPagination,
+    paginationFavorite: initialPagination,
+    paginationOwn: initialPagination,
   },
 
   reducers: {
@@ -91,7 +87,7 @@ const recipesSlice = createSlice({
 
         state.pagination = pagination;
       })
-      // --------------------------------------------------------
+
       .addCase(getFavorites.pending, handlePending)
       .addCase(getFavorites.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -108,7 +104,6 @@ const recipesSlice = createSlice({
         state.paginationFavorite.totalItems = total;
       })
       .addCase(getFavorites.rejected, handleRejected)
-      // ----------------------------------------------------
 
       .addCase(getOwn.pending, handlePending)
       .addCase(getOwn.fulfilled, (state, action) => {
@@ -134,7 +129,18 @@ const recipesSlice = createSlice({
         state.isLoading = false;
         state.newRecipe = action.payload;
       })
-      .addCase(addOwnRecipe.rejected, handleRejected);
+      .addCase(addOwnRecipe.rejected, handleRejected)
+
+      .addCase(logout, (state) => {
+        state.favorite = [];
+        state.own = [];
+        state.currentRecipe = null;
+        state.isLoading = false;
+        state.error = null;
+        state.pagination = initialPagination;
+        state.paginationFavorite = initialPagination;
+        state.paginationOwn = initialPagination;
+      });
   },
 });
 

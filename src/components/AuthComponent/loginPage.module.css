@@ -1,91 +1,102 @@
 :root {
-    --main-font: "Montserrat", sans-serif;
+  --main-font: "Montserrat", sans-serif;
 }
 
 .container {
-    padding: 48px 32px;
-    background-color: rgba(250, 243, 224, 1);
-    border-radius: 32px;
-    margin: 0 auto;
-    margin: 56px 15px;
+  padding: 48px 32px;
+  background-color: rgba(250, 243, 224, 1);
+  border-radius: 32px;
+  margin: 0 auto;
+  margin: 56px 15px;
 }
 .formContainer {
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
 }
-.loginTitle { 
-            text-align: center;
-            font-weight: 600;
-            font-size: 32px;
-            font-family: var(--main-font);
-            margin-bottom: 20px;
+.loginTitle {
+  text-align: center;
+  font-weight: 600;
+  font-size: 32px;
+  font-family: var(--main-font);
+  margin-bottom: 20px;
 }
 .labelLoginForm {
-        font-weight: 400;
-            font-family: var(--main-font);
-            font-size: 12px;
-            margin-bottom: 4px;
+  font-weight: 400;
+  font-family: var(--main-font);
+  font-size: 12px;
+  margin-bottom: 4px;
 }
 .fieldEmail {
-    border: 1px solid var(--light-gray);
-    border-radius: 8px;
-    padding: 8px;
-    width: 100%;
-    height: 41px;
-    margin-bottom: 16px;
-    position: relative;
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  padding: 8px;
+  width: 100%;
+  height: 41px;
+  margin-bottom: 16px;
+  position: relative;
 }
 .wrapperForShowBtn {
-    position: relative;
+  position: relative;
 }
 
 .btnShowPassword {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-100%);
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-100%);
 }
 .errorMessage {
-    color: red;
+  color: red;
 }
 .btnLogin {
-        border-radius: 8px;
-            background-color: rgba(155, 108, 67, 1);
-            font-family: var(--main-font);
-            font-weight: 600;
-            font-size: 16px;
-            color: white;
-            padding: 8px 86px;
-            margin-bottom: 20px;
+  border-radius: 8px;
+  background-color: rgba(155, 108, 67, 1);
+  font-family: var(--main-font);
+  font-weight: 600;
+  font-size: 16px;
+  color: white;
+  padding: 8px 86px;
+  margin-bottom: 20px;
 }
-.textRoute{ 
-        font-family: var(--main-font);
-            font-weight: 400;
-            font-size: 16px;
-            line-height: 155%;
-            text-align: center;
+.textRoute {
+  font-family: var(--main-font);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 155%;
+  text-align: center;
 }
 .linkToRegister {
-    margin-left: 4px;
-        font-weight: 600;
-        text-decoration: underline;
-        text-decoration-skip-ink: none;
+  margin-left: 4px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+}
+
+.inputError {
+  border: 1px solid red;
+  color: red;
+}
+.error {
+  margin-top: 4px;
+  color: #c80000;
+  border-color: #c80000;
+  font-size: 12px;
 }
 @media screen and (min-width: 768px) {
-            .container {
-                    margin: 0 123px;
-                    max-width: 522px;
-                    margin: 0 auto;
-                    align-items: center;
-                    justify-content: center;
-                }
+  .container {
+    margin: 0 123px;
+    max-width: 522px;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+  }
 }
 @media screen and (min-width: 1440px) {
-    .container {
-        margin: 0 auto;
-    }
-    .wrapperForShowBtn {
-        margin-bottom: 27px;
-    }
+  .container {
+    margin: 0 auto;
+  }
+  .wrapperForShowBtn {
+    margin-bottom: 27px;
+  }
 }
