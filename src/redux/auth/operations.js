@@ -1,8 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosAPI from "../../services/api";
 
-// import axios from "axios";
-
 export const logout = createAsyncThunk(
   "auth/logout",
   async (recipeId, thunkAPI) => {

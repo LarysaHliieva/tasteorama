@@ -96,7 +96,6 @@ export default function AddRecipeForm() {
         try {
           await dispatch(addOwnRecipe(payload)).unwrap();
           // resetForm();
-          
         } catch (error) {
           console.error("Error submitting form:", error);
         }
