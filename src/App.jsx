@@ -66,7 +66,7 @@ function App() {
               <Route
                 path="register"
                 element={
-                  <Suspense fallback={<div>Loading Register...</div>}>
+                  <Suspense fallback={<FadeLoader color="#9B6C43" />}>
                     <RegisterPage />
                   </Suspense>
                 }
