@@ -10,6 +10,7 @@ import Modal from "../Modal/Modal.jsx";
 
 import Icon from "../Icon";
 import css from "./RecipeCard.module.css";
+import { getImageUrl } from "../../utils/getImageUrl.js";
 
 export default function RecipeCard({
   variant = "catalog",
@@ -57,12 +58,14 @@ export default function RecipeCard({
   const showCTA = true;
   const showFavorite = variant !== "details";
 
+  const imageUrl = getImageUrl(thumb);
+
   return (
     <>
       <article className={cls} role="group" aria-label={title}>
         <div className={css.imgWrap}>
-          {thumb ? (
-            <img src={thumb} alt={title} loading="lazy" />
+          {imageUrl ? (
+            <img src={imageUrl} alt={title} loading="lazy" />
           ) : (
             <div className={css.placeholder}>No image</div>
           )}

@@ -19,9 +19,11 @@ import {
 } from "../../redux/filters/operations";
 
 import { addOwnRecipe } from "../../redux/recipes/operations.js";
+import { useNavigate } from "react-router-dom";
 
 export default function AddRecipeForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const categoriesOptions = useSelector(selectCategoriesOptions);
   const ingredientsOptions = useSelector(selectIngredientsOptions);
@@ -45,57 +47,65 @@ export default function AddRecipeForm() {
         ingredient: "",
         measure: "",
       }}
-      // validationSchema={Yup.object({
-      //   title: Yup.string().max(64).required("Required"),
-      //   description: Yup.string()
-      //     .max(200, "Max 200 characters")
-      //     .required("Description is required"),
+      validationSchema={Yup.object({
+        title: Yup.string().max(64).required("Required"),
+        description: Yup.string()
+          .max(200, "Max 200 characters")
+          .required("Description is required"),
 
-      //   cookingTime: Yup.number()
-      //     .min(1, "Min 1 minute")
-      //     .max(360, "Max 360 minutes")
-      //     .required("time in minutes"),
+        cookingTime: Yup.number()
+          .min(1, "Min 1 minute")
+          .max(360, "Max 360 minutes")
+          .required("time in minutes"),
 
-      //   calories: Yup.number()
-      //     .min(1, "Min 1 kcal")
-      //     .max(10000, "Max 10000 kcal"),
+        calories: Yup.number()
+          .min(1, "Min 1 kcal")
+          .max(10000, "Max 10000 kcal"),
 
-      //   category: Yup.string().required("Required"),
+        category: Yup.string().required("Required"),
 
-      //   ingredients: Yup.array()
-      //     .of(
-      //       Yup.object({
-      //         label: Yup.string().required("Ingredient name is required"),
-      //         measure: Yup.number()
-      //           .min(2, "Min amount is 2")
-      //           .max(16, "Max amount is 16")
-      //           .required("Ingredient amount is required"),
-      //       })
-      //     )
-      //     .min(1, "At least one ingredient is required"),
+        ingredients: Yup.array()
+          .of(
+            Yup.object({
+              id: Yup.string().required("Ingredient name is required"),
+              measure: Yup.string()
+                .min(2, "Min amount is 2")
+                .max(16, "Max amount is 16")
+                .required("Ingredient amount is required"),
+            })
+          )
+          .min(1, "At least one ingredient is required"),
 
-      //   instructions: Yup.string()
-      //     .max(1200, "Max 1200 characters")
-      //     .required("Instructions are required"),
+        instructions: Yup.string()
+          .max(1200, "Max 1200 characters")
+          .required("Instructions are required"),
 
-      //   image: Yup.mixed()
-      //     .test(
-      //       "fileSize",
-      //       "File too large (max 2MB)",
-      //       (value) => !value || (value && value.size <= 2 * 1024 * 1024)
-      //     )
-      //     .nullable(),
-      // })}
-      onSubmit={async (values) => {
+        image: Yup.mixed()
+          .test(
+            "fileSize",
+            "File too large (max 2MB)",
+            (value) => !value || (value && value.size <= 2 * 1024 * 1024)
+          )
+          .nullable(),
+      })}
+       onSubmit={async (values) => {
         const { ingredient, measure, ...rest } = values;
 
-        const payload = { ...rest };
+        const payload = { ...rest, ingredients: values.ingredients };
 
         console.log("Payload for dispatch:", payload);
 
         try {
-          await dispatch(addOwnRecipe(payload)).unwrap();
-          // resetForm();
+          const response = await dispatch(addOwnRecipe(payload)).unwrap();
+          
+          const newRecipeId = response._id;
+          
+          if (newRecipeId) {
+            navigate(`/recipes/${newRecipeId.toString()}`);
+          } else {
+            console.error("Помилка відповіді.");
+          }
+
         } catch (error) {
           console.error("Error submitting form:", error);
         }
@@ -103,22 +113,16 @@ export default function AddRecipeForm() {
     >
       {({ values, setFieldValue, errors, touched }) => {
         const addIngredient = () => {
-          const ingredientValue = values.ingredient;
-          const measureValue = values.measure;
+          if (!values.ingredient || !values.measure) return;
 
-          if (!ingredientValue || !measureValue) return;
+          const newIngredient = {
+            id: values.ingredient,
+            measure: values.measure,
+          };
 
-          const label =
-            ingredientsOptions.find((i) => i.value === ingredientValue)
-              ?.label || "";
-
-          setFieldValue("ingredients", [
-            ...values.ingredients,
-            { id: ingredientValue, label: label, measure: measureValue },
-          ]);
-
-          setFieldValue("ingredient", "");
+          setFieldValue("ingredients", [...values.ingredients, newIngredient]);
           setFieldValue("measure", "");
+          setFieldValue("ingredient", "");
         };
 
         const removeIngredient = (index) => {
@@ -278,7 +282,7 @@ export default function AddRecipeForm() {
                   name="measure"
                   placeholder="Amount"
                   className={getFieldClass("ingredients", css.inputAmount)}
-                  type="text"
+                  type="string"
                 />
                 <ErrorMessage
                   name="measure"
@@ -309,12 +313,24 @@ export default function AddRecipeForm() {
                     </th>
                   </tr>
                 </thead>
+                {console.log(
+                  " values.ingredients in render:",
+                  values.ingredients
+                )}
                 <tbody>
                   {values.ingredients.map((t, index) => {
+                    console.log("Current ingredient:", t);
                     return (
                       <tr key={index}>
-                        <td width="50%">{t.label}</td>
-                        <td width="30%">{t.measure}</td>
+                        <td width="50%">
+                          {ingredientsOptions.find((opt) => opt.value === t.id)
+                            ?.label || t.id}
+                        </td>
+                        <td width="30%">
+                          {typeof t.measure === "object"
+                            ? t.measure.value
+                            : t.measure}
+                        </td>
                         <td width="20%">
                           <button
                             type="button"
@@ -345,7 +361,7 @@ export default function AddRecipeForm() {
                 placeholder="Enter a text"
               />
               <ErrorMessage
-                name="instruction"
+                name="instructions"
                 component="div"
                 className={css.error}
               />

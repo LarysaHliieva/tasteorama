@@ -3,7 +3,7 @@ import css from "../RecipeList/recipeList.module.css";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 
 export function RecipeList({ recipes, page, totalPages, onLoadMore, variant, favoriteObject}) {
-  
+  console.log("Recipes in RecipeList:", recipes);
   return (
     <div>
       <div className={css.recipeList}>
