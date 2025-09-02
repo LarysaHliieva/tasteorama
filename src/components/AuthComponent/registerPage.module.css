@@ -67,8 +67,8 @@
 }
 
 .wrapperForCheckbox {
-  display: none;
-  margin-bottom: 27px;
+  margin-top: 8px;
+  margin-bottom: 12px;
 }
 
 .checkBox {
@@ -120,6 +120,7 @@
 }
 
 .btnRegister {
+  margin-top: 16px;
   border-radius: 8px;
   background-color: rgba(155, 108, 67, 1);
   font-family: var(--main-font);

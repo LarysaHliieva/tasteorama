@@ -16,9 +16,8 @@ const Header = () => {
 
   const name = user?.user?.name || "";
 
-  const firstLetter = useMemo(() => {
-    return name ? name.charAt(0).toUpperCase() : "?";
-  }, [name]);
+  const firstLetter = () => (name ? name.charAt(0).toUpperCase() : "?");
+  console.log(user);
 
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const [isOpenModalLogout, setIsOpenModalLogout] = useState(false);
@@ -70,7 +69,7 @@ const Header = () => {
               </NavLink>
 
               <div className={css.userInfo}>
-                <span className={css.avatar}>{firstLetter}</span>
+                <span className={css.avatar}>{firstLetter()}</span>
                 <span className={css.userName}>{name}</span>
               </div>
               <button
@@ -127,7 +126,7 @@ const Header = () => {
             isOpen={isBurgerOpen}
             onClose={closeBurgerMenu}
             name={name}
-            firstLetter={firstLetter}
+            // firstLetter={firstLetter}
             handleLogout={handleOpenModalLogout}
           />
         ) : (

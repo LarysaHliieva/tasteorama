@@ -171,7 +171,7 @@ export default function RegisterPage() {
               </label>
             </div>
             <ErrorMessage
-              className={styles.errorMessagePrivacy}
+              className={styles.error}
               name="agree"
               component="strong"
             />

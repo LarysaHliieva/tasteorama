@@ -25,11 +25,14 @@ export const registerValidationSchema = () =>
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
       .required("Password confirmation is required"),
-    agree: Yup.boolean().when([], {
-      is: () => window.innerHeight <= 768,
-      then: (schema) => schema.oneOf([true], "You must agree"),
-      otherwise: (schema) => schema.notRequired(),
-    }),
+    // agree: Yup.boolean().when([], {
+    //   is: () => window.innerHeight < 768,
+    //   then: (schema) => schema.oneOf([true], "You must agree"),
+    //   otherwise: (schema) => schema.notRequired(),
+    // }),
+    agree: Yup.boolean()
+      .oneOf([true], "You must agree to the Terms and Privacy Policy")
+      .required("You must agree to the Terms and Privacy Policy"),
   });
 
 export const addRecipeValidationSchema = Yup.object({
