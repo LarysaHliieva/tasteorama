@@ -19,7 +19,7 @@ export default function LoginPage() {
 
   const handleLogin = async (values, { setSubmitting }) => {
     try {
-      const res = await AuthAPI.login({ email, password });
+      const res = await AuthAPI.login(values);
       localStorage.setItem("accessToken", res.data.data.accessToken);
       localStorage.setItem("refreshToken", res.data.data.refreshToken);
       localStorage.setItem("user", JSON.stringify(res.data.data));
@@ -61,9 +61,7 @@ export default function LoginPage() {
               className={styles.errorMessage}
             />
 
-            <label className={styles.labelLoginForm}>
-              Enter your password
-            </label>
+            <label className={styles.labelLoginForm}>Enter your password</label>
             <div className={styles.wrapperForShowBtn}>
               <Field
                 className={styles.fieldEmail}
