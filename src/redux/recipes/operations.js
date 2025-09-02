@@ -149,7 +149,7 @@ export const addOwnRecipe = createAsyncThunk(
         },
       });
 
-      toast.success(res.data.message);
+      // toast.success(res.data.message);
       return res.data.data.recipe;
     } catch (error) {
       toast.error(error.response?.data?.messages || "Something went wrong!");
@@ -157,4 +157,3 @@ export const addOwnRecipe = createAsyncThunk(
     }
   }
 );
-

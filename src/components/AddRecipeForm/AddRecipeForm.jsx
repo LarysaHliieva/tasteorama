@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { addRecipeValidationSchema } from "../../utils/validationSchemas.js";
 import clsx from "clsx";
@@ -22,6 +23,7 @@ import { addOwnRecipe } from "../../redux/recipes/operations.js";
 
 export default function AddRecipeForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const categoriesOptions = useSelector(selectCategoriesOptions);
   const ingredientsOptions = useSelector(selectIngredientsOptions);
@@ -53,8 +55,13 @@ export default function AddRecipeForm() {
 
         const payload = { ...rest, ingredients: values.ingredients };
 
-        await dispatch(addOwnRecipe(payload)).unwrap();
-        resetForm();
+        try {
+          await dispatch(addOwnRecipe(payload)).unwrap();
+          resetForm();
+          const recipe = await dispatch(addOwnRecipe(payload)).unwrap();
+          const recipeId = recipe._id;
+          navigate(`/recipes/${recipeId}`);
+        } catch (error) {}
       }}
     >
       {({ values, setFieldValue, errors }) => {
