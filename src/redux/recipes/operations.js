@@ -11,7 +11,6 @@ export const getRecipeById = createAsyncThunk(
       const response = await axiosAPI.get(`/recipes/${recipeId}`);
       return response.data.data;
     } catch (error) {
-      console.log("error", error);
       const message =
         error.response?.data?.message ||
         error.response?.data?.error ||
@@ -150,13 +149,11 @@ export const addOwnRecipe = createAsyncThunk(
         },
       });
 
-      toast.success(res.data.message);
-      console.log(res.data.data.recipe);
+      // toast.success(res.data.message);
       return res.data.data.recipe;
     } catch (error) {
-      // toast.error(error.response?.data?.messages || "Something went wrong!");
+      toast.error(error.response?.data?.messages || "Something went wrong!");
       return thunkAPI.rejectWithValue(error.response?.data?.messages);
     }
   }
 );
-

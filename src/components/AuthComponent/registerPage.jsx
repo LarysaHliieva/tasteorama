@@ -4,6 +4,8 @@ import { login } from "../../redux/auth/slice.js";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import toast from "react-hot-toast";
+import { registerValidationSchema } from "../../utils/validationSchemas.js";
 import styles from "./registerPage.module.css";
 
 export default function RegisterPage() {
@@ -12,7 +14,6 @@ export default function RegisterPage() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [error, setError] = useState("");
 
   const initialValues = {
     name: "",
@@ -22,36 +23,44 @@ export default function RegisterPage() {
     agree: false,
   };
 
-const handleRegister = async (values, { setSubmitting }) => {
-  try {
-    const { name, email, password, confirmPassword } = values; 
-    const res = await AuthAPI.register({ name, email, password, confirmPassword });
+  const handleRegister = async (values, { setSubmitting }) => {
+    try {
+      const { name, email, password, confirmPassword } = values;
+      const res = await AuthAPI.register({
+        name,
+        email,
+        password,
+        confirmPassword,
+      });
 
-    console.log("REGISTER RESPONSE:", res.data);
+      localStorage.setItem("accessToken", res.data.data.accessToken);
+      localStorage.setItem("refreshToken", res.data.data.refreshToken);
+      localStorage.setItem("user", JSON.stringify(res.data.data));
 
-    localStorage.setItem("accessToken", res.data.data.accessToken);
-    localStorage.setItem("refreshToken", res.data.data.refreshToken);
-    localStorage.setItem("user", JSON.stringify(res.data.data));
-
-    dispatch(login(res.data.data));
-    navigate("/");
-  } catch (err) {
-    if (err.response) {
-      const messages = err.response.data.errors || [
-        err.response.data.message,
-      ];
-      setError(messages.join(", "));
+      dispatch(login(res.data.data));
+      navigate("/");
+    } catch (err) {
+      if (err.response) {
+        const messages = err.response.data.errors || [
+          err.response.data.message,
+        ];
+        toast.error(messages.join(", "));
+      }
+    } finally {
+      setSubmitting(false);
     }
-  } finally {
-    setSubmitting(false);
-  }
-};
-
+  };
 
   return (
     <div className={styles.container}>
-      <Formik initialValues={initialValues} onSubmit={handleRegister}>
-        {({ isSubmitting }) => (
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleRegister}
+        validationSchema={registerValidationSchema}
+        validateOnBlur={false}
+        validateOnChange={false}
+      >
+        {({ isSubmitting, errors }) => (
           <Form className={styles.formContainer}>
             <h1 className={styles.registerTitle}>Register</h1>
             <p className={styles.textDescription}>
@@ -61,14 +70,16 @@ const handleRegister = async (values, { setSubmitting }) => {
 
             <label className={styles.labelRegisterForm}>Enter your name</label>
             <Field
-              className={styles.fieldEmail}
+              className={`${styles.fieldEmail} ${
+                errors.name ? styles.inputError : ""
+              }`}
               type="text"
               name="name"
               placeholder="Max"
               autoComplete="off"
             />
             <ErrorMessage
-              className={styles.errorMessage}
+              className={styles.error}
               name="name"
               component="strong"
             />
@@ -77,14 +88,16 @@ const handleRegister = async (values, { setSubmitting }) => {
               Enter your email address
             </label>
             <Field
-              className={styles.fieldEmail}
+              className={`${styles.fieldEmail} ${
+                errors.email ? styles.inputError : ""
+              }`}
               type="email"
               name="email"
               placeholder="email@gmail.com"
               autoComplete="off"
             />
             <ErrorMessage
-              className={styles.errorMessage}
+              className={styles.error}
               name="email"
               component="strong"
             />
@@ -94,7 +107,9 @@ const handleRegister = async (values, { setSubmitting }) => {
             </label>
             <div className={styles.wrapperForShowBtn}>
               <Field
-                className={styles.fieldEmail}
+                className={`${styles.fieldEmail} ${
+                  errors.password ? styles.inputError : ""
+                }`}
                 type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="**********"
@@ -111,7 +126,7 @@ const handleRegister = async (values, { setSubmitting }) => {
             <ErrorMessage
               name="password"
               component="strong"
-              className={styles.errorMessage}
+              className={styles.error}
             />
 
             <label className={styles.labelRegisterForm}>
@@ -119,7 +134,9 @@ const handleRegister = async (values, { setSubmitting }) => {
             </label>
             <div className={styles.wrapperForShowBtn}>
               <Field
-                className={styles.fieldEmail}
+                className={`${styles.fieldEmail} ${
+                  errors.confirmPassword ? styles.inputError : ""
+                }`}
                 type={showConfirmPassword ? "text" : "password"}
                 name="confirmPassword"
                 placeholder="**********"
@@ -134,7 +151,7 @@ const handleRegister = async (values, { setSubmitting }) => {
               </button>
             </div>
             <ErrorMessage
-              className={styles.errorMessage}
+              className={styles.error}
               name="confirmPassword"
               component="strong"
             />
@@ -154,12 +171,10 @@ const handleRegister = async (values, { setSubmitting }) => {
               </label>
             </div>
             <ErrorMessage
-              className={styles.errorMessagePrivacy}
+              className={styles.error}
               name="agree"
               component="strong"
             />
-
-            {error && <p className={styles.errorMessage}>{error}</p>}
 
             <button
               className={styles.btnRegister}

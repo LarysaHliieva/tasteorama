@@ -33,7 +33,6 @@ export default function Own() {
   const ownRecipe = useMemo(() => {
     return (own || []).map((res) => ({ ...res, _id: res.id }));
   }, [own]);
-  console.log(ownRecipe);
 
   const loadMore = () => {
     dispatch(getOwn({ page: page + 1, limit: 12 }));

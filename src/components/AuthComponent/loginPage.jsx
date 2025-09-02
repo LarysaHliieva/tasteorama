@@ -3,12 +3,13 @@ import { AuthAPI } from "../../services/api.js";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import toast from "react-hot-toast";
+import { loginValidationSchema } from "../../utils/validationSchemas.js";
 import { login } from "../../redux/auth/slice.js";
 import styles from "./loginPage.module.css";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -31,7 +32,7 @@ export default function LoginPage() {
         const messages = err.response.data.errors || [
           err.response.data.message,
         ];
-        setError(messages.join(", "));
+        toast.error(messages.join(", "));
       }
     } finally {
       setSubmitting(false);
@@ -40,8 +41,14 @@ export default function LoginPage() {
 
   return (
     <div className={styles.container}>
-      <Formik initialValues={initialValues} onSubmit={handleLogin}>
-        {({ isSubmitting }) => (
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleLogin}
+        validationSchema={loginValidationSchema}
+        validateOnBlur={false}
+        validateOnChange={false}
+      >
+        {({ isSubmitting, errors }) => (
           <Form className={styles.formContainer}>
             <h2 className={styles.loginTitle}>Login</h2>
 
@@ -49,7 +56,9 @@ export default function LoginPage() {
               Enter your email address
             </label>
             <Field
-              className={styles.fieldEmail}
+              className={`${styles.fieldEmail} ${
+                errors.email ? styles.inputError : ""
+              }`}
               type="email"
               name="email"
               placeholder="email@gmail.com"
@@ -58,13 +67,15 @@ export default function LoginPage() {
             <ErrorMessage
               name="email"
               component="strong"
-              className={styles.errorMessage}
+              className={styles.error}
             />
 
             <label className={styles.labelLoginForm}>Enter your password</label>
             <div className={styles.wrapperForShowBtn}>
               <Field
-                className={styles.fieldEmail}
+                className={`${styles.fieldEmail} ${
+                  errors.password ? styles.inputError : ""
+                }`}
                 type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="**********"
@@ -80,10 +91,8 @@ export default function LoginPage() {
             <ErrorMessage
               name="password"
               component="strong"
-              className={styles.errorMessage}
+              className={styles.error}
             />
-
-            {error && <p className={styles.errorMessage}>{error}</p>}
 
             <button
               className={styles.btnLogin}

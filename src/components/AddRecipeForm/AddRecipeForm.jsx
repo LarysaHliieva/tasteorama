@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { addRecipeValidationSchema } from "../../utils/validationSchemas.js";
 import clsx from "clsx";
 
 import Icon from "../Icon/index.jsx";
@@ -22,6 +23,7 @@ import { addOwnRecipe } from "../../redux/recipes/operations.js";
 
 export default function AddRecipeForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const categoriesOptions = useSelector(selectCategoriesOptions);
   const ingredientsOptions = useSelector(selectIngredientsOptions);
@@ -45,63 +47,24 @@ export default function AddRecipeForm() {
         ingredient: "",
         measure: "",
       }}
-      validationSchema={Yup.object({
-        title: Yup.string().max(64).required("Required"),
-        description: Yup.string()
-          .max(200, "Max 200 characters")
-          .required("Description is required"),
-
-        cookingTime: Yup.number()
-          .min(1, "Min 1 minute")
-          .max(360, "Max 360 minutes")
-          .required("time in minutes"),
-
-        calories: Yup.number()
-          .min(1, "Min 1 kcal")
-          .max(10000, "Max 10000 kcal"),
-
-        category: Yup.string().required("Required"),
-
-        ingredients: Yup.array()
-          .of(
-            Yup.object({
-              id: Yup.string().required("Ingredient name is required"),
-              measure: Yup.string()
-                .min(2, "Min amount is 2")
-                .max(16, "Max amount is 16")
-                .required("Ingredient amount is required"),
-            })
-          )
-          .min(1, "At least one ingredient is required"),
-
-        instructions: Yup.string()
-          .max(1200, "Max 1200 characters")
-          .required("Instructions are required"),
-
-        image: Yup.mixed()
-          .test(
-            "fileSize",
-            "File too large (max 2MB)",
-            (value) => !value || (value && value.size <= 2 * 1024 * 1024)
-          )
-          .nullable(),
-      })}
-      onSubmit={async (values) => {
+      validationSchema={addRecipeValidationSchema}
+      validateOnBlur={false}
+      validateOnChange={false}
+      onSubmit={async (values, { resetForm }) => {
         const { ingredient, measure, ...rest } = values;
 
         const payload = { ...rest, ingredients: values.ingredients };
 
-        console.log("Payload for dispatch:", payload);
-
         try {
           await dispatch(addOwnRecipe(payload)).unwrap();
-          // resetForm();
-        } catch (error) {
-          console.error("Error submitting form:", error);
-        }
+          resetForm();
+          const recipe = await dispatch(addOwnRecipe(payload)).unwrap();
+          const recipeId = recipe._id;
+          navigate(`/recipes/${recipeId}`);
+        } catch (error) {}
       }}
     >
-      {({ values, setFieldValue, errors, touched }) => {
+      {({ values, setFieldValue, errors }) => {
         const addIngredient = () => {
           if (!values.ingredient || !values.measure) return;
 
@@ -109,8 +72,6 @@ export default function AddRecipeForm() {
             id: values.ingredient,
             measure: values.measure,
           };
-          console.log("newIngredient", newIngredient);
-          console.log("before add, ingredients:", values.ingredients);
 
           setFieldValue("ingredients", [...values.ingredients, newIngredient]);
           setFieldValue("measure", "");
@@ -125,10 +86,7 @@ export default function AddRecipeForm() {
         };
 
         const getFieldClass = (fieldName, className) => {
-          return clsx(
-            className,
-            errors[fieldName] && touched[fieldName] && css.inputError
-          );
+          return clsx(className, errors[fieldName] && css.inputError);
         };
 
         return (
@@ -144,7 +102,7 @@ export default function AddRecipeForm() {
                 hidden
               />
               <div className={css.fileInputNoImage}>
-                <label htmlFor="fileInput">
+                <label htmlFor="fileInput" className={css.labelFull}>
                   {values.image ? (
                     <img
                       src={URL.createObjectURL(values.image)}
@@ -252,23 +210,25 @@ export default function AddRecipeForm() {
             <div className={css.ingredients}>
               <h3 className={css.igradientTitle}>Ingredients</h3>
               <div className={css.wraperIngredients}>
-                <Field
-                  as="select"
-                  name="ingredient"
-                  className={getFieldClass("ingredients", css.select)}
-                >
-                  <option value="">Select an ingredient</option>
-                  {ingredientsOptions.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </Field>
-                <ErrorMessage
-                  name="ingredients"
-                  component="div"
-                  className={css.error}
-                />
+                <div>
+                  <Field
+                    as="select"
+                    name="ingredient"
+                    className={getFieldClass("ingredients", css.select)}
+                  >
+                    <option value="">Select an ingredient</option>
+                    {ingredientsOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </Field>
+                  <ErrorMessage
+                    name="ingredients"
+                    component="div"
+                    className={css.error}
+                  />
+                </div>
 
                 <Field
                   name="measure"
@@ -276,12 +236,8 @@ export default function AddRecipeForm() {
                   className={getFieldClass("ingredients", css.inputAmount)}
                   type="string"
                 />
-                <ErrorMessage
-                  name="measure"
-                  component="div"
-                  className={css.error}
-                />
               </div>
+
               <div className={css.addButtonWraper}>
                 <button
                   type="button"
@@ -305,17 +261,13 @@ export default function AddRecipeForm() {
                     </th>
                   </tr>
                 </thead>
-                {console.log(
-                  " values.ingredients in render:",
-                  values.ingredients
-                )}
                 <tbody>
                   {values.ingredients.map((t, index) => {
                     return (
                       <tr key={index}>
                         <td width="50%">
                           {ingredientsOptions.find((opt) => opt.value === t.id)
-                            ?.label || t.id}
+                            ?.label || ""}
                         </td>
                         <td width="30%">{t.measure}</td>
                         <td width="20%">

@@ -29,21 +29,15 @@ const RecipeDetails = () => {
 
   const recipe = useSelector(selectCurrentRecipe);
   const isLoading = useSelector(selectRecipesLoading);
-  const error = useSelector(selectRecipesError);
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const ingredientsOptions = useSelector(selectIngredientsOptions);
 
   const [mappedIngredients, setMappedIngredients] = useState([]);
+  const [isInitialRequest, setIsInitialRequest] = useState(true);
 
   const favorites = useSelector(selectRecipesFavorites);
   const isFavorite = favorites.some((fav) => fav._id === id);
-
-  // useEffect(() => {
-  //   dispatch(clearCurrentRecipe());
-  //   dispatch(getRecipeById(id));
-  //   dispatch(fetchIngredients());
-  // }, [dispatch, id]);
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -51,6 +45,7 @@ const RecipeDetails = () => {
         dispatch(clearCurrentRecipe());
         await dispatch(getRecipeById(id)).unwrap();
         dispatch(fetchIngredients());
+        setIsInitialRequest(false);
       } catch (err) {
         navigate("/not-found");
       }
@@ -83,10 +78,10 @@ const RecipeDetails = () => {
       await dispatch(addToFavorites(id));
     }
 
-    dispatch(getFavorites({ limit: 1000 }));
+    isLoggedIn && dispatch(getFavorites({ limit: 1000 }));
   };
 
-  if (isLoading || !recipe) {
+  if ((isLoading || !recipe) && isInitialRequest) {
     return (
       <div className={css.loaderWrap}>
         <FadeLoader color="#9b6c43" />

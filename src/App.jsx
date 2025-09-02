@@ -63,19 +63,21 @@ function App() {
               path="/auth"
               element={<RestrictedRoute component={<AuthPage />} />}
             >
+              <Route index element={<Navigate to="login" replace />} />
+              <Route
+                index
+                path="login"
+                element={
+                  <Suspense fallback={<FadeLoader color="#9B6C43" />}>
+                    <LoginPage />
+                  </Suspense>
+                }
+              />
               <Route
                 path="register"
                 element={
                   <Suspense fallback={<FadeLoader color="#9B6C43" />}>
                     <RegisterPage />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="login"
-                element={
-                  <Suspense fallback={<FadeLoader color="#9B6C43" />}>
-                    <LoginPage />
                   </Suspense>
                 }
               />

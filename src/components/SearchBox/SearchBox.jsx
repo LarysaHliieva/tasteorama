@@ -16,9 +16,9 @@ export default function SearchBox() {
   useEffect(() => {
     if (search) return;
     setInputValue("");
-    setError("")
+    setError("");
   }, [search]);
-  
+
   const handleChange = (e) => {
     setInputValue(e.target.value);
     setError("");
@@ -38,7 +38,6 @@ export default function SearchBox() {
       setError("");
 
       dispatch(changeSearch(inputValue));
-      console.log("Find recipe here:", search);
       setInputValue("");
     } catch (validationError) {
       setError(validationError.message);
