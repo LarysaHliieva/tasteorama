@@ -134,18 +134,16 @@ export const addOwnRecipe = createAsyncThunk(
     try {
       const formData = new FormData();
 
-      Object.keys(body).forEach((key) => {
-        if (key === "ingredients") {
-          formData.append("ingredients", JSON.stringify(body.ingredients));
-        } else if (key !== "image") {
-          formData.append(key, body[key]);
-        }
-      });
-
+      formData.append("title", body.title);
+      formData.append("description", body.description);
+      formData.append("cookingTime", body.cookingTime);
+      formData.append("calories", body.calories);
+      formData.append("category", body.category);
+      formData.append("instructions", body.instructions);
+      formData.append("ingredients", JSON.stringify(body.ingredients));
       if (body.image) {
         formData.append("image", body.image);
       }
-
       const res = await axiosAPI.post("/recipes/add", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -161,3 +159,4 @@ export const addOwnRecipe = createAsyncThunk(
     }
   }
 );
+

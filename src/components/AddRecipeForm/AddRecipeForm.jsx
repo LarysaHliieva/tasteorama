@@ -65,7 +65,7 @@ export default function AddRecipeForm() {
         ingredients: Yup.array()
           .of(
             Yup.object({
-              label: Yup.string().required("Ingredient name is required"),
+              id: Yup.string().required("Ingredient name is required"),
               measure: Yup.string()
                 .min(2, "Min amount is 2")
                 .max(16, "Max amount is 16")
@@ -86,16 +86,16 @@ export default function AddRecipeForm() {
           )
           .nullable(),
       })}
-      onSubmit={async (values, { resetForm }) => {
+      onSubmit={async (values) => {
         const { ingredient, measure, ...rest } = values;
 
-        const payload = { ...rest };
+        const payload = { ...rest, ingredients: values.ingredients };
 
         console.log("Payload for dispatch:", payload);
 
         try {
           await dispatch(addOwnRecipe(payload)).unwrap();
-          resetForm();
+          // resetForm();
         } catch (error) {
           console.error("Error submitting form:", error);
         }
@@ -103,22 +103,18 @@ export default function AddRecipeForm() {
     >
       {({ values, setFieldValue, errors, touched }) => {
         const addIngredient = () => {
-          const ingredientValue = values.ingredient;
-          const measureValue = values.measure;
+          if (!values.ingredient || !values.measure) return;
 
-          if (!ingredientValue || !measureValue) return;
+          const newIngredient = {
+            id: values.ingredient,
+            measure: values.measure,
+          };
+          console.log("newIngredient", newIngredient);
+          console.log("before add, ingredients:", values.ingredients);
 
-          const label =
-            ingredientsOptions.find((i) => i.value === ingredientValue)
-              ?.label || "";
-
-          setFieldValue("ingredients", [
-            ...values.ingredients,
-            { id: ingredientValue, label: label, measure: measureValue },
-          ]);
-
-          setFieldValue("ingredient", "");
+          setFieldValue("ingredients", [...values.ingredients, newIngredient]);
           setFieldValue("measure", "");
+          setFieldValue("ingredient", "");
         };
 
         const removeIngredient = (index) => {
@@ -278,7 +274,7 @@ export default function AddRecipeForm() {
                   name="measure"
                   placeholder="Amount"
                   className={getFieldClass("ingredients", css.inputAmount)}
-                  type="text"
+                  type="string"
                 />
                 <ErrorMessage
                   name="measure"
@@ -309,11 +305,18 @@ export default function AddRecipeForm() {
                     </th>
                   </tr>
                 </thead>
+                {console.log(
+                  " values.ingredients in render:",
+                  values.ingredients
+                )}
                 <tbody>
                   {values.ingredients.map((t, index) => {
                     return (
                       <tr key={index}>
-                        <td width="50%">{t.label}</td>
+                        <td width="50%">
+                          {ingredientsOptions.find((opt) => opt.value === t.id)
+                            ?.label || t.id}
+                        </td>
                         <td width="30%">{t.measure}</td>
                         <td width="20%">
                           <button
@@ -345,7 +348,7 @@ export default function AddRecipeForm() {
                 placeholder="Enter a text"
               />
               <ErrorMessage
-                name="instruction"
+                name="instructions"
                 component="div"
                 className={css.error}
               />
