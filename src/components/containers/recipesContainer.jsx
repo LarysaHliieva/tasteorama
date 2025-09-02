@@ -38,8 +38,6 @@ export function RecipeContainer() {
   const loadMore = () => {
     dispatch(getRecipes({ page: page + 1, limit: 12, filters }));
   };
-  // console.log("all.length", all.length);
-  // console.log("favorite", favorite);
 
   const favoriteObject = useMemo(() => {
     return (favorite || []).reduce((acc, cur) => {

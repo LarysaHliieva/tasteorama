@@ -21,5 +21,3 @@ export const AuthAPI = {
 };
 
 export default axiosAPI;
-
-// baseURL: "https://group2-b.onrender.com/"

@@ -12,12 +12,15 @@ export const registerValidationSchema = () =>
   Yup.object({
     name: Yup.string()
       .min(3, "Name should have at least 3 characters")
+      .max(16, "Name should have at most 16 characters")
       .required("Name is required"),
     email: Yup.string()
       .email("Email must be a valid email. Example: 'example@gmail.com'")
+      .max(128, "Email should have at most 128 characters")
       .required("Email is required"),
     password: Yup.string()
-      .min(5, "Password should have at least 5 characters")
+      .min(8, "Password should have at least 8 characters")
+      .max(128, "Password should have at most 128 characters")
       .required("Password is required"),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
