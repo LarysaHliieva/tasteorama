@@ -53,7 +53,7 @@ export const addRecipeValidationSchema = Yup.object({
   ingredients: Yup.array()
     .of(
       Yup.object({
-        label: Yup.string().required("Ingredient name is required"),
+        id: Yup.string().required("Ingredient name is required"),
         measure: Yup.string()
           .min(2, "Min amount is 2")
           .max(16, "Max amount is 16")

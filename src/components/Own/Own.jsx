@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { FadeLoader } from "react-spinners";
@@ -26,10 +26,14 @@ export default function Own() {
   const [isInitialRequest, setIsInitialRequest] = useState(true);
 
   useEffect(() => {
-    dispatch(getOwn({ page: 1, limit: 12 })).finally(() =>
-      setIsInitialRequest(false)
-    );
+    dispatch(getOwn({ page: 1, limit: 12 }));
+    setIsInitialRequest(false);
   }, [dispatch]);
+
+  const ownRecipe = useMemo(() => {
+    return (own || []).map((res) => ({ ...res, _id: res.id }));
+  }, [own]);
+  console.log(ownRecipe);
 
   const loadMore = () => {
     dispatch(getOwn({ page: page + 1, limit: 12 }));
@@ -41,7 +45,7 @@ export default function Own() {
 
   if (error) return null;
 
-  if (own.length === 0 && !loading && !error) {
+  if (ownRecipe.length === 0 && !loading && !error) {
     return <NoResult isButton={false} />;
   }
 
@@ -49,7 +53,7 @@ export default function Own() {
     <div>
       <div className={css.counter}>{totalItems} recepis</div>
       <RecipeList
-        recipes={own}
+        recipes={ownRecipe}
         page={page}
         totalPages={totalPages}
         onLoadMore={loadMore}

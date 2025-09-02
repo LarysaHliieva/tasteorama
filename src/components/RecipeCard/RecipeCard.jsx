@@ -10,6 +10,7 @@ import Modal from "../Modal/Modal.jsx";
 
 import Icon from "../Icon";
 import css from "./RecipeCard.module.css";
+// import { getImageUrl } from "../../utils/getImageUrl.js";
 
 export default function RecipeCard({
   variant = "catalog",
@@ -56,6 +57,8 @@ export default function RecipeCard({
     .join(" ");
   const showCTA = true;
   const showFavorite = variant !== "details";
+
+  // const imageUrl = getImageUrl(thumb);
 
   return (
     <>
