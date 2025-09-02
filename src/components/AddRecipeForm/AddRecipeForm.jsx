@@ -190,6 +190,12 @@ export default function AddRecipeForm() {
                     as="select"
                     name="category"
                     className={getFieldClass("category", css.select)}
+                    onChange={(e) => {
+                      const selectedOption = categoriesOptions.find(
+                        (opt) => opt.value === e.target.value
+                      );
+                      setFieldValue("category", selectedOption?.label || "");
+                    }}
                   >
                     <option value="">Select a category</option>
                     {categoriesOptions.map((opt) => (
