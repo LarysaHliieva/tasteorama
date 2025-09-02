@@ -78,10 +78,11 @@
   color: red;
 }
 .error {
-  margin-top: 4px;
-  color: #c80000;
-  border-color: #c80000;
-  font-size: 12px;
+  display: block;
+  margin-bottom: 16px;
+  color: red;
+  border-color: red;
+  font-size: 14px;
 }
 @media screen and (min-width: 768px) {
   .container {

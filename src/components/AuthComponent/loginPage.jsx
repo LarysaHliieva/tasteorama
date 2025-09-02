@@ -45,8 +45,10 @@ export default function LoginPage() {
         initialValues={initialValues}
         onSubmit={handleLogin}
         validationSchema={loginValidationSchema}
+        validateOnBlur={false}
+        validateOnChange={false}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, errors }) => (
           <Form className={styles.formContainer}>
             <h2 className={styles.loginTitle}>Login</h2>
 
@@ -54,7 +56,9 @@ export default function LoginPage() {
               Enter your email address
             </label>
             <Field
-              className={styles.fieldEmail}
+              className={`${styles.fieldEmail} ${
+                errors.email ? styles.inputError : ""
+              }`}
               type="email"
               name="email"
               placeholder="email@gmail.com"
@@ -63,13 +67,15 @@ export default function LoginPage() {
             <ErrorMessage
               name="email"
               component="strong"
-              className={styles.errorMessage}
+              className={styles.error}
             />
 
             <label className={styles.labelLoginForm}>Enter your password</label>
             <div className={styles.wrapperForShowBtn}>
               <Field
-                className={styles.fieldEmail}
+                className={`${styles.fieldEmail} ${
+                  errors.password ? styles.inputError : ""
+                }`}
                 type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="**********"
@@ -85,7 +91,7 @@ export default function LoginPage() {
             <ErrorMessage
               name="password"
               component="strong"
-              className={styles.errorMessage}
+              className={styles.error}
             />
 
             <button
