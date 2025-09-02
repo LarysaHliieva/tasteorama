@@ -83,7 +83,7 @@ const RecipeDetails = () => {
       await dispatch(addToFavorites(id));
     }
 
-    dispatch(getFavorites({ limit: 1000 }));
+    isLoggedIn && dispatch(getFavorites({ limit: 1000 }));
   };
 
   if (isLoading || !recipe) {

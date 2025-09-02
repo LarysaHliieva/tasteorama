@@ -12,6 +12,7 @@ import {
   selectFiltersIngredients,
   selectSearchQuery,
 } from "../../redux/filters/selectors";
+import { selectIsLoggedIn } from "../../redux/auth/selectors";
 import { RecipeList } from "../RecipeList/RecipeList";
 import { NoResult } from "../NoResult/NoResult";
 
@@ -25,6 +26,7 @@ export function RecipeContainer() {
   const ingredients = useSelector(selectFiltersIngredients);
   const searchQuery = useSelector(selectSearchQuery);
   const favorite = useSelector(selectRecipesFavorites);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const filters = useMemo(() => {
     return { categories, ingredients, searchQuery };
@@ -32,7 +34,7 @@ export function RecipeContainer() {
 
   useEffect(() => {
     dispatch(getRecipes({ page: 1, limit: 12, filters }));
-    dispatch(getFavorites({ limit: 1000 }));
+    isLoggedIn && dispatch(getFavorites({ limit: 1000 }));
   }, [filters, dispatch]);
 
   const loadMore = () => {
