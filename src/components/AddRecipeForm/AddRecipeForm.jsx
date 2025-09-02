@@ -19,11 +19,9 @@ import {
 } from "../../redux/filters/operations";
 
 import { addOwnRecipe } from "../../redux/recipes/operations.js";
-import { useNavigate } from "react-router-dom";
 
 export default function AddRecipeForm() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const categoriesOptions = useSelector(selectCategoriesOptions);
   const ingredientsOptions = useSelector(selectIngredientsOptions);
@@ -88,7 +86,7 @@ export default function AddRecipeForm() {
           )
           .nullable(),
       })}
-       onSubmit={async (values) => {
+      onSubmit={async (values) => {
         const { ingredient, measure, ...rest } = values;
 
         const payload = { ...rest, ingredients: values.ingredients };
@@ -96,16 +94,9 @@ export default function AddRecipeForm() {
         console.log("Payload for dispatch:", payload);
 
         try {
-          const response = await dispatch(addOwnRecipe(payload)).unwrap();
+          await dispatch(addOwnRecipe(payload)).unwrap();
+          // resetForm();
           
-          const newRecipeId = response._id;
-          
-          if (newRecipeId) {
-            navigate(`/recipes/${newRecipeId.toString()}`);
-          } else {
-            console.error("Помилка відповіді.");
-          }
-
         } catch (error) {
           console.error("Error submitting form:", error);
         }
@@ -119,6 +110,8 @@ export default function AddRecipeForm() {
             id: values.ingredient,
             measure: values.measure,
           };
+          console.log("newIngredient", newIngredient);
+          console.log("before add, ingredients:", values.ingredients);
 
           setFieldValue("ingredients", [...values.ingredients, newIngredient]);
           setFieldValue("measure", "");
@@ -319,18 +312,13 @@ export default function AddRecipeForm() {
                 )}
                 <tbody>
                   {values.ingredients.map((t, index) => {
-                    console.log("Current ingredient:", t);
                     return (
                       <tr key={index}>
                         <td width="50%">
                           {ingredientsOptions.find((opt) => opt.value === t.id)
                             ?.label || t.id}
                         </td>
-                        <td width="30%">
-                          {typeof t.measure === "object"
-                            ? t.measure.value
-                            : t.measure}
-                        </td>
+                        <td width="30%">{t.measure}</td>
                         <td width="20%">
                           <button
                             type="button"
