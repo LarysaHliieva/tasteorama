@@ -43,51 +43,51 @@ export default function AddRecipeForm() {
         instructions: "",
         image: null,
         ingredient: "",
-        amount: "",
+        measure: "",
       }}
-      validationSchema={Yup.object({
-        title: Yup.string().max(64).required("Required"),
-        description: Yup.string()
-          .max(200, "Max 200 characters")
-          .required("Description is required"),
+      // validationSchema={Yup.object({
+      //   title: Yup.string().max(64).required("Required"),
+      //   description: Yup.string()
+      //     .max(200, "Max 200 characters")
+      //     .required("Description is required"),
 
-        cookingTime: Yup.number()
-          .min(1, "Min 1 minute")
-          .max(360, "Max 360 minutes")
-          .required("time in minutes"),
+      //   cookingTime: Yup.number()
+      //     .min(1, "Min 1 minute")
+      //     .max(360, "Max 360 minutes")
+      //     .required("time in minutes"),
 
-        calories: Yup.number()
-          .min(1, "Min 1 kcal")
-          .max(10000, "Max 10000 kcal"),
+      //   calories: Yup.number()
+      //     .min(1, "Min 1 kcal")
+      //     .max(10000, "Max 10000 kcal"),
 
-        category: Yup.string().required("Required"),
+      //   category: Yup.string().required("Required"),
 
-        ingredients: Yup.array()
-          .of(
-            Yup.object({
-              name: Yup.string().required("Ingredient name is required"),
-              amount: Yup.number()
-                .min(2, "Min amount is 2")
-                .max(16, "Max amount is 16")
-                .required("Ingredient amount is required"),
-            })
-          )
-          .min(1, "At least one ingredient is required"),
+      //   ingredients: Yup.array()
+      //     .of(
+      //       Yup.object({
+      //         label: Yup.string().required("Ingredient name is required"),
+      //         measure: Yup.number()
+      //           .min(2, "Min amount is 2")
+      //           .max(16, "Max amount is 16")
+      //           .required("Ingredient amount is required"),
+      //       })
+      //     )
+      //     .min(1, "At least one ingredient is required"),
 
-        instructions: Yup.string()
-          .max(1200, "Max 1200 characters")
-          .required("Instructions are required"),
+      //   instructions: Yup.string()
+      //     .max(1200, "Max 1200 characters")
+      //     .required("Instructions are required"),
 
-        image: Yup.mixed()
-          .test(
-            "fileSize",
-            "File too large (max 2MB)",
-            (value) => !value || (value && value.size <= 2 * 1024 * 1024)
-          )
-          .nullable(),
-      })}
+      //   image: Yup.mixed()
+      //     .test(
+      //       "fileSize",
+      //       "File too large (max 2MB)",
+      //       (value) => !value || (value && value.size <= 2 * 1024 * 1024)
+      //     )
+      //     .nullable(),
+      // })}
       onSubmit={async (values) => {
-        const { ingredient, amount, ...rest } = values;
+        const { ingredient, measure, ...rest } = values;
 
         const payload = { ...rest };
 
@@ -104,9 +104,9 @@ export default function AddRecipeForm() {
       {({ values, setFieldValue, errors, touched }) => {
         const addIngredient = () => {
           const ingredientValue = values.ingredient;
-          const amountValue = values.amount;
+          const measureValue = values.measure;
 
-          if (!ingredientValue || !amountValue) return;
+          if (!ingredientValue || !measureValue) return;
 
           const label =
             ingredientsOptions.find((i) => i.value === ingredientValue)
@@ -114,11 +114,11 @@ export default function AddRecipeForm() {
 
           setFieldValue("ingredients", [
             ...values.ingredients,
-            { name: label, amount: amountValue },
+            { id: ingredientValue, label: label, measure: measureValue },
           ]);
 
           setFieldValue("ingredient", "");
-          setFieldValue("amount", "");
+          setFieldValue("measure", "");
         };
 
         const removeIngredient = (index) => {
@@ -275,13 +275,13 @@ export default function AddRecipeForm() {
                 />
 
                 <Field
-                  name="amount"
+                  name="measure"
                   placeholder="Amount"
                   className={getFieldClass("ingredients", css.inputAmount)}
-                  type="number"
+                  type="text"
                 />
                 <ErrorMessage
-                  name="amount"
+                  name="measure"
                   component="div"
                   className={css.error}
                 />
@@ -290,9 +290,9 @@ export default function AddRecipeForm() {
                 <button
                   type="button"
                   onClick={() => {
-                    addIngredient(values.ingredient, values.amount);
+                    addIngredient(values.ingredient, values.measure);
                     setFieldValue("ingredient", "");
-                    setFieldValue("amount", "");
+                    setFieldValue("measure", "");
                   }}
                   className={css.addButton}
                 >
@@ -313,8 +313,8 @@ export default function AddRecipeForm() {
                   {values.ingredients.map((t, index) => {
                     return (
                       <tr key={index}>
-                        <td width="50%">{t.name}</td>
-                        <td width="30%">{t.amount}</td>
+                        <td width="50%">{t.label}</td>
+                        <td width="30%">{t.measure}</td>
                         <td width="20%">
                           <button
                             type="button"
