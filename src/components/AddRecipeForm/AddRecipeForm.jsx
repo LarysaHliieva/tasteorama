@@ -46,22 +46,18 @@ export default function AddRecipeForm() {
         measure: "",
       }}
       validationSchema={addRecipeValidationSchema}
+      validateOnBlur={false}
+      validateOnChange={false}
       onSubmit={async (values, { resetForm }) => {
         const { ingredient, measure, ...rest } = values;
 
         const payload = { ...rest, ingredients: values.ingredients };
 
-        console.log("Payload for dispatch:", payload);
-
-        try {
-          await dispatch(addOwnRecipe(payload)).unwrap();
-          resetForm();
-        } catch (error) {
-          console.error("Error submitting form:", error);
-        }
+        await dispatch(addOwnRecipe(payload)).unwrap();
+        resetForm();
       }}
     >
-      {({ values, setFieldValue, errors, touched }) => {
+      {({ values, setFieldValue, errors }) => {
         const addIngredient = () => {
           if (!values.ingredient || !values.measure) return;
 
@@ -69,8 +65,6 @@ export default function AddRecipeForm() {
             id: values.ingredient,
             measure: values.measure,
           };
-          console.log("newIngredient", newIngredient);
-          console.log("before add, ingredients:", values.ingredients);
 
           setFieldValue("ingredients", [...values.ingredients, newIngredient]);
           setFieldValue("measure", "");
@@ -85,10 +79,7 @@ export default function AddRecipeForm() {
         };
 
         const getFieldClass = (fieldName, className) => {
-          return clsx(
-            className,
-            errors[fieldName] && touched[fieldName] && css.inputError
-          );
+          return clsx(className, errors[fieldName] && css.inputError);
         };
 
         return (
@@ -263,17 +254,13 @@ export default function AddRecipeForm() {
                     </th>
                   </tr>
                 </thead>
-                {console.log(
-                  " values.ingredients in render:",
-                  values.ingredients
-                )}
                 <tbody>
                   {values.ingredients.map((t, index) => {
                     return (
                       <tr key={index}>
                         <td width="50%">
                           {ingredientsOptions.find((opt) => opt.value === t.id)
-                            ?.label || t.id}
+                            ?.label || ""}
                         </td>
                         <td width="30%">{t.measure}</td>
                         <td width="20%">
