@@ -42,7 +42,7 @@
 
 .btnShowPassword {
   position: absolute;
-  top: 50%;
+  top: 65%;
   right: 10px;
   transform: translateY(-100%);
 }
