@@ -7,7 +7,7 @@
   background: #faf3e0;
   border-radius: 16px;
   padding: 12px;
-  transition: box-shadow 0.2s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 }
 .card:hover,
@@ -95,12 +95,13 @@
   border: 1px solid #000000;
   font-weight: 600;
   cursor: pointer;
-  transition: box-shadow 0.2s;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease-in;
 }
 .cta:hover {
+  background-color: #d9d9d9;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
-.cta:focus-visible {
+.cta:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35);
 }
@@ -114,14 +115,11 @@
   border-radius: 8px;
   border: 1px solid #000000;
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease-in;
 }
 .iconBtn:hover {
+  background-color: #d9d9d9;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-}
-.iconBtn:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35);
 }
 
 .time {
@@ -148,6 +146,17 @@
   border-color: #9b6c43;
   background-color: #9b6c43;
   color: #ffffff;
+}
+
+.iconBtn:hover {
+  background-color: #d9d9d9;
+}
+
+.iconBtn.favOn:hover,
+.iconBtn.favEmph:hover {
+  background-color: #9b6c43;
+  color: #ffffff;
+  box-shadow: none;
 }
 
 .details {

@@ -38,6 +38,7 @@ input:focus {
   color: #fff;
   border-radius: 8px;
   border: none;
+  transition: all 250ms ease-in-out;
 }
 
 .button:focus {
