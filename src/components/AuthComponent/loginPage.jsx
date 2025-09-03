@@ -6,6 +6,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import toast from "react-hot-toast";
 import { loginValidationSchema } from "../../utils/validationSchemas.js";
 import { login } from "../../redux/auth/slice.js";
+import Icon from "../Icon/index.jsx";
 import styles from "./loginPage.module.css";
 
 export default function LoginPage() {
@@ -85,7 +86,7 @@ export default function LoginPage() {
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
               >
-                <img src="../../../public/eye-crossed.jpg" alt="Eye" />
+                <Icon width={24} height={24} name="eye-crossed" />
               </button>
             </div>
             <ErrorMessage

@@ -120,7 +120,7 @@ export default function RegisterPage() {
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
               >
-                <img src="../../../public/eye-crossed.jpg" alt="eyeShowPwd" />
+                <Icon width={24} height={24} name="eye-crossed" />
               </button>
             </div>
             <ErrorMessage
