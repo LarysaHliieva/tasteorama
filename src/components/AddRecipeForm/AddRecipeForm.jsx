@@ -56,10 +56,9 @@ export default function AddRecipeForm() {
         const payload = { ...rest, ingredients: values.ingredients };
 
         try {
-          await dispatch(addOwnRecipe(payload)).unwrap();
-          resetForm();
           const recipe = await dispatch(addOwnRecipe(payload)).unwrap();
           const recipeId = recipe._id;
+          resetForm();
           navigate(`/recipes/${recipeId}`);
         } catch (error) {}
       }}
@@ -186,7 +185,36 @@ export default function AddRecipeForm() {
                 </div>
                 <div>
                   <label className={css.label}>Category</label>
-                  <Field
+                  <Field name="category">
+                    {({ field, form }) => (
+                      <select
+                        {...field}
+                        value={
+                          categoriesOptions.find(
+                            (opt) => opt.label === field.value
+                          )?.value || ""
+                        }
+                        onChange={(e) => {
+                          const selectedOption = categoriesOptions.find(
+                            (opt) => opt.value === e.target.value
+                          );
+                          form.setFieldValue(
+                            "category",
+                            selectedOption?.label || ""
+                          );
+                        }}
+                        className={getFieldClass("category", css.select)}
+                      >
+                        <option value="">Select a category</option>
+                        {categoriesOptions.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                  </Field>
+                  {/* <Field
                     as="select"
                     name="category"
                     className={getFieldClass("category", css.select)}
@@ -203,7 +231,7 @@ export default function AddRecipeForm() {
                         {opt.label}
                       </option>
                     ))}
-                  </Field>
+                  </Field> */}
                   <ErrorMessage
                     name="category"
                     component="div"
