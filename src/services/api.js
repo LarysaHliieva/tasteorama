@@ -1,8 +1,7 @@
 import axios from "axios";
 
 const axiosAPI = axios.create({
-  // baseURL: "https://group2-b.onrender.com/", //сюди потрібно додати посилання на наш бекенд
-  baseURL: "http://localhost:5000/",
+  baseURL: "https://group2-b.onrender.com/", //сюди потрібно додати посилання на наш бекенд
   withCredentials: true,
 });
 
