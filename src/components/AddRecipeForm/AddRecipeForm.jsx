@@ -55,12 +55,10 @@ export default function AddRecipeForm() {
 
         const payload = { ...rest, ingredients: values.ingredients };
 
-        try {
-          const recipe = await dispatch(addOwnRecipe(payload)).unwrap();
-          const recipeId = recipe._id;
-          resetForm();
-          navigate(`/recipes/${recipeId}`);
-        } catch (error) {}
+        const recipe = await dispatch(addOwnRecipe(payload)).unwrap();
+        const recipeId = recipe._id;
+        resetForm();
+        navigate(`/recipes/${recipeId}`);
       }}
     >
       {({ values, setFieldValue, errors }) => {

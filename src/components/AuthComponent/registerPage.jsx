@@ -7,6 +7,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import toast from "react-hot-toast";
 import { registerValidationSchema } from "../../utils/validationSchemas.js";
 import styles from "./registerPage.module.css";
+import Icon from "../Icon/index.jsx";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -147,7 +148,7 @@ export default function RegisterPage() {
                 type="button"
                 onClick={() => setShowConfirmPassword((prev) => !prev)}
               >
-                <img src="../../../public/eye-crossed.jpg" alt="eyeShowPwd" />
+                <Icon width={24} height={24} name="eye-crossed" />
               </button>
             </div>
             <ErrorMessage
