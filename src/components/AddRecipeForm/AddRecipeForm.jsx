@@ -51,16 +51,15 @@ export default function AddRecipeForm() {
       validateOnBlur={false}
       validateOnChange={false}
       onSubmit={async (values, { resetForm }) => {
+        // eslint-disable-next-line no-unused-vars
         const { ingredient, measure, ...rest } = values;
 
         const payload = { ...rest, ingredients: values.ingredients };
 
-        try {
-          const recipe = await dispatch(addOwnRecipe(payload)).unwrap();
-          const recipeId = recipe._id;
-          resetForm();
-          navigate(`/recipes/${recipeId}`);
-        } catch (error) {}
+        const recipe = await dispatch(addOwnRecipe(payload)).unwrap();
+        const recipeId = recipe._id;
+        resetForm();
+        navigate(`/recipes/${recipeId}`);
       }}
     >
       {({ values, setFieldValue, errors }) => {
