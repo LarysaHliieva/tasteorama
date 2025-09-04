@@ -169,12 +169,13 @@
     margin: 0 123px;
     max-width: 522px;
     margin: 0 auto;
+    margin-top: 152px;
     align-items: center;
     justify-content: center;
   }
 }
 @media screen and (min-width: 1440px) {
   .container {
-    margin: 0 510px;
+margin-top: 52px;
   }
 }
