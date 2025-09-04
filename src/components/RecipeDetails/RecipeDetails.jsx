@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { FadeLoader } from "react-spinners";
+import { FadeLoader, ClipLoader } from "react-spinners";
 import { fetchIngredients } from "../../redux/filters/operations";
 import { selectIngredientsOptions } from "../../redux/filters/selectors";
 import { getFavorites } from "../../redux/recipes/operations";
@@ -34,6 +34,7 @@ const RecipeDetails = () => {
 
   const [mappedIngredients, setMappedIngredients] = useState([]);
   const [isInitialRequest, setIsInitialRequest] = useState(true);
+  const [isLoagingFavotite, setIsLoagingFavotite] = useState(false);
 
   const favorites = useSelector(selectRecipesFavorites);
   const isFavorite = favorites.some((fav) => fav._id === id);
@@ -75,13 +76,19 @@ const RecipeDetails = () => {
   const handleClick = async () => {
     if (!isLoggedIn) return navigate("/auth");
 
-    if (isFavorite) {
-      await dispatch(removeFromFavorites(id));
-    } else {
-      await dispatch(addToFavorites(id));
-    }
+    setIsLoagingFavotite(true);
 
-    isLoggedIn && dispatch(getFavorites({ limit: 1000 }));
+    try {
+      if (isFavorite) {
+        await dispatch(removeFromFavorites(id));
+      } else {
+        await dispatch(addToFavorites(id));
+      }
+
+      isLoggedIn && dispatch(getFavorites({ limit: 1000 }));
+    } finally {
+      setIsLoagingFavotite(false);
+    }
   };
 
   if ((isLoading || !recipe) && isInitialRequest) {
@@ -125,7 +132,9 @@ const RecipeDetails = () => {
             </div>
 
             <button className={css.btn} onClick={handleClick}>
-              {isFavorite ? (
+              {isLoagingFavotite ? (
+                <ClipLoader color="white" size={16} />
+              ) : isFavorite ? (
                 <>
                   Unsave{" "}
                   <Icon
