@@ -50,7 +50,7 @@ export default function Own() {
 
   return (
     <div>
-      <div className={css.counter}>{totalItems} recepis</div>
+      <div className={css.counter}>{totalItems} recipes</div>
       <RecipeList
         recipes={ownRecipe}
         page={page}

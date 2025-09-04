@@ -22,7 +22,6 @@ import {
 import { selectRecipesTotalItems } from "../../redux/recipes/selectors";
 import { getRecipes } from "../../redux/recipes/operations";
 
-
 export const FilterSelect = () => {
   const dispatch = useDispatch();
 
@@ -53,10 +52,14 @@ export const FilterSelect = () => {
 
   return (
     <>
-      <h1 className={css.name}>{recipesSearchQuery ? `Search Results for "${recipesSearchQuery}"`: "Recepice" }</h1>
+      <h1 className={css.name}>
+        {recipesSearchQuery
+          ? `Search Results for "${recipesSearchQuery}"`
+          : "Recepies"}
+      </h1>
       <div className={css.wrapper}>
         <div className={css.leftSide}>
-          <p>{selectedTotalItems} recepis</p>
+          <p>{selectedTotalItems} recipes</p>
         </div>
 
         <div className={css.rightSide}>
@@ -92,31 +95,36 @@ export const FilterSelect = () => {
               className={css.filterModal}
               onClick={(e) => e.stopPropagation()}
             >
-              <button onClick={() => setIsOpen(false)} className={css.filterClose}>
+              <button
+                onClick={() => setIsOpen(false)}
+                className={css.filterClose}
+              >
                 Filters
                 <Icon name="close" width={24} height={24} />
               </button>
 
               <div className={css.selectBody}>
                 <Select
-                isMulti
-                options={categoriesOptions}
-                value={selectedCategories}
-                onChange={(val) => dispatch(setCategories(val))}
-                placeholder="Select categories..."
-              />
-              <Select
-                isMulti
-                options={ingredientsOptions}
-                value={selectedIngredients}
-                onChange={(val) => dispatch(setIngredients(val))}
-                placeholder="Select ingredients..."
-              />
-                <button className={`${css.resetBtn} ${css.resetBtnInModal}`} onClick={handleReset}>
+                  isMulti
+                  options={categoriesOptions}
+                  value={selectedCategories}
+                  onChange={(val) => dispatch(setCategories(val))}
+                  placeholder="Select categories..."
+                />
+                <Select
+                  isMulti
+                  options={ingredientsOptions}
+                  value={selectedIngredients}
+                  onChange={(val) => dispatch(setIngredients(val))}
+                  placeholder="Select ingredients..."
+                />
+                <button
+                  className={`${css.resetBtn} ${css.resetBtnInModal}`}
+                  onClick={handleReset}
+                >
                   Reset filters
                 </button>
               </div>
-
             </div>
           </div>
         )}

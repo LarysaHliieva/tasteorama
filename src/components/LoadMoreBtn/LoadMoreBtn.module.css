@@ -1,37 +1,32 @@
 .loadmorebtn {
-    width: 289px;
-    height: 54px;
-    margin: 24px auto 0;
-    background-color: #9B6C43;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 500;
-    border: none;
-    border-radius: 8px;
-    padding: 0 16px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+  width: 289px;
+  height: 54px;
+  margin: 24px auto 0;
+  background-color: #9b6c43;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  padding: 0 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .loadmorebtn:hover {
-    background-color: #815834;
-    /* Трохи темніший відтінок */
-    transform: translateY(-2px);
+  background-color: #6d554b;
 }
 
-
 .loadmorebtn:active {
-    transform: translateY(0);
-    background-color: #6b4729;
+  transform: scale(0.96);
+  background-color: #6b4729;
 }
 
 @media (max-width: 480px) {
-    .loadmorebtn {
-        width: 100%;
-    }
-
-
+  .loadmorebtn {
+    width: 100%;
+  }
 }
