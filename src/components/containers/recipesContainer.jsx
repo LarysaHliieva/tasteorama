@@ -32,6 +32,7 @@ export function RecipeContainer() {
   const loading = useSelector(selectRecipesLoading);
 
   const [isInitialRequest, setIsInitialRequest] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   const filters = useMemo(() => {
     return { categories, ingredients, searchQuery };
@@ -46,7 +47,10 @@ export function RecipeContainer() {
   }, [filters, dispatch]);
 
   const loadMore = () => {
-    dispatch(getRecipes({ page: page + 1, limit: 12, filters }));
+    setLoadingMore(true);
+    dispatch(getRecipes({ page: page + 1, limit: 12, filters })).finally(() =>
+      setLoadingMore(false)
+    );
   };
 
   const favoriteObject = useMemo(() => {
@@ -77,6 +81,7 @@ export function RecipeContainer() {
       totalPages={totalPages}
       onLoadMore={loadMore}
       favoriteObject={favoriteObject}
+      loading={loadingMore}
     />
   );
 }

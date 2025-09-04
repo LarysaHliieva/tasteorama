@@ -24,6 +24,7 @@ export default function Favorites() {
   const error = useSelector(selectRecipesError);
 
   const [isInitialRequest, setIsInitialRequest] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   useEffect(() => {
     dispatch(getFavorites({ page: 1, limit: 12 })).finally(() =>
@@ -39,7 +40,10 @@ export default function Favorites() {
   }, [favorites]);
 
   const loadMore = () => {
-    dispatch(getFavorites({ page: page + 1, limit: 12 }));
+    setLoadingMore(true);
+    dispatch(getFavorites({ page: page + 1, limit: 12 })).finally(() =>
+      setLoadingMore(false)
+    );
   };
 
   if (loading && isInitialRequest) {
@@ -62,6 +66,7 @@ export default function Favorites() {
         onLoadMore={loadMore}
         variant="favorites"
         favoriteObject={favoriteObject}
+        loading={loadingMore}
       />
     </div>
   );

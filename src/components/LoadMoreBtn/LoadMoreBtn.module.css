@@ -25,6 +25,10 @@
   background-color: #6b4729;
 }
 
+.loadmorebtn:disabled {
+  background-color: #9f9e9e;
+}
+
 @media (max-width: 480px) {
   .loadmorebtn {
     width: 100%;
