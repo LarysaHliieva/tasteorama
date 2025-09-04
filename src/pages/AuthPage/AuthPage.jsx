@@ -1,13 +1,12 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { Link } from "react-router-dom";
+
+import css from "./Auth.module.css";
 
 export default function AuthPage() {
-  return <div>
-    <nav>
-      <Link to="register"></Link>
-      <Link to="/auth/login"></Link>
-    </nav>
-    <Outlet/>
-  </div>;
+  return (
+    <div className={css.auth}>
+      <Outlet />
+    </div>
+  );
 }
