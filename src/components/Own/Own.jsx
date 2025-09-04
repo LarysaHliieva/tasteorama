@@ -26,8 +26,9 @@ export default function Own() {
   const [isInitialRequest, setIsInitialRequest] = useState(true);
 
   useEffect(() => {
-    dispatch(getOwn({ page: 1, limit: 12 }));
-    setIsInitialRequest(false);
+    dispatch(getOwn({ page: 1, limit: 12 })).finally(() =>
+      setIsInitialRequest(false)
+    );
   }, [dispatch]);
 
   const ownRecipe = useMemo(() => {
