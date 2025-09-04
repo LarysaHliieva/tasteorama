@@ -54,7 +54,7 @@ export default function Favorites() {
 
   return (
     <div>
-      <div className={css.counter}>{totalItems} recepis</div>
+      <div className={css.counter}>{totalItems} recipes</div>
       <RecipeList
         recipes={favorites}
         page={page}

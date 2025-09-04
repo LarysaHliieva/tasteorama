@@ -43,7 +43,6 @@ input:focus {
 
 .button:focus {
   outline: none;
-  background-color: #6d554b;
 }
 
 .button:hover {
@@ -51,6 +50,7 @@ input:focus {
 }
 
 .button:active {
+  transform: scale(0.96);
   box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px #fff;
   background: #9b6c43;
 }
