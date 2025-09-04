@@ -13,7 +13,6 @@ import {
 import {
   selectCurrentRecipe,
   selectRecipesLoading,
-  selectRecipesError,
 } from "../../redux/recipes/selectors";
 import { selectIsLoggedIn } from "../../redux/auth/selectors";
 import { clearCurrentRecipe } from "../../redux/recipes/slice";
@@ -38,6 +37,10 @@ const RecipeDetails = () => {
 
   const favorites = useSelector(selectRecipesFavorites);
   const isFavorite = favorites.some((fav) => fav._id === id);
+
+  useEffect(() => {
+    isLoggedIn && dispatch(getFavorites({ limit: 1000 }));
+  }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -122,21 +125,26 @@ const RecipeDetails = () => {
             </div>
 
             <button className={css.btn} onClick={handleClick}>
-              Save{" "}
               {isFavorite ? (
-                <Icon
-                  name="bookmark-saved"
-                  width={24}
-                  height={24}
-                  color="white"
-                />
+                <>
+                  Unsave{" "}
+                  <Icon
+                    name="bookmark-saved"
+                    width={24}
+                    height={24}
+                    color="white"
+                  />
+                </>
               ) : (
-                <Icon
-                  name="bookmark-unsaved"
-                  width={24}
-                  height={24}
-                  color="white"
-                />
+                <>
+                  Save{" "}
+                  <Icon
+                    name="bookmark-unsaved"
+                    width={24}
+                    height={24}
+                    color="white"
+                  />
+                </>
               )}
             </button>
           </div>
