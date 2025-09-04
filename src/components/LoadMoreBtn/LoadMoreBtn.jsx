@@ -1,10 +1,10 @@
 import React from "react";
 import css from "./LoadMoreBtn.module.css";
 
-const LoadMoreBtn = ({ onClick, disabled, children }) => {
+const LoadMoreBtn = ({ onClick, children, loading }) => {
   return (
-    <button className={css.loadmorebtn} onClick={onClick} disabled={disabled}>
-      {children || "Load More"}
+    <button className={css.loadmorebtn} onClick={onClick} disabled={loading}>
+      {loading ? "Loading" : children || "Load More"}
     </button>
   );
 };

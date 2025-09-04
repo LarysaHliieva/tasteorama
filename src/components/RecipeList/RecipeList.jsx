@@ -9,6 +9,7 @@ export function RecipeList({
   onLoadMore,
   variant,
   favoriteObject,
+  loading,
 }) {
   return (
     <div>
@@ -28,7 +29,9 @@ export function RecipeList({
         ))}
       </div>
 
-      {page < totalPages && <LoadMoreBtn onClick={onLoadMore} />}
+      {page < totalPages && (
+        <LoadMoreBtn onClick={onLoadMore} loading={loading} />
+      )}
     </div>
   );
 }

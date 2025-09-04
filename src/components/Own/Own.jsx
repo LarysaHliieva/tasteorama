@@ -24,10 +24,12 @@ export default function Own() {
   const error = useSelector(selectRecipesError);
 
   const [isInitialRequest, setIsInitialRequest] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   useEffect(() => {
-    dispatch(getOwn({ page: 1, limit: 12 }));
-    setIsInitialRequest(false);
+    dispatch(getOwn({ page: 1, limit: 12 })).finally(() =>
+      setIsInitialRequest(false)
+    );
   }, [dispatch]);
 
   const ownRecipe = useMemo(() => {
@@ -35,7 +37,10 @@ export default function Own() {
   }, [own]);
 
   const loadMore = () => {
-    dispatch(getOwn({ page: page + 1, limit: 12 }));
+    setLoadingMore(true);
+    dispatch(getOwn({ page: page + 1, limit: 12 })).finally(() =>
+      setLoadingMore(false)
+    );
   };
 
   if (loading && isInitialRequest) {
@@ -57,6 +62,7 @@ export default function Own() {
         totalPages={totalPages}
         onLoadMore={loadMore}
         variant="details"
+        loading={loadingMore}
       />
     </div>
   );

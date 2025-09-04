@@ -7,9 +7,11 @@ import {
 } from "../../redux/recipes/operations";
 import { selectIsLoggedIn } from "../../redux/auth/selectors";
 import Modal from "../Modal/Modal.jsx";
+import { ClipLoader } from "react-spinners";
 
 import Icon from "../Icon";
 import css from "./RecipeCard.module.css";
+
 // import { getImageUrl } from "../../utils/getImageUrl.js";
 
 export default function RecipeCard({
@@ -26,6 +28,7 @@ export default function RecipeCard({
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsLoggedIn);
 
+  const [isLoagingFavotite, setIsLoagingFavotite] = useState(false);
   const [isOpenModalAuth, setIsOpenModalAuth] = useState(false);
   const handleOpenModalAuth = () => setIsOpenModalAuth(true);
   const handleCloseModalAuth = () => setIsOpenModalAuth(false);
@@ -35,15 +38,19 @@ export default function RecipeCard({
       handleOpenModalAuth();
       return;
     }
-
-    if (variant === "favorites") {
-      await dispatch(removeFromFavorites(id)).unwrap();
-    } else {
-      if (isFavorite) {
+    setIsLoagingFavotite(true);
+    try {
+      if (variant === "favorites") {
         await dispatch(removeFromFavorites(id)).unwrap();
       } else {
-        await dispatch(addToFavorites(id)).unwrap();
+        if (isFavorite) {
+          await dispatch(removeFromFavorites(id)).unwrap();
+        } else {
+          await dispatch(addToFavorites(id)).unwrap();
+        }
       }
+    } finally {
+      setIsLoagingFavotite(false);
     }
   };
 
@@ -116,7 +123,11 @@ export default function RecipeCard({
               }
               onClick={handleFavoriteClick}
             >
-              <Icon name="bookmark-alternative" width={24} height={24} />
+              {isLoagingFavotite ? (
+                <ClipLoader color="#4a4a4a" size={16} />
+              ) : (
+                <Icon name="bookmark-alternative" width={24} height={24} />
+              )}
             </button>
           )}
         </div>

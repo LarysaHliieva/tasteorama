@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { FadeLoader } from "react-spinners";
+import { FadeLoader, ClipLoader } from "react-spinners";
 import { fetchIngredients } from "../../redux/filters/operations";
 import { selectIngredientsOptions } from "../../redux/filters/selectors";
 import { getFavorites } from "../../redux/recipes/operations";
@@ -13,7 +13,6 @@ import {
 import {
   selectCurrentRecipe,
   selectRecipesLoading,
-  selectRecipesError,
 } from "../../redux/recipes/selectors";
 import { selectIsLoggedIn } from "../../redux/auth/selectors";
 import { clearCurrentRecipe } from "../../redux/recipes/slice";
@@ -35,9 +34,14 @@ const RecipeDetails = () => {
 
   const [mappedIngredients, setMappedIngredients] = useState([]);
   const [isInitialRequest, setIsInitialRequest] = useState(true);
+  const [isLoagingFavotite, setIsLoagingFavotite] = useState(false);
 
   const favorites = useSelector(selectRecipesFavorites);
   const isFavorite = favorites.some((fav) => fav._id === id);
+
+  useEffect(() => {
+    isLoggedIn && dispatch(getFavorites({ limit: 1000 }));
+  }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -72,13 +76,19 @@ const RecipeDetails = () => {
   const handleClick = async () => {
     if (!isLoggedIn) return navigate("/auth");
 
-    if (isFavorite) {
-      await dispatch(removeFromFavorites(id));
-    } else {
-      await dispatch(addToFavorites(id));
-    }
+    setIsLoagingFavotite(true);
 
-    isLoggedIn && dispatch(getFavorites({ limit: 1000 }));
+    try {
+      if (isFavorite) {
+        await dispatch(removeFromFavorites(id));
+      } else {
+        await dispatch(addToFavorites(id));
+      }
+
+      isLoggedIn && dispatch(getFavorites({ limit: 1000 }));
+    } finally {
+      setIsLoagingFavotite(false);
+    }
   };
 
   if ((isLoading || !recipe) && isInitialRequest) {
@@ -121,22 +131,33 @@ const RecipeDetails = () => {
               </ul>
             </div>
 
-            <button className={css.btn} onClick={handleClick}>
-              Save{" "}
-              {isFavorite ? (
-                <Icon
-                  name="bookmark-saved"
-                  width={24}
-                  height={24}
-                  color="white"
-                />
+            <button
+              className={css.btn}
+              onClick={handleClick}
+              disabled={isLoagingFavotite}
+            >
+              {isLoagingFavotite ? (
+                <ClipLoader color="white" size={16} />
+              ) : isFavorite ? (
+                <>
+                  Unsave{" "}
+                  <Icon
+                    name="bookmark-saved"
+                    width={24}
+                    height={24}
+                    color="white"
+                  />
+                </>
               ) : (
-                <Icon
-                  name="bookmark-unsaved"
-                  width={24}
-                  height={24}
-                  color="white"
-                />
+                <>
+                  Save{" "}
+                  <Icon
+                    name="bookmark-unsaved"
+                    width={24}
+                    height={24}
+                    color="white"
+                  />
+                </>
               )}
             </button>
           </div>

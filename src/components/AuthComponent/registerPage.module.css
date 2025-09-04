@@ -7,7 +7,6 @@
   background-color: rgba(250, 243, 224, 1);
   border-radius: 32px;
   margin: 0 auto;
-  margin: 56px 15px;
 }
 
 .formContainer {
@@ -166,7 +165,6 @@
 
 @media screen and (min-width: 768px) {
   .container {
-    margin: 0 123px;
     max-width: 522px;
     margin: 0 auto;
     align-items: center;
@@ -174,7 +172,4 @@
   }
 }
 @media screen and (min-width: 1440px) {
-  .container {
-    margin: 0 510px;
-  }
 }
