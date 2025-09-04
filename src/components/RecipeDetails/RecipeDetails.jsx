@@ -131,7 +131,11 @@ const RecipeDetails = () => {
               </ul>
             </div>
 
-            <button className={css.btn} onClick={handleClick}>
+            <button
+              className={css.btn}
+              onClick={handleClick}
+              disabled={isLoagingFavotite}
+            >
               {isLoagingFavotite ? (
                 <ClipLoader color="white" size={16} />
               ) : isFavorite ? (
